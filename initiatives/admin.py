@@ -1,5 +1,11 @@
 from django.contrib import admin
-from .models import Initiative
+from .models import Initiative, ProgressUpdate
+
+@admin.register(ProgressUpdate)
+class ProgressUpdateAdmin(admin.ModelAdmin):
+    list_display = ('title', 'initiative', 'date_posted')
+    list_filter = ('initiative', 'date_posted')
+    search_fields = ('title', 'description')
 
 @admin.register(Initiative)
 class InitiativeAdmin(admin.ModelAdmin):

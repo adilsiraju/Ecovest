@@ -11,6 +11,29 @@
         <p><strong>Energy Saved/Generated:</strong> {{ initiative.energy_saved_generated }} kWh</p>
         <p><strong>Water Conservation:</strong> {{ initiative.water_saved }} liters</p>
     </div>
+
+    <!-- Progress Updates -->
+    <h2>Progress Updates</h2>
+    {% if initiative.progress_updates.all %}
+        <div class="progress-updates">
+            {% for update in initiative.progress_updates.all %}
+                <div class="update">
+                    <h3>{{ update.title }}</h3>
+                    <p>{{ update.description }}</p>
+                    <small>Posted on {{ update.date_posted|date:"M d, Y" }}</small>
+                </div>
+            {% endfor %}
+        </div>
+    {% else %}
+        <p>No progress updates yet.</p>
+    {% endif %}
+
+    <!-- Add Progress Update Link (for admins) -->
+    {% if user.is_staff %}
+        <a href="{% url 'add-progress-update' initiative.pk %}">Add Progress Update</a>
+    {% endif %}
+
+    <!-- Investment Form -->
     <form method="post" action="{% url 'invest' initiative.pk %}">
         {% csrf_token %}
         <input type="number" name="amount" min="1" step="any" required>

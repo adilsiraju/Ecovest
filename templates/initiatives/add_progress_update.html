@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Add Progress Update for {{ initiative.title }}</h1>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Post Update</button>
+</form>
+<a href="{% url 'initiative-detail' initiative.pk %}">Back to Initiative</a>
+{% endblock %}

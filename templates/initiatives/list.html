@@ -2,6 +2,24 @@
 
 {% block content %}
 <h1>Climate Initiatives</h1>
+
+<!-- Search and Filters -->
+<div class="search-filters">
+    <form method="get" action="{% url 'home' %}">
+        <input type="text" name="q" placeholder="Search initiatives..." value="{{ request.GET.q }}">
+        <select name="category">
+            <option value="">All Categories</option>
+            {% for value, label in category_choices %}
+                <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>
+                    {{ label }}
+                </option>
+            {% endfor %}
+        </select>
+        <button type="submit">Apply Filters</button>
+    </form>
+</div>
+
+<!-- Initiative List -->
 <div class="initiatives">
     {% for initiative in initiatives %}
     <div class="initiative">

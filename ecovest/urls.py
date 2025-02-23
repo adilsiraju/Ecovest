@@ -36,4 +36,5 @@ urlpatterns = [
     path('register/', user_views.register, name='register'),
     path('accounts/', include('django.contrib.auth.urls')),  # Includes login/logout URLs
     path('profile/update/', user_views.profile_update, name='profile_update'),
+    path('initiatives/', include('initiatives.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
