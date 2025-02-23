@@ -5,9 +5,11 @@
     <h1>{{ initiative.title }}</h1>
     <p>{{ initiative.description }}</p>
     <div class="stats">
-        <p>Category: {{ initiative.get_category_display }}</p>
-        <p>Funding Progress: ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
-        <p>Carbon Impact: {{ initiative.carbon_saved_per_dollar }} kg CO2/$</p>
+        <p><strong>Category:</strong> {{ initiative.get_category_display }}</p>
+        <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
+        <p><strong>Carbon Emissions Reduced:</strong> {{ initiative.carbon_saved }} kg CO₂e</p>
+        <p><strong>Energy Saved/Generated:</strong> {{ initiative.energy_saved_generated }} kWh</p>
+        <p><strong>Water Conservation:</strong> {{ initiative.water_saved }} liters</p>
     </div>
     <form method="post" action="{% url 'invest' initiative.pk %}">
         {% csrf_token %}

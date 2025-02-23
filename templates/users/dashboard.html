@@ -9,8 +9,19 @@
     <p>Welcome, {{ user.full_name }}!</p>
 </div>
 <div class="summary">
-    <p>Total Invested: ${{ total_invested }}</p>
-    <p>Carbon Footprint Saved: {{ total_carbon|floatformat:2 }} kg CO2</p>
+    <p><strong>Total Invested:</strong> ${{ total_invested }}</p>
+    <p><strong>Carbon Emissions Reduced:</strong> {{ total_carbon|floatformat:2 }} kg CO₂e</p>
+    <p><strong>Energy Saved/Generated:</strong> {{ total_energy|floatformat:2 }} kWh</p>
+    <p><strong>Water Conservation:</strong> {{ total_water|floatformat:2 }} liters</p>
 </div>
-...
+
+<h2>Investment History</h2>
+<ul>
+    {% for investment in investments %}
+    <li>
+        ${{ investment.amount }} in {{ investment.initiative.title }}
+        <small>({{ investment.date_invested|date:"M d, Y" }})</small>
+    </li>
+    {% endfor %}
+</ul>
 {% endblock %}

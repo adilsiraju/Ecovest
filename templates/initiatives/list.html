@@ -7,7 +7,11 @@
     <div class="initiative">
         <h2><a href="{% url 'initiative-detail' initiative.pk %}">{{ initiative.title }}</a></h2>
         <p>{{ initiative.description|truncatewords:30 }}</p>
-        <p>Goal: ${{ initiative.funding_goal }} | Raised: ${{ initiative.amount_raised }}</p>
+        <p><strong>Category:</strong> {{ initiative.get_category_display }}</p>
+        <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
+        <p><strong>Carbon Emissions Reduced:</strong> {{ initiative.carbon_saved }} kg CO₂e</p>
+        <p><strong>Energy Saved/Generated:</strong> {{ initiative.energy_saved_generated }} kWh</p>
+        <p><strong>Water Conservation:</strong> {{ initiative.water_saved }} liters</p>
     </div>
     {% endfor %}
 </div>
