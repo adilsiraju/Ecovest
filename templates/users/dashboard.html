@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
+{% load bootstrap5 %}
+
 
 {% block content %}
 <div class="container">
@@ -53,14 +55,6 @@
         </div>
     </div>
 
-    <!-- Chart Visualization -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h2 class="card-title">Impact Visualization</h2>
-            <canvas id="impactChart" width="400" height="200"></canvas>
-        </div>
-    </div>
-
     <!-- Investment History -->
     <div class="card mb-4">
         <div class="card-body">
@@ -76,43 +70,4 @@
         </div>
     </div>
 </div>
-
-<!-- Include Chart.js -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-    // Chart Data
-    const ctx = document.getElementById('impactChart').getContext('2d');
-    const impactChart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-            labels: ['Carbon Saved (kg CO₂e)', 'Energy Saved/Generated (kWh)', 'Water Saved (liters)'],
-            datasets: [{
-                label: 'Your Impact',
-                data: [
-                    {{ total_carbon|floatformat:2 }},
-                    {{ total_energy|floatformat:2 }},
-                    {{ total_water|floatformat:2 }}
-                ],
-                backgroundColor: [
-                    'rgba(75, 192, 192, 0.2)',
-                    'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)'
-                ],
-                borderColor: [
-                    'rgba(75, 192, 192, 1)',
-                    'rgba(54, 162, 235, 1)',
-                    'rgba(153, 102, 255, 1)'
-                ],
-                borderWidth: 1
-            }]
-        },
-        options: {
-            scales: {
-                y: {
-                    beginAtZero: true
-                }
-            }
-        }
-    });
-</script>
 {% endblock %}
