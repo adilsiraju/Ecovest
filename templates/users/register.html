@@ -1,0 +1,100 @@
+{% extends 'authentication_base.html' %}
+
+{% block content %}
+<style>
+    .register-container {
+        max-width: 400px;
+        margin: 50px auto;
+        padding: 2rem;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        margin-top: 60em; /* Add space at the top */
+        margin-bottom: 10em;
+    }
+
+    .register-container h1 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: #2c3e50;
+    }
+
+    .register-container p {
+        font-size: 1rem;
+        color: #666;
+        margin-bottom: 2rem;
+    }
+
+    .register-form {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .register-form p {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .register-form label {
+        font-weight: bold;
+        color: #333;
+    }
+
+    .register-form input {
+        padding: 0.75rem;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1rem;
+    }
+
+    .register-form input:focus {
+        outline: none;
+        border-color: #27ae60;
+        box-shadow: 0 0 0 2px rgba(39, 174, 96, 0.2);
+    }
+
+    .register-button {
+        padding: 0.75rem;
+        background-color: #27ae60;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        font-size: 1rem;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+
+    .register-button:hover {
+        background-color: #2ecc71;
+    }
+
+    .login-link {
+        margin-top: 1.5rem;
+        font-size: 0.9rem;
+        color: #666;
+    }
+
+    .login-link a {
+        color: #27ae60;
+        text-decoration: none;
+    }
+
+    .login-link a:hover {
+        text-decoration: underline;
+    }
+</style>
+
+<div class="register-container">
+    <h1>Join Ecovest</h1>
+    <p>Create an account to start investing in a sustainable future.</p>
+    <form method="post" class="register-form" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="register-button">Sign Up</button>
+    </form>
+    <p class="login-link">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+</div>
+{% endblock %}

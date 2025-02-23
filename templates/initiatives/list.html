@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Climate Initiatives</h1>
+<div class="initiatives">
+    {% for initiative in initiatives %}
+    <div class="initiative">
+        <h2><a href="{% url 'initiative-detail' initiative.pk %}">{{ initiative.title }}</a></h2>
+        <p>{{ initiative.description|truncatewords:30 }}</p>
+        <p>Goal: ${{ initiative.funding_goal }} | Raised: ${{ initiative.amount_raised }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="initiative-detail">
+    <h1>{{ initiative.title }}</h1>
+    <p>{{ initiative.description }}</p>
+    <div class="stats">
+        <p>Category: {{ initiative.get_category_display }}</p>
+        <p>Funding Progress: ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
+        <p>Carbon Impact: {{ initiative.carbon_saved_per_dollar }} kg CO2/$</p>
+    </div>
+    <form method="post" action="{% url 'invest' initiative.pk %}">
+        {% csrf_token %}
+        <input type="number" name="amount" min="1" step="any" required>
+        <button type="submit">Invest Now</button>
+    </form>
+</div>
+{% endblock %}

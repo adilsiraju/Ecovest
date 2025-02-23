@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>Your Impact Dashboard</h1>
+<div class="profile">
+    {% if user.profile_image %}
+        <img src="{{ user.profile_image.url }}" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%;">
+    {% endif %}
+    <p>Welcome, {{ user.full_name }}!</p>
+</div>
+<div class="summary">
+    <p>Total Invested: ${{ total_invested }}</p>
+    <p>Carbon Footprint Saved: {{ total_carbon|floatformat:2 }} kg CO2</p>
+</div>
+...
+{% endblock %}
