@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'users.apps.UsersConfig',
     'initiatives.apps.InitiativesConfig',
     'investments.apps.InvestmentsConfig',
+    'bootstrap5',
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'
@@ -132,5 +133,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
-LOGIN_REDIRECT_URL = 'home'
+LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'landing'

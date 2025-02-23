@@ -1,67 +1,85 @@
 {% extends 'base.html' %}
 
 {% block content %}
-<h1>Your Impact Dashboard</h1>
-<div class="profile">
-    {% if user.profile_image %}
-        <img src="{{ user.profile_image.url }}" alt="Profile Image" style="width: 100px; height: 100px; border-radius: 50%;">
-    {% endif %}
-    <p>Welcome, {{ user.full_name }}!</p>
+<div class="container">
+    <h1 class="mt-4">Your Impact Dashboard</h1>
+
+    <!-- Profile Section -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <div class="d-flex align-items-center">
+                {% if user.profile_image %}
+                    <img src="{{ user.profile_image.url }}" alt="Profile Image" class="rounded-circle me-3" width="100" height="100">
+                {% endif %}
+                <h2 class="mb-0">Welcome, {{ user.full_name }}!</h2>
+            </div>
+        </div>
+    </div>
+
+    <!-- Environmental Impact Metrics -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Environmental Impact</h2>
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>Metric</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Total Invested</td>
+                        <td>${{ total_invested|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Carbon Emissions Reduced</td>
+                        <td>{{ total_carbon|floatformat:2 }} kg CO₂e</td>
+                    </tr>
+                    <tr>
+                        <td>Energy Saved/Generated</td>
+                        <td>{{ total_energy|floatformat:2 }} kWh</td>
+                    </tr>
+                    <tr>
+                        <td>Water Conservation</td>
+                        <td>{{ total_water|floatformat:2 }} liters</td>
+                    </tr>
+                    <tr>
+                        <td>Trees Planted (Equivalent)</td>
+                        <td>{{ total_trees|floatformat:2 }}</td>
+                    </tr>
+                    <tr>
+                        <td>Plastic Recycled (Equivalent)</td>
+                        <td>{{ total_plastic|floatformat:2 }} kg</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Chart Visualization -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Impact Visualization</h2>
+            <canvas id="impactChart" width="400" height="200"></canvas>
+        </div>
+    </div>
+
+    <!-- Investment History -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Investment History</h2>
+            <ul class="list-group">
+                {% for investment in investments %}
+                <li class="list-group-item">
+                    ${{ investment.amount }} in {{ investment.initiative.title }}
+                    <small class="text-muted">({{ investment.date_invested|date:"M d, Y" }})</small>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
 </div>
-
-<!-- Environmental Impact Metrics -->
-<h2>Environmental Impact</h2>
-<div class="metrics-table">
-    <table>
-        <thead>
-            <tr>
-                <th>Metric</th>
-                <th>Total</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Total Invested</td>
-                <td>${{ total_invested|floatformat:2 }}</td>
-            </tr>
-            <tr>
-                <td>Carbon Emissions Reduced</td>
-                <td>{{ total_carbon|floatformat:2 }} kg CO₂e</td>
-            </tr>
-            <tr>
-                <td>Energy Saved/Generated</td>
-                <td>{{ total_energy|floatformat:2 }} kWh</td>
-            </tr>
-            <tr>
-                <td>Water Conservation</td>
-                <td>{{ total_water|floatformat:2 }} liters</td>
-            </tr>
-            <tr>
-                <td>Trees Planted (Equivalent)</td>
-                <td>{{ total_trees|floatformat:2 }}</td>
-            </tr>
-            <tr>
-                <td>Plastic Recycled (Equivalent)</td>
-                <td>{{ total_plastic|floatformat:2 }} kg</td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-
-<!-- Chart Visualization -->
-<h2>Impact Visualization</h2>
-<canvas id="impactChart" width="400" height="200"></canvas>
-
-<!-- Investment History -->
-<h2>Investment History</h2>
-<ul>
-    {% for investment in investments %}
-    <li>
-        ${{ investment.amount }} in {{ investment.initiative.title }}
-        <small>({{ investment.date_invested|date:"M d, Y" }})</small>
-    </li>
-    {% endfor %}
-</ul>
 
 <!-- Include Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
