@@ -5,6 +5,7 @@
     <h1>{{ initiative.title }}</h1>
     <p>{{ initiative.description }}</p>
     <div class="stats">
+        <p><strong>Status:</strong> {{ initiative.get_status_display }}</p>
         <p><strong>Category:</strong> {{ initiative.get_category_display }}</p>
         <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
         <p><strong>Carbon Emissions Reduced:</strong> {{ initiative.carbon_saved }} kg CO₂e</p>
@@ -34,10 +35,14 @@
     {% endif %}
 
     <!-- Investment Form -->
-    <form method="post" action="{% url 'invest' initiative.pk %}">
-        {% csrf_token %}
-        <input type="number" name="amount" min="1" step="any" required>
-        <button type="submit">Invest Now</button>
-    </form>
+    {% if initiative.status == 'active' %}
+        <form method="post" action="{% url 'invest' initiative.pk %}">
+            {% csrf_token %}
+            <input type="number" name="amount" min="1" step="any" required>
+            <button type="submit">Invest Now</button>
+        </form>
+    {% else %}
+        <p>This initiative is no longer accepting investments.</p>
+    {% endif %}
 </div>
 {% endblock %}

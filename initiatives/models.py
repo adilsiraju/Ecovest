@@ -3,11 +3,20 @@ from django.db import models
 # Create your models here.
 
 class Initiative(models.Model):
+    from django.db import models
+
+class Initiative(models.Model):
     CATEGORY_CHOICES = [
         ('RE', 'Renewable Energy'),
         ('RC', 'Recycling'),
         ('EC', 'Emission Control'),
-        ('WC', 'Water Conservation'),
+        ('WC', 'Water Conservation'),  # New category
+    ]
+
+    STATUS_CHOICES = [
+        ('active', 'Active'),
+        ('funded', 'Funded'),
+        ('completed', 'Completed'),
     ]
     
     title = models.CharField(max_length=200)
@@ -15,24 +24,21 @@ class Initiative(models.Model):
     category = models.CharField(max_length=2, choices=CATEGORY_CHOICES)
     funding_goal = models.DecimalField(max_digits=12, decimal_places=2)
     amount_raised = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     date_created = models.DateTimeField(auto_now_add=True)
-
+    
     # Metrics
-    carbon_saved = models.DecimalField(
-        max_digits=12, decimal_places=5, default=0,
-        verbose_name='Carbon Emissions Reduced (CO₂e Saved)'
-    )
-    energy_saved_generated = models.DecimalField(
-        max_digits=12, decimal_places=5, default=0,
-        verbose_name='Energy Saved/Generated (kWh)'
-    )
-    water_saved = models.DecimalField(
-        max_digits=12, decimal_places=5, default=0,
-        verbose_name='Water Conservation (Liters Saved)'
-    )
+    carbon_saved = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    energy_saved_generated = models.DecimalField(max_digits=12, decimal_places=2, default=0)
+    water_saved = models.DecimalField(max_digits=12, decimal_places=2, default=0)
 
     def __str__(self):
         return self.title
+
+    def check_funding_status(self):
+        if self.amount_raised >= self.funding_goal and self.status == 'active':
+            self.status = 'funded'
+            self.save()
     
 class ProgressUpdate(models.Model):
     initiative = models.ForeignKey(Initiative, on_delete=models.CASCADE, related_name='progress_updates')

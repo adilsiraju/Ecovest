@@ -19,6 +19,8 @@ def create_investment(request, pk):
                 initiative=initiative,
                 amount=amount
             )
+            # Check if funding goal is met
+            initiative.check_funding_status()
         return redirect('initiative-detail', pk=pk)
     
     return redirect('initiative-detail', pk=pk)
