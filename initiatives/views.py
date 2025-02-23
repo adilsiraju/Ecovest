@@ -43,3 +43,13 @@ def add_progress_update(request, pk):
     else:
         form = ProgressUpdateForm()
     return render(request, 'initiatives/add_progress_update.html', {'form': form, 'initiative': initiative})
+
+@login_required
+@user_passes_test(lambda u: u.is_staff)  # Only staff (admins) can access this view
+def mark_as_completed(request, pk):
+    initiative = get_object_or_404(Initiative, pk=pk)
+    if request.method == 'POST':
+        if initiative.status == 'funded':
+            initiative.status = 'completed'
+            initiative.save()
+    return redirect('initiative-detail', pk=pk)

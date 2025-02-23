@@ -34,6 +34,14 @@
         <a href="{% url 'add-progress-update' initiative.pk %}">Add Progress Update</a>
     {% endif %}
 
+    <!-- Mark as Completed Button (for admins) -->
+    {% if user.is_staff and initiative.status == 'funded' %}
+    <form method="post" action="{% url 'mark-as-completed' initiative.pk %}" onsubmit="return confirm('Are you sure you want to mark this project as completed?');">
+        {% csrf_token %}
+        <button type="submit">Mark as Completed</button>
+    </form>
+    {% endif %}
+
     <!-- Investment Form -->
     {% if initiative.status == 'active' %}
         <form method="post" action="{% url 'invest' initiative.pk %}">
