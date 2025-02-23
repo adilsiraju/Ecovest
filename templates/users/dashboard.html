@@ -8,13 +8,51 @@
     {% endif %}
     <p>Welcome, {{ user.full_name }}!</p>
 </div>
-<div class="summary">
-    <p><strong>Total Invested:</strong> ${{ total_invested }}</p>
-    <p><strong>Carbon Emissions Reduced:</strong> {{ total_carbon|floatformat:2 }} kg CO₂e</p>
-    <p><strong>Energy Saved/Generated:</strong> {{ total_energy|floatformat:2 }} kWh</p>
-    <p><strong>Water Conservation:</strong> {{ total_water|floatformat:2 }} liters</p>
+
+<!-- Environmental Impact Metrics -->
+<h2>Environmental Impact</h2>
+<div class="metrics-table">
+    <table>
+        <thead>
+            <tr>
+                <th>Metric</th>
+                <th>Total</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Total Invested</td>
+                <td>${{ total_invested|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <td>Carbon Emissions Reduced</td>
+                <td>{{ total_carbon|floatformat:2 }} kg CO₂e</td>
+            </tr>
+            <tr>
+                <td>Energy Saved/Generated</td>
+                <td>{{ total_energy|floatformat:2 }} kWh</td>
+            </tr>
+            <tr>
+                <td>Water Conservation</td>
+                <td>{{ total_water|floatformat:2 }} liters</td>
+            </tr>
+            <tr>
+                <td>Trees Planted (Equivalent)</td>
+                <td>{{ total_trees|floatformat:2 }}</td>
+            </tr>
+            <tr>
+                <td>Plastic Recycled (Equivalent)</td>
+                <td>{{ total_plastic|floatformat:2 }} kg</td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
+<!-- Chart Visualization -->
+<h2>Impact Visualization</h2>
+<canvas id="impactChart" width="400" height="200"></canvas>
+
+<!-- Investment History -->
 <h2>Investment History</h2>
 <ul>
     {% for investment in investments %}
@@ -24,4 +62,49 @@
     </li>
     {% endfor %}
 </ul>
+
+<!-- Include Chart.js -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    // Chart Data
+    const ctx = document.getElementById('impactChart').getContext('2d');
+    const impactChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: ['Carbon Saved (kg CO₂e)', 'Energy Saved/Generated (kWh)', 'Water Saved (liters)', 'Trees Planted', 'Plastic Recycled (kg)'],
+            datasets: [{
+                label: 'Your Impact',
+                data: [
+                    {{ total_carbon|floatformat:2 }},
+                    {{ total_energy|floatformat:2 }},
+                    {{ total_water|floatformat:2 }},
+                    {{ total_trees|floatformat:2 }},
+                    {{ total_plastic|floatformat:2 }}
+                ],
+                backgroundColor: [
+                    'rgba(75, 192, 192, 0.2)',
+                    'rgba(54, 162, 235, 0.2)',
+                    'rgba(153, 102, 255, 0.2)',
+                    'rgba(255, 159, 64, 0.2)',
+                    'rgba(255, 99, 132, 0.2)'
+                ],
+                borderColor: [
+                    'rgba(75, 192, 192, 1)',
+                    'rgba(54, 162, 235, 1)',
+                    'rgba(153, 102, 255, 1)',
+                    'rgba(255, 159, 64, 1)',
+                    'rgba(255, 99, 132, 1)'
+                ],
+                borderWidth: 1
+            }]
+        },
+        options: {
+            scales: {
+                y: {
+                    beginAtZero: true
+                }
+            }
+        }
+    });
+</script>
 {% endblock %}
