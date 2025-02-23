@@ -51,5 +51,5 @@ Ecovest is a web platform that connects environmentally conscious investors with
 
 1. Clone the repository
 ```bash
-git clone https://github.com/yourusername/ecovest.git
+git clone https://github.com/adilsiraju/ecovest.git
 cd ecovest
