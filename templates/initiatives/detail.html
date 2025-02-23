@@ -1,56 +1,60 @@
 {% extends 'base.html' %}
+{% load bootstrap5 %}
+
 
 {% block content %}
-<div class="initiative-detail">
-    <h1>{{ initiative.title }}</h1>
-    <p>{{ initiative.description }}</p>
-    <div class="stats">
-        <p><strong>Status:</strong> {{ initiative.get_status_display }}</p>
-        <p><strong>Category:</strong> {{ initiative.get_category_display }}</p>
-        <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
-        <p><strong>Carbon Emissions Reduced:</strong> {{ initiative.carbon_saved }} kg CO₂e</p>
-        <p><strong>Energy Saved/Generated:</strong> {{ initiative.energy_saved_generated }} kWh</p>
-        <p><strong>Water Conservation:</strong> {{ initiative.water_saved }} liters</p>
-    </div>
-
-    <!-- Progress Updates -->
-    <h2>Progress Updates</h2>
-    {% if initiative.progress_updates.all %}
-        <div class="progress-updates">
-            {% for update in initiative.progress_updates.all %}
-                <div class="update">
-                    <h3>{{ update.title }}</h3>
-                    <p>{{ update.description }}</p>
-                    <small>Posted on {{ update.date_posted|date:"M d, Y" }}</small>
+<div class="container">
+    <div class="card mt-4">
+        <div class="card-body">
+            <h1 class="card-title">{{ initiative.title }}</h1>
+            <p class="card-text">{{ initiative.description }}</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <p><strong>Status:</strong> {{ initiative.get_status_display }}</p>
+                    <p><strong>Category:</strong> {{ initiative.get_category_display }}</p>
+                    <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
                 </div>
-            {% endfor %}
+                <div class="col-md-6">
+                    <p><strong>Carbon Emissions Reduced:</strong> {{ initiative.carbon_saved }} kg CO₂e</p>
+                    <p><strong>Energy Saved/Generated:</strong> {{ initiative.energy_saved_generated }} kWh</p>
+                    <p><strong>Water Conservation:</strong> {{ initiative.water_saved }} liters</p>
+                </div>
+            </div>
+
+            <!-- Progress Updates -->
+            <h2 class="mt-4">Progress Updates</h2>
+            {% if initiative.progress_updates.all %}
+                <div class="list-group">
+                    {% for update in initiative.progress_updates.all %}
+                    <div class="list-group-item">
+                        <h3>{{ update.title }}</h3>
+                        <p>{{ update.description }}</p>
+                        <small>Posted on {{ update.date_posted|date:"M d, Y" }}</small>
+                    </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <p>No progress updates yet.</p>
+            {% endif %}
+
+            <!-- Add Progress Update Link (for admins) -->
+            {% if user.is_staff %}
+                <a href="{% url 'add-progress-update' initiative.pk %}" class="btn btn-primary mt-3">Add Progress Update</a>
+            {% endif %}
+
+            <!-- Investment Form -->
+            {% if initiative.status == 'active' %}
+                <form method="post" action="{% url 'invest' initiative.pk %}" class="mt-4">
+                    {% csrf_token %}
+                    <div class="input-group">
+                        <input type="number" name="amount" class="form-control" min="1" step="any" required placeholder="Enter amount">
+                        <button type="submit" class="btn btn-success">Invest Now</button>
+                    </div>
+                </form>
+            {% else %}
+                <p class="mt-4">This initiative is no longer accepting investments.</p>
+            {% endif %}
         </div>
-    {% else %}
-        <p>No progress updates yet.</p>
-    {% endif %}
-
-    <!-- Add Progress Update Link (for admins) -->
-    {% if user.is_staff %}
-        <a href="{% url 'add-progress-update' initiative.pk %}">Add Progress Update</a>
-    {% endif %}
-
-    <!-- Mark as Completed Button (for admins) -->
-    {% if user.is_staff and initiative.status == 'funded' %}
-    <form method="post" action="{% url 'mark-as-completed' initiative.pk %}" onsubmit="return confirm('Are you sure you want to mark this project as completed?');">
-        {% csrf_token %}
-        <button type="submit">Mark as Completed</button>
-    </form>
-    {% endif %}
-
-    <!-- Investment Form -->
-    {% if initiative.status == 'active' %}
-        <form method="post" action="{% url 'invest' initiative.pk %}">
-            {% csrf_token %}
-            <input type="number" name="amount" min="1" step="any" required>
-            <button type="submit">Invest Now</button>
-        </form>
-    {% else %}
-        <p>This initiative is no longer accepting investments.</p>
-    {% endif %}
+    </div>
 </div>
 {% endblock %}

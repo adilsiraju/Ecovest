@@ -44,16 +44,12 @@
                         <td>Water Conservation</td>
                         <td>{{ total_water|floatformat:2 }} liters</td>
                     </tr>
-                    <tr>
-                        <td>Trees Planted (Equivalent)</td>
-                        <td>{{ total_trees|floatformat:2 }}</td>
-                    </tr>
-                    <tr>
-                        <td>Plastic Recycled (Equivalent)</td>
-                        <td>{{ total_plastic|floatformat:2 }} kg</td>
-                    </tr>
                 </tbody>
             </table>
+            <p class="mt-3">
+                <strong>Trees Planted (Equivalent):</strong> {{ total_trees|floatformat:2 }}<br>
+                <strong>Plastic Recycled (Equivalent):</strong> {{ total_plastic|floatformat:2 }} kg
+            </p>
         </div>
     </div>
 
@@ -89,29 +85,23 @@
     const impactChart = new Chart(ctx, {
         type: 'bar',
         data: {
-            labels: ['Carbon Saved (kg CO₂e)', 'Energy Saved/Generated (kWh)', 'Water Saved (liters)', 'Trees Planted', 'Plastic Recycled (kg)'],
+            labels: ['Carbon Saved (kg CO₂e)', 'Energy Saved/Generated (kWh)', 'Water Saved (liters)'],
             datasets: [{
                 label: 'Your Impact',
                 data: [
                     {{ total_carbon|floatformat:2 }},
                     {{ total_energy|floatformat:2 }},
-                    {{ total_water|floatformat:2 }},
-                    {{ total_trees|floatformat:2 }},
-                    {{ total_plastic|floatformat:2 }}
+                    {{ total_water|floatformat:2 }}
                 ],
                 backgroundColor: [
                     'rgba(75, 192, 192, 0.2)',
                     'rgba(54, 162, 235, 0.2)',
-                    'rgba(153, 102, 255, 0.2)',
-                    'rgba(255, 159, 64, 0.2)',
-                    'rgba(255, 99, 132, 0.2)'
+                    'rgba(153, 102, 255, 0.2)'
                 ],
                 borderColor: [
                     'rgba(75, 192, 192, 1)',
                     'rgba(54, 162, 235, 1)',
-                    'rgba(153, 102, 255, 1)',
-                    'rgba(255, 159, 64, 1)',
-                    'rgba(255, 99, 132, 1)'
+                    'rgba(153, 102, 255, 1)'
                 ],
                 borderWidth: 1
             }]

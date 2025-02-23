@@ -1,0 +1,131 @@
+{% load bootstrap5 %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ecovest - Sustainable Investing</title>
+    {% load static %}
+    {% bootstrap_css %}
+    {% bootstrap_javascript %}
+    {% block extra_css %}{% endblock %}
+    <style>
+        /* Full-Screen Hero Section */
+        .hero-section {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('{% static 'images/landing-hero.png' %}') no-repeat center center/cover;
+            color: white;
+            text-align: center;
+        }
+
+        .hero-section .overlay {
+            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+        }
+
+        .hero-section .container {
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero-section h1 {
+            font-size: 4rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-section p {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero-section .btn {
+            font-size: 1.25rem;
+            padding: 0.75rem 2rem;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 4rem 0;
+        }
+
+        .features-section img {
+            transition: transform 0.3s ease;
+        }
+
+        .features-section img:hover {
+            transform: scale(1.1);
+        }
+
+        /* Call-to-Action Section */
+        .cta-section {
+            background-color: #f8f9fa;
+            padding: 4rem 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="overlay"></div>
+        <div class="container">
+            <h1>Welcome to Ecovest</h1>
+            <p class="lead">Invest in a sustainable future. Join us in supporting green initiatives that make a real impact.</p>
+            <a href="{% url 'login' %}" class="btn btn-primary btn-lg">Get Started</a>
+        </div>
+    </div>
+
+    <!-- Features Section -->
+    <div class="features-section">
+        <div class="container">
+            <div class="row text-center">
+                <div class="col-md-4">
+                    <img src="{% static 'images/icon-tree.png' %}" alt="Tree Icon" class="mb-3" width="100">
+                    <h3>Reduce Carbon Emissions</h3>
+                    <p>Support projects that reduce CO₂ emissions and combat climate change.</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'images/icon-solar.png' %}" alt="Solar Icon" class="mb-3" width="100">
+                    <h3>Generate Clean Energy</h3>
+                    <p>Invest in renewable energy projects like solar and wind farms.</p>
+                </div>
+                <div class="col-md-4">
+                    <img src="{% static 'images/icon-water.png' %}" alt="Water Icon" class="mb-3" width="100">
+                    <h3>Conserve Water</h3>
+                    <p>Support initiatives that save water and protect our planet's most precious resource.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Call-to-Action Section -->
+    <div class="cta-section text-center">
+        <div class="container">
+            <h2>Ready to Make a Difference?</h2>
+            <p class="lead">Join Ecovest today and start investing in a greener future.</p>
+            <a href="{% url 'register' %}" class="btn btn-success btn-lg">Sign Up Now</a>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-dark text-white text-center py-4">
+        <div class="container">
+            <p class="mb-0">© 2025 Ecovest. All rights reserved.</p>
+            <p class="mb-0">
+                <a href="#" class="text-white me-3">Privacy Policy</a>
+                <a href="#" class="text-white">Terms of Service</a>
+            </p>
+        </div>
+    </footer>
+
+</body>
+</html>

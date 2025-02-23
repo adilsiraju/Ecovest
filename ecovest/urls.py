@@ -22,11 +22,13 @@ from users import views as user_views
 from . views import landing_page
 from django.conf import settings
 from django.conf.urls.static import static
+from . import views
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
+    path('', views.landing_page, name='landing'),
     path('', landing_page, name='landing'),  # Landing page as the home page
     path('home/', initiative_views.initiative_list, name='home'),  # Move old home page to /home/
 

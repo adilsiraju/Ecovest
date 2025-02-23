@@ -1,35 +1,46 @@
 {% extends 'base.html' %}
+{% load bootstrap5 %}
+
 
 {% block content %}
-<h1>Climate Initiatives</h1>
+<div class="container">
+    <h1 class="mt-4">Climate Initiatives</h1>
 
-<!-- Search and Filters -->
-<form method="get" action="{% url 'home' %}">
-    <input type="text" name="q" placeholder="Search initiatives..." value="{{ request.GET.q }}">
-    <select name="category">
-        <option value="">All Categories</option>
-        {% for value, label in category_choices %}
-            <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>
-                {{ label }}
-            </option>
+    <!-- Search and Filters -->
+    <form method="get" action="{% url 'home' %}" class="mb-4">
+        <div class="row g-3">
+            <div class="col-md-6">
+                <input type="text" name="q" class="form-control" placeholder="Search initiatives..." value="{{ request.GET.q }}">
+            </div>
+            <div class="col-md-4">
+                <select name="category" class="form-select">
+                    <option value="">All Categories</option>
+                    {% for value, label in category_choices %}
+                        <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>{{ label }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-primary w-100">Apply Filters</button>
+            </div>
+        </div>
+    </form>
+
+    <!-- Initiative List -->
+    <div class="row">
+        {% for initiative in initiatives %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100">
+                <div class="card-body">
+                    <h2 class="card-title"><a href="{% url 'initiative-detail' initiative.pk %}">{{ initiative.title }}</a></h2>
+                    <p class="card-text">{{ initiative.description|truncatewords:30 }}</p>
+                    <p><strong>Status:</strong> {{ initiative.get_status_display }}</p>
+                    <p><strong>Category:</strong> {{ initiative.get_category_display }}</p>
+                    <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
+                </div>
+            </div>
+        </div>
         {% endfor %}
-    </select>
-    <button type="submit">Apply Filters</button>
-</form>
-
-<!-- Initiative List -->
-<div>
-    {% for initiative in initiatives %}
-    <div>
-        <h2><a href="{% url 'initiative-detail' initiative.pk %}">{{ initiative.title }}</a></h2>
-        <p>{{ initiative.description|truncatewords:30 }}</p>
-        <p><strong>Status:</strong> {{ initiative.get_status_display }}</p>
-        <p><strong>Category:</strong> {{ initiative.get_category_display }}</p>
-        <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
-        <p><strong>Carbon Emissions Reduced:</strong> {{ initiative.carbon_saved }} kg CO₂e</p>
-        <p><strong>Energy Saved/Generated:</strong> {{ initiative.energy_saved_generated }} kWh</p>
-        <p><strong>Water Conservation:</strong> {{ initiative.water_saved }} liters</p>
     </div>
-    {% endfor %}
 </div>
 {% endblock %}
