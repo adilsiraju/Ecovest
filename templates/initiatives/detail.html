@@ -1,7 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block content %}
+{% load humanize %}  <!-- Add this line at the top -->
+
 <div class="container">
     <div class="card mt-4">
         {% if initiative.image %}
@@ -16,12 +17,12 @@
                 <div class="col-md-6">
                     <p><strong>Status:</strong> {{ initiative.get_status_display }}</p>
                     <p><strong>Category:</strong> {{ initiative.get_category_display }}</p>
-                    <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
+                    <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised|intcomma }} / ${{ initiative.funding_goal|intcomma }}</p>
                 </div>
                 <div class="col-md-6">
-                    <p><strong>Carbon Emissions Reduced:</strong> {{ initiative.carbon_saved }} kg CO₂e</p>
-                    <p><strong>Energy Saved/Generated:</strong> {{ initiative.energy_saved_generated }} kWh</p>
-                    <p><strong>Water Conservation:</strong> {{ initiative.water_saved }} liters</p>
+                    <p><strong>Carbon Emissions Reduced:</strong> {{ initiative.carbon_saved|intcomma }} kg CO₂e</p>
+                    <p><strong>Energy Saved/Generated:</strong> {{ initiative.energy_saved_generated|intcomma }} kWh</p>
+                    <p><strong>Water Conservation:</strong> {{ initiative.water_saved|intcomma }} liters</p>
                 </div>
             </div>
 
@@ -61,4 +62,3 @@
         </div>
     </div>
 </div>
-{% endblock %}

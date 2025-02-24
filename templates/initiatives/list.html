@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
+{% load static %}
 
+{% load humanize %}  <!-- Add this line at the top -->
 
-{% block content %}
 <div class="container">
     <h1 class="mt-4">Climate Initiatives</h1>
 
@@ -41,11 +42,10 @@
                     <p class="card-text">{{ initiative.description|truncatewords:30 }}</p>
                     <p><strong>Status:</strong> {{ initiative.get_status_display }}</p>
                     <p><strong>Category:</strong> {{ initiative.get_category_display }}</p>
-                    <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised }} / ${{ initiative.funding_goal }}</p>
+                    <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised|intcomma }} / ${{ initiative.funding_goal|intcomma }}</p>
                 </div>
             </div>
         </div>
         {% endfor %}
     </div>
 </div>
-{% endblock %}
