@@ -1,5 +1,9 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+
 {% load humanize %}  <!-- Add this line at the top -->
 
+{% block content %}
 <div class="container">
     <h1 class="mt-4">Your Impact Dashboard</h1>
 
@@ -29,25 +33,25 @@
                 <tbody>
                     <tr>
                         <td>Total Invested</td>
-                        <td>${{ total_invested|intcomma }}</td>
+                        <td>${{ total_invested|floatformat:2|intcomma }}</td>
                     </tr>
                     <tr>
                         <td>Carbon Emissions Reduced</td>
-                        <td>{{ total_carbon|intcomma }} kg CO₂e</td>
+                        <td>{{ total_carbon|floatformat:2|intcomma }} kg CO₂e</td>
                     </tr>
                     <tr>
                         <td>Energy Saved/Generated</td>
-                        <td>{{ total_energy|intcomma }} kWh</td>
+                        <td>{{ total_energy|floatformat:2|intcomma }} kWh</td>
                     </tr>
                     <tr>
                         <td>Water Conservation</td>
-                        <td>{{ total_water|intcomma }} liters</td>
+                        <td>{{ total_water|floatformat:2|intcomma }} liters</td>
                     </tr>
                 </tbody>
             </table>
             <p class="mt-3">
-                <strong>Trees Planted (Equivalent):</strong> {{ total_trees|intcomma }}<br>
-                <strong>Plastic Recycled (Equivalent):</strong> {{ total_plastic|intcomma }} kg
+                <strong>Trees Planted (Equivalent):</strong> {{ total_trees|floatformat:2|intcomma }}<br>
+                <strong>Plastic Recycled (Equivalent):</strong> {{ total_plastic|floatformat:2|intcomma }} kg
             </p>
         </div>
     </div>
@@ -78,7 +82,7 @@
             <ul class="list-group">
                 {% for investment in investments %}
                 <li class="list-group-item">
-                    ${{ investment.amount|intcomma }} in {{ investment.initiative.title }}
+                    ${{ investment.amount|floatformat:2|intcomma }} in {{ investment.initiative.title }}
                     <small class="text-muted">({{ investment.date_invested|date:"M d, Y" }})</small>
                 </li>
                 {% endfor %}
@@ -86,3 +90,4 @@
         </div>
     </div>
 </div>
+{% endblock %}
