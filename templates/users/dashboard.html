@@ -22,7 +22,7 @@
     <div class="card mb-4">
         <div class="card-body">
             <h2 class="card-title">Your Badges</h2>
-            <div class="d-flex gap-2">
+            <div class="d-flex flex-wrap gap-2">
                 {% for badge in user.badges.all %}
                     <div class="badge bg-primary">{{ badge.name }}</div>
                 {% empty %}

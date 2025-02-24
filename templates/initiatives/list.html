@@ -31,6 +31,11 @@
         {% for initiative in initiatives %}
         <div class="col-md-4 mb-4">
             <div class="card h-100">
+                {% if initiative.image %}
+                    <img src="{{ initiative.image.url }}" class="card-img-top" alt="{{ initiative.title }}">
+                {% else %}
+                    <img src="{% static 'images/categories/' %}{{ initiative.get_category_display|lower|cut:' ' }}.jpg" class="card-img-top" alt="{{ initiative.title }}">
+                {% endif %}
                 <div class="card-body">
                     <h2 class="card-title"><a href="{% url 'initiative-detail' initiative.pk %}">{{ initiative.title }}</a></h2>
                     <p class="card-text">{{ initiative.description|truncatewords:30 }}</p>

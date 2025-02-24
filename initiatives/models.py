@@ -26,6 +26,7 @@ class Initiative(models.Model):
     amount_raised = models.DecimalField(max_digits=12, decimal_places=2, default=0)
     status = models.CharField(max_length=10, choices=STATUS_CHOICES, default='active')
     date_created = models.DateTimeField(auto_now_add=True)
+    image = models.ImageField(upload_to='initiatives/', blank=True, null=True)  # New field
     
     # Metrics
     carbon_saved = models.DecimalField(max_digits=12, decimal_places=2, default=0)

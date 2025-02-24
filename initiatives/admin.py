@@ -12,7 +12,14 @@ class InitiativeAdmin(admin.ModelAdmin):
     list_display = ('title', 'category', 'status', 'funding_goal', 'amount_raised')
     list_filter = ('status', 'category')
     search_fields = ('title', 'description')
-    actions = ['mark_as_active', 'mark_as_funded', 'mark_as_completed']
+    fieldsets = (
+        ('General Information', {
+            'fields': ('title', 'description', 'category', 'funding_goal', 'amount_raised', 'image'),
+        }),
+        ('Environmental Impact Metrics', {
+            'fields': ('carbon_saved', 'energy_saved_generated', 'water_saved'),
+        }),
+    )
 
     def mark_as_active(self, request, queryset):
         queryset.update(status='active')
