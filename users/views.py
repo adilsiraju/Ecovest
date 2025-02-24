@@ -2,6 +2,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
+from django.contrib import messages
 from . forms import CustomUserCreationForm
 from . forms import ProfileUpdateForm
 from decimal import Decimal
@@ -45,7 +46,25 @@ def profile_update(request):
         form = ProfileUpdateForm(request.POST, request.FILES, instance=request.user)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Your profile has been updated successfully!')
             return redirect('dashboard')
     else:
         form = ProfileUpdateForm(instance=request.user)
     return render(request, 'users/profile_update.html', {'form': form})
+
+from django.contrib import messages
+from django.contrib.auth import authenticate, login
+from django.shortcuts import render, redirect
+
+def user_login(request):
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = authenticate(request, username=username, password=password)
+        if user is not None:
+            login(request, user)
+            messages.success(request, 'You have been logged in successfully!')
+            return redirect('dashboard')
+        else:
+            messages.error(request, 'Invalid username or password. Please try again.')
+    return render(request, 'registration/login.html')

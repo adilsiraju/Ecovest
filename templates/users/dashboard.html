@@ -18,6 +18,20 @@
         </div>
     </div>
 
+    <!-- Add this to the dashboard template -->
+    <div class="card mb-4">
+        <div class="card-body">
+            <h2 class="card-title">Your Badges</h2>
+            <div class="d-flex gap-2">
+                {% for badge in user.badges.all %}
+                    <div class="badge bg-primary">{{ badge.name }}</div>
+                {% empty %}
+                    <p>No badges yet. Keep investing to earn badges!</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
     <!-- Environmental Impact Metrics -->
     <div class="card mb-4">
         <div class="card-body">
