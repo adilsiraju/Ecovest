@@ -1,5 +1,10 @@
 from django.contrib import admin
-from .models import Initiative, ProgressUpdate
+from .models import Category, Initiative, ProgressUpdate
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'description')
+    search_fields = ('name',)
 
 @admin.register(Initiative)
 class InitiativeAdmin(admin.ModelAdmin):
@@ -31,6 +36,7 @@ class InitiativeAdmin(admin.ModelAdmin):
     def mark_as_completed(self, request, queryset):
         queryset.update(status='completed')
     mark_as_completed.short_description = "Mark selected initiatives as Completed"
+
 
 @admin.register(ProgressUpdate)
 class ProgressUpdateAdmin(admin.ModelAdmin):

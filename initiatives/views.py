@@ -2,14 +2,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib import messages
 from django.db.models import Q
-from .models import Initiative, ProgressUpdate
+from .models import Initiative, ProgressUpdate, Category
 from .forms import ProgressUpdateForm
 
 def initiative_list(request):
     """Display a list of initiatives with search and filtering options."""
     initiatives = Initiative.objects.all()
-    category_choices = Initiative.CATEGORY_CHOICES
-
+    categories = Category.objects.all()
     # Search functionality
     query = request.GET.get('q')
     if query:
@@ -18,13 +17,13 @@ def initiative_list(request):
         )
 
     # Filter by category
-    category = request.GET.get('category')
-    if category:
-        initiatives = initiatives.filter(category=category)
+    category_id = request.GET.get('category')
+    if category_id:
+        initiatives = initiatives.filter(category_id=category_id)
 
     return render(request, 'initiatives/list.html', {
         'initiatives': initiatives,
-        'category_choices': category_choices,
+        'category_choices': categories,
     })
 
 def initiative_detail(request, pk):

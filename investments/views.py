@@ -1,8 +1,9 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from initiatives.models import Initiative, InvestmentValue
+from initiatives.models import Initiative
 from decimal import Decimal
+from datetime import datetime
 
 @login_required
 def create_investment(request, pk):
@@ -28,7 +29,8 @@ def create_investment(request, pk):
             )
             initiative.check_funding_status()
             messages.success(request, f'Successfully invested ${amount:.2f} in {initiative.title}.')
-        
+    
+
         return redirect('initiative-detail', pk=pk)
     
     return redirect('initiative-detail', pk=pk)

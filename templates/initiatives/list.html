@@ -3,6 +3,7 @@
 {% load static %}
 {% load humanize %}  <!-- Add this line at the top -->
 
+{% block title %}Projects{% endblock %}
 {% block content %}
 <div class="container">
     <h1 class="mt-2 mb-4">Climate Initiatives</h1>
@@ -16,8 +17,10 @@
             <div class="col-md-4">
                 <select name="category" class="form-select">
                     <option value="">All Categories</option>
-                    {% for value, label in category_choices %}
-                        <option value="{{ value }}" {% if request.GET.category == value %}selected{% endif %}>{{ label }}</option>
+                    {% for category in categories %}
+                        <option value="{{ category.id }}" {% if request.GET.category == category.id|stringformat:"i" %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
                     {% endfor %}
                 </select>
             </div>
@@ -43,7 +46,7 @@
                     <p class="card-text">{{ initiative.description|truncatewords:30 }}</p>
                     <ul class="list-unstyled">
                         <li><strong>Status:</strong> {{ initiative.get_status_display }}</li>
-                        <li><strong>Category:</strong> {{ initiative.get_category_display }}</li>
+                        <li><strong>Category:</strong> {{ initiative.category.name }}</li>
                         <li><strong>Funding Progress:</strong> ${{ initiative.amount_raised|floatformat:2|intcomma }} / ${{ initiative.funding_goal|floatformat:2|intcomma }}</li>
                     </ul>
                 </div>
