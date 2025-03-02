@@ -1,94 +1,227 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% load static %}
-
-{% load humanize %}  <!-- Add this line at the top -->
+{% load humanize %}
 
 {% block content %}
 <div class="container">
-    <h1 class="mt-4">Your Impact Dashboard</h1>
+    <h1 class="mt-4 mb-4">Your Impact Dashboard</h1>
 
     <!-- Profile Section -->
-    <div class="card mb-4">
+    <div class="card mb-4 shadow-sm">
         <div class="card-body">
             <div class="d-flex align-items-center">
                 {% if user.profile_image %}
                     <img src="{{ user.profile_image.url }}" alt="Profile Image" class="rounded-circle me-3" width="100" height="100">
+                {% else %}
+                    <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Image" class="rounded-circle me-3" width="100" height="100">
                 {% endif %}
-                <h2 class="mb-0">Welcome, {{ user.full_name }}!</h2>
+                <div>
+                    <h2 class="mb-0">Welcome, {{ user.full_name }}!</h2>
+                    <p class="text-muted mb-0">Keep making a difference with your investments.</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Environmental Impact Metrics -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h2 class="card-title">Environmental Impact</h2>
-            <table class="table table-striped">
-                <thead>
-                    <tr>
-                        <th>Metric</th>
-                        <th>Total</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Total Invested</td>
-                        <td>${{ total_invested|floatformat:2|intcomma }}</td>
-                    </tr>
-                    <tr>
-                        <td>Carbon Emissions Reduced</td>
-                        <td>{{ total_carbon|floatformat:2|intcomma }} kg CO₂e</td>
-                    </tr>
-                    <tr>
-                        <td>Energy Saved/Generated</td>
-                        <td>{{ total_energy|floatformat:2|intcomma }} kWh</td>
-                    </tr>
-                    <tr>
-                        <td>Water Conservation</td>
-                        <td>{{ total_water|floatformat:2|intcomma }} liters</td>
-                    </tr>
-                </tbody>
-            </table>
-            <p class="mt-3">
-                <strong>Trees Planted (Equivalent):</strong> {{ total_trees|floatformat:2|intcomma }}<br>
-                <strong>Plastic Recycled (Equivalent):</strong> {{ total_plastic|floatformat:2|intcomma }} kg
-            </p>
+    <!-- Environmental Impact Metrics (Split into Multiple Cards) -->
+    <div class="row mb-4">
+        <!-- Total Invested -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Total Invested</h5>
+                    <p class="fs-4 text-success">${{ total_invested|floatformat:2|intcomma }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Carbon Emissions Reduced -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Carbon Emissions Reduced</h5>
+                    <p class="fs-4 text-success">{{ total_carbon|floatformat:2|intcomma }} kg CO₂e</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Energy Saved/Generated -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Energy Saved/Generated</h5>
+                    <p class="fs-4 text-success">{{ total_energy|floatformat:2|intcomma }} kWh</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Water Conservation -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Water Conservation</h5>
+                    <p class="fs-4 text-success">{{ total_water|floatformat:2|intcomma }} liters</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trees Planted (Equivalent) -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Trees Planted (Equivalent)</h5>
+                    <p class="fs-4 text-success">{{ total_trees|floatformat:2|intcomma }}</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Plastic Recycled (Equivalent) -->
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h5 class="card-title">Plastic Recycled (Equivalent)</h5>
+                    <p class="fs-4 text-success">{{ total_plastic|floatformat:2|intcomma }} kg</p>
+                </div>
+            </div>
         </div>
     </div>
 
-    <!-- Badges Section -->
-    <div class="card mb-4">
+    <!-- Your Holdings Section -->
+    <div class="card mb-4 shadow-sm">
         <div class="card-body">
-            <h2 class="card-title">Your Badges</h2>
+            <h2 class="card-title mb-4">Your Holdings</h2>
+            <div class="table-responsive">
+                <table class="table table-hover">
+                    <thead>
+                        <tr>
+                            <th>Initiative</th>
+                            <th>Amount Invested</th>
+                            <th>Current Value</th>
+                            <th>Return on Investment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for investment in investments %}
+                            <tr>
+                                <td>{{ investment.initiative.title }}</td>
+                                <td>${{ investment.amount|floatformat:2|intcomma }}</td>
+                                <td>${{ investment.current_value|floatformat:2|intcomma }}</td>
+                                <td class="text-success">{{ investment.roi|floatformat:2 }}%</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Line Graph Section -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Value of Your Holdings Over Time</h2>
+    
+            <div style="height: 300px;">
+                <canvas id="holdingsChart"></canvas>
+            </div>
+        </div>
+    </div>
+
+    <!-- Badges Section (Reduced Size) -->
+    <div class="card mb-4 shadow-sm">
+        <div class="card-body">
+            <h2 class="card-title mb-4">Your Badges</h2>
             <div class="d-flex flex-wrap gap-2">
                 {% for badge in user.badges.all %}
                     <div class="text-center">
                         {% if badge.icon %}
-                            <img src="{{ badge.icon.url }}" alt="{{ badge.name }}" class="img-fluid" width="50">
+                            <img src="{{ badge.icon.url }}" alt="{{ badge.name }}" class="img-fluid" width="40">
                         {% endif %}
-                        <div class="badge bg-primary mt-2">{{ badge.name }}</div>
+                        <div class="badge bg-success p-2">{{ badge.name }}</div>
                     </div>
                 {% empty %}
-                    <p>No badges yet. Keep investing to earn badges!</p>
+                    <p class="text-muted">No badges yet. Keep investing to earn badges!</p>
                 {% endfor %}
             </div>
         </div>
     </div>
-
-    <!-- Investment History -->
-    <div class="card mb-4">
-        <div class="card-body">
-            <h2 class="card-title">Investment History</h2>
-            <ul class="list-group">
-                {% for investment in investments %}
-                <li class="list-group-item">
-                    ${{ investment.amount|floatformat:2|intcomma }} in {{ investment.initiative.title }}
-                    <small class="text-muted">({{ investment.date_invested|date:"M d, Y" }})</small>
-                </li>
-                {% endfor %}
-            </ul>
-        </div>
-    </div>
 </div>
-{% endblock %}
+
+<!-- Chart.js for Line Graph -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    const ctx = document.getElementById('holdingsChart').getContext('2d');
+    new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: JSON.parse('{{ line_graph_data.labels|safe }}'),
+            datasets: [{
+                label: 'Value of Holdings ($)',
+                data: JSON.parse('{{ line_graph_data.values|safe }}'),
+                borderColor: '#4caf50',
+                backgroundColor: '#4caf50',
+                fill: false,
+                tension: 0.1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return '$' + value.toLocaleString();
+                        }
+                    }
+                }
+            },
+            plugins: {
+                legend: {
+                    display: true,
+                    position: 'top'
+                }
+            }
+        }
+    });
+</script>
+
+<style>
+    /* Custom CSS for the dashboard */
+    .card {
+        border: none;
+        border-radius: 10px;
+    }
+
+    .card-title {
+        color: #2d6a4f; /* Dark green for titles */
+        font-size: 1.5rem;
+        font-weight: 600;
+    }
+
+    .text-success {
+        color: #4caf50 !important; /* Medium green for metrics */
+    }
+
+    .badge.bg-success {
+        background-color: #4caf50 !important; /* Medium green for badges */
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f0f4f8; /* Light background on hover */
+    }
+
+    .shadow-sm {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for cards */
+    }
+
+    .fs-4 {
+        font-size: 1.5rem; /* Larger font size for metrics */
+    }
+
+    .text-muted {
+        color: #6c757d; /* Muted text color */
+    }
+</style>
+{% endblock %}  

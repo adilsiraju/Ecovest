@@ -1,30 +1,34 @@
 from django.shortcuts import redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
-from initiatives.models import Initiative
-from decimal import Decimal  # Add this import
 from django.contrib import messages
-
+from initiatives.models import Initiative, InvestmentValue
+from decimal import Decimal
 
 @login_required
 def create_investment(request, pk):
+    """Handle creating a new investment."""
     initiative = get_object_or_404(Initiative, pk=pk)
     
     if request.method == 'POST':
-        amount = float(request.POST.get('amount', 0))
+        # Convert the amount to Decimal
+        try:
+            amount = Decimal(request.POST.get('amount', '0'))
+        except:
+            messages.error(request, 'Invalid investment amount. Please enter a valid number.')
+            return redirect('initiative-detail', pk=pk)
         
-        # Mock payment processing
-        if amount > 0:
-            initiative.amount_raised += amount
+        if amount <= 0:
+            messages.error(request, 'Invalid investment amount. Please enter a positive number.')
+        else:
+            initiative.amount_raised += amount  # Now both are Decimal
             initiative.save()
             request.user.investment_set.create(
                 initiative=initiative,
                 amount=amount
             )
-            # Check if funding goal is met
             initiative.check_funding_status()
-            messages.success(request, f'Successfully invested ${amount} in {initiative.title}.')
-        else:
-            messages.error(request, 'Invalid investment amount. Please enter a positive number.')
+            messages.success(request, f'Successfully invested ${amount:.2f} in {initiative.title}.')
+        
         return redirect('initiative-detail', pk=pk)
     
     return redirect('initiative-detail', pk=pk)
