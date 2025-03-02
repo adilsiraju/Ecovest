@@ -31,6 +31,12 @@ class Initiative(models.Model):
     def CATEGORY_CHOICES(self):
         return [(category.id, category.name) for category in Category.objects.all()]
     
+    @property
+    def percentage_funded(self):
+        if self.funding_goal == 0:
+            return 0
+        return (self.amount_raised / self.funding_goal) * 100
+    
     # Metrics
     carbon_saved = models.DecimalField(max_digits=12, decimal_places=5, default=0)
     energy_saved_generated = models.DecimalField(max_digits=12, decimal_places=4, default=0)

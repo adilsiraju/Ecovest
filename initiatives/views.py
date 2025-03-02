@@ -8,7 +8,8 @@ from .forms import ProgressUpdateForm
 def initiative_list(request):
     """Display a list of initiatives with search and filtering options."""
     initiatives = Initiative.objects.all()
-    categories = Category.objects.all()
+    categories = Category.objects.all()  # Get all categories
+
     # Search functionality
     query = request.GET.get('q')
     if query:
@@ -21,10 +22,11 @@ def initiative_list(request):
     if category_id:
         initiatives = initiatives.filter(category_id=category_id)
 
-    return render(request, 'initiatives/list.html', {
+    context = {
         'initiatives': initiatives,
-        'category_choices': categories,
-    })
+        'categories': categories,  # Pass categories to template
+    }
+    return render(request, 'initiatives/list.html', context)
 
 def initiative_detail(request, pk):
     """Display details of a specific initiative."""
