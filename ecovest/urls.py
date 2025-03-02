@@ -26,18 +26,35 @@ from . import views
 
 
 urlpatterns = [
+    # Django admin interface URL
     path('admin/', admin.site.urls),
     
-    path('', landing_page, name='landing'),  # Landing page as the home page
-    path('home/', initiative_views.initiative_list, name='home'),  # Move old home page to /home/
+    # Landing page - serves as the root/index page (www.example.com/)
+    path('', landing_page, name='landing'),
+    
+    # Initiative list page - shows all climate initiatives (www.example.com/home/)
+    path('projects/', initiative_views.initiative_list, name='projects'),
 
+    # Detailed view for a specific initiative using its ID (www.example.com/initiatives/1/)
     path('initiatives/<int:pk>/', initiative_views.initiative_detail, name='initiative-detail'),
+    
+    # Investment creation endpoint for a specific initiative (www.example.com/invest/1/)
     path('invest/<int:pk>/', investment_views.create_investment, name='invest'),
+    
+    # User dashboard showing investments and stats (www.example.com/dashboard/)
     path('dashboard/', user_views.dashboard, name='dashboard'),
     
+    # User registration page (www.example.com/register/)
     path('register/', user_views.register, name='register'),
-    path('accounts/', include('django.contrib.auth.urls')),  # Includes login/logout URLs
+    
+    # Django's built-in auth URLs (login, logout, password reset, etc.)
+    path('accounts/', include('django.contrib.auth.urls')),
+    
+    # User profile update page (www.example.com/profile/update/)
     path('profile/update/', user_views.profile_update, name='profile_update'),
     
+    # Include all URLs from the initiatives app
     path('initiatives/', include('initiatives.urls')),
+    
+    # Serves media files (user uploads) during development
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
