@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 {% load static %}
-
 {% load bootstrap5 %}
-
 {% load humanize %}  <!-- Add this line at the top -->
 
 {% block content %}
 <div class="container">
     <div class="card mt-4">
+        <!-- Initiative Image -->
         {% if initiative.image %}
-            <img src="{{ initiative.image.url }}" class="card-img-top" alt="{{ initiative.title }}">
+            <img src="{{ initiative.image.url }}" class="card-img-top initiative-image" alt="{{ initiative.title }}">
         {% else %}
-            <img src="{% static 'images/categories/' %}{{ initiative.get_category_display|lower|cut:' ' }}.jpg" class="card-img-top" alt="{{ initiative.title }}">
+            <img src="{% static 'images/categories/' %}{{ initiative.get_category_display|lower|cut:' ' }}.jpg" class="card-img-top initiative-image" alt="{{ initiative.title }}">
         {% endif %}
+        
         <div class="card-body">
             <h1 class="card-title">{{ initiative.title }}</h1>
             <p class="card-text">{{ initiative.description }}</p>
@@ -66,4 +66,31 @@
     </div>
 </div>
 
+<style>
+    /* Custom CSS for the initiative image */
+    .initiative-image {
+        max-height: 300px; /* Adjust the height as needed */
+        width: 100%; /* Ensure the image is responsive */
+        object-fit: cover; /* Maintain aspect ratio and cover the space */
+        border-radius: 10px 10px 0 0; /* Match the card's border radius */
+    }
+
+    .card {
+        border-radius: 10px; /* Ensure the card has rounded corners */
+        overflow: hidden; /* Ensure the image doesn't overflow */
+    }
+
+    .card-body {
+        padding: 20px; /* Add padding for better spacing */
+    }
+
+    .list-group-item {
+        margin-bottom: 10px; /* Add spacing between progress updates */
+        border-radius: 8px; /* Rounded corners for list items */
+    }
+
+    .btn-primary, .btn-success {
+        margin-top: 10px; /* Add spacing above buttons */
+    }
+</style>
 {% endblock %}

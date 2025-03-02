@@ -11,11 +11,13 @@
     <style>
         /* Custom Styles */
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Open Sans', sans-serif;
+            background-color: #f0f4f8;
+            color: #2d3a4a;
         }
 
         .navbar {
-            background-color: #2c3e50 !important;
+            background-color: #2d6a4f !important; /* Dark green */
         }
 
         .navbar-brand, .navbar-nav .nav-link {
@@ -23,18 +25,18 @@
         }
 
         .navbar-nav .nav-link:hover {
-            color: #1abc9c !important;
+            color: #a5d6a7 !important; /* Light green */
         }
 
         .footer {
-            background-color: #2c3e50;
+            background-color: #2d6a4f; /* Dark green */
             color: white;
             padding: 2rem 0;
             margin-top: auto;
         }
 
         .footer a {
-            color: #1abc9c;
+            color: #a5d6a7; /* Light green */
             text-decoration: none;
         }
 
@@ -45,27 +47,80 @@
         .card {
             border: none;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            background-color: white;
+            border-radius: 10px;
         }
 
         .btn-primary {
-            background-color: #1abc9c;
+            background-color: #4caf50; /* Medium green */
             border: none;
         }
 
         .btn-primary:hover {
-            background-color: #16a085;
+            background-color: #388e3c; /* Darker green */
         }
 
         .btn-success {
-            background-color: #27ae60;
+            background-color: #81c784; /* Light green */
             border: none;
         }
 
         .btn-success:hover {
-            background-color: #219150;
+            background-color: #66bb6a; /* Slightly darker green */
+        }
+
+        .alert {
+            border-radius: 8px;
+        }
+
+        .alert-success {
+            background-color: #d4edda;
+            border-color: #c3e6cb;
+            color: #155724;
+        }
+
+        .alert-info {
+            background-color: #d1ecf1;
+            border-color: #bee5eb;
+            color: #0c5460;
+        }
+
+        .alert-warning {
+            background-color: #fff3cd;
+            border-color: #ffeeba;
+            color: #856404;
+        }
+
+        .alert-danger {
+            background-color: #f8d7da;
+            border-color: #f5c6cb;
+            color: #721c24;
+        }
+
+        /* Add some breathing space */
+        .container {
+            padding: 20px;
+        }
+
+        .navbar, .footer {
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Add a subtle background pattern for a natural feel */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: url('https://www.transparenttextures.com/patterns/soft-wallpaper.png');
+            opacity: 0.1;
+            z-index: -1;
         }
     </style>
-    
+    <!-- Add Google Fonts for a modern, eco-friendly feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600&family=Merriweather:wght@300;400&display=swap" rel="stylesheet">
 </head>
 <body class="d-flex flex-column min-vh-100">
     <!-- Navigation Bar -->
@@ -79,7 +134,7 @@
                 <ul class="navbar-nav me-auto">
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'home' %}">Initiatives</a>
+                            <a class="nav-link" href="{% url 'home' %}">Projects</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'dashboard' %}">Dashboard</a>
@@ -130,13 +185,12 @@
     <!-- Footer -->
     <footer class="footer text-center">
         <div class="container">
-            <p class="mb-0">© 2023 Ecovest. All rights reserved.</p>
+            <p class="mb-0">© 2025 Ecovest. All rights reserved.</p>
             <p class="mb-0">
                 <a href="#" class="me-3">Privacy Policy</a>
                 <a href="#">Terms of Service</a>
             </p>
         </div>
     </footer>
-
 </body>
 </html>
