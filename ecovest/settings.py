@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'initiatives.apps.InitiativesConfig',
     'investments.apps.InvestmentsConfig',
     'bootstrap5',
+    
 ]
 
 AUTH_USER_MODEL = 'users.CustomUser'

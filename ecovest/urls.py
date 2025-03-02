@@ -28,15 +28,16 @@ from . import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    path('', views.landing_page, name='landing'),
     path('', landing_page, name='landing'),  # Landing page as the home page
     path('home/', initiative_views.initiative_list, name='home'),  # Move old home page to /home/
 
     path('initiatives/<int:pk>/', initiative_views.initiative_detail, name='initiative-detail'),
     path('invest/<int:pk>/', investment_views.create_investment, name='invest'),
     path('dashboard/', user_views.dashboard, name='dashboard'),
+    
     path('register/', user_views.register, name='register'),
     path('accounts/', include('django.contrib.auth.urls')),  # Includes login/logout URLs
     path('profile/update/', user_views.profile_update, name='profile_update'),
+    
     path('initiatives/', include('initiatives.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
