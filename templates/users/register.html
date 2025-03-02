@@ -5,10 +5,10 @@
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card mt-5">
+            <div class="card mt-5 shadow-sm">
                 <div class="card-body">
-                    <h1 class="card-title text-center">Join Ecovest</h1>
-                    <p class="card-text text-center">Create an account to start investing in a sustainable future.</p>
+                    <h1 class="card-title text-center mb-4">Join Ecovest</h1>
+                    <p class="card-text text-center text-muted">Create an account to start investing in a sustainable future.</p>
                     <form method="post" class="mt-4" enctype="multipart/form-data">
                         {% csrf_token %}
                         {% bootstrap_form form %}
@@ -16,10 +16,62 @@
                             <button type="submit" class="btn btn-primary">Sign Up</button>
                         </div>
                     </form>
-                    <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+                    <p class="text-center mt-3">Already have an account? <a href="{% url 'login' %}" class="text-decoration-none text-dark">Log in</a></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* Custom CSS for the registration page */
+    .card {
+        border: none; /* Remove default border */
+        border-radius: 10px; /* Rounded corners */
+        background-color: white; /* Ensure white background */
+    }
+
+    .card-title {
+        color: #2d6a4f; /* Dark green for the title */
+        font-size: 2rem; /* Larger font size */
+        font-weight: 600; /* Bold font weight */
+    }
+
+    .btn-primary {
+        background-color: #4caf50; /* Medium green */
+        border: none;
+        padding: 10px; /* Add padding for better button size */
+        font-size: 1rem; /* Consistent font size */
+    }
+
+    .btn-primary:hover {
+        background-color: #388e3c; /* Darker green on hover */
+    }
+
+    .form-control {
+        border-radius: 8px; /* Rounded corners for form inputs */
+        border: 1px solid #ced4da; /* Light border for inputs */
+    }
+
+    .form-control:focus {
+        border-color: #4caf50; /* Green border on focus */
+        box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25); /* Green glow on focus */
+    }
+
+    a {
+        color: #2d6a4f; /* Dark green for links */
+    }
+
+    a:hover {
+        color: #1abc9c; /* Light green on hover */
+    }
+
+    .shadow-sm {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for the card */
+    }
+
+    .text-muted {
+        color: #6c757d; /* Muted text color for the subtitle */
+    }
+</style>
 {% endblock %}

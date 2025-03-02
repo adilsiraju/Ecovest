@@ -1,14 +1,23 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
-
+{% load static %}
 
 {% block content %}
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-6">
-            <div class="card mt-5">
+            <div class="card mt-5 shadow-sm">
                 <div class="card-body">
-                    <h1 class="card-title text-center">Update Your Profile</h1>
+                    <!-- Profile Image Section -->
+                    <div class="text-center mb-4">
+                        {% if user.profile_image %}
+                            <img src="{{ user.profile_image.url }}" alt="Profile Image" class="profile-image rounded-circle">
+                        {% else %}
+                            <img src="{% static 'images/default-profile.png' %}" alt="Default Profile Image" class="profile-image rounded-circle">
+                        {% endif %}
+                    </div>
+
+                    <h1 class="card-title text-center mb-4">Update Your Profile</h1>
                     <form method="post" enctype="multipart/form-data" class="mt-4">
                         {% csrf_token %}
                         {% bootstrap_form form %}
@@ -16,10 +25,66 @@
                             <button type="submit" class="btn btn-primary">Save Changes</button>
                         </div>
                     </form>
-                    <p class="text-center mt-3"><a href="{% url 'dashboard' %}">Back to Dashboard</a></p>
+                    <p class="text-center mt-3"><a href="{% url 'dashboard' %}" class="text-decoration-none text-dark">Back to Dashboard</a></p>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    /* Custom CSS for the profile update page */
+    .card {
+        border: none; /* Remove default border */
+        border-radius: 10px; /* Rounded corners */
+        background-color: white; /* Ensure white background */
+    }
+
+    .card-title {
+        color: #2d6a4f; /* Dark green for the title */
+        font-size: 2rem; /* Larger font size */
+        font-weight: 600; /* Bold font weight */
+    }
+
+    .btn-primary {
+        background-color: #4caf50; /* Medium green */
+        border: none;
+        padding: 10px; /* Add padding for better button size */
+        font-size: 1rem; /* Consistent font size */
+    }
+
+    .btn-primary:hover {
+        background-color: #388e3c; /* Darker green on hover */
+    }
+
+    .form-control {
+        border-radius: 8px; /* Rounded corners for form inputs */
+        border: 1px solid #ced4da; /* Light border for inputs */
+    }
+
+    .form-control:focus {
+        border-color: #4caf50; /* Green border on focus */
+        box-shadow: 0 0 0 0.2rem rgba(76, 175, 80, 0.25); /* Green glow on focus */
+    }
+
+    a {
+        color: #2d6a4f; /* Dark green for links */
+    }
+
+    a:hover {
+        color: #1abc9c; /* Light green on hover */
+    }
+
+    .shadow-sm {
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Soft shadow for the card */
+    }
+
+    /* Profile Image Styling */
+    .profile-image {
+        width: 120px; /* Set a fixed width */
+        height: 120px; /* Set a fixed height */
+        object-fit: cover; /* Ensure the image covers the space */
+        border: 3px solid #4caf50; /* Green border around the image */
+    }
+</style>
 {% endblock %}

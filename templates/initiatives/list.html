@@ -1,13 +1,11 @@
 {% extends 'base.html' %}
 {% load bootstrap5 %}
 {% load static %}
-
 {% load humanize %}  <!-- Add this line at the top -->
-
 
 {% block content %}
 <div class="container">
-    <h1 class="mt-4">Climate Initiatives</h1>
+    <h1 class="mt-2 mb-4">Climate Initiatives</h1>
 
     <!-- Search and Filters -->
     <form method="get" action="{% url 'home' %}" class="mb-4">
@@ -33,18 +31,21 @@
     <div class="row">
         {% for initiative in initiatives %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100">
+            <div class="card h-100 shadow-sm">
+                <!-- Initiative Image -->
                 {% if initiative.image %}
-                    <img src="{{ initiative.image.url }}" class="card-img-top" alt="{{ initiative.title }}">
+                    <img src="{{ initiative.image.url }}" class="card-img-top initiative-image" alt="{{ initiative.title }}">
                 {% else %}
-                    <img src="{% static 'images/categories/' %}{{ initiative.get_category_display|lower|cut:' ' }}.jpg" class="card-img-top" alt="{{ initiative.title }}">
+                    <img src="{% static 'images/categories/' %}{{ initiative.get_category_display|lower|cut:' ' }}.jpg" class="card-img-top initiative-image" alt="{{ initiative.title }}">
                 {% endif %}
                 <div class="card-body">
-                    <h2 class="card-title"><a href="{% url 'initiative-detail' initiative.pk %}">{{ initiative.title }}</a></h2>
+                    <h2 class="card-title"><a href="{% url 'initiative-detail' initiative.pk %}" class="text-decoration-none text-dark">{{ initiative.title }}</a></h2>
                     <p class="card-text">{{ initiative.description|truncatewords:30 }}</p>
-                    <p><strong>Status:</strong> {{ initiative.get_status_display }}</p>
-                    <p><strong>Category:</strong> {{ initiative.get_category_display }}</p>
-                    <p><strong>Funding Progress:</strong> ${{ initiative.amount_raised|floatformat:2|intcomma }} / ${{ initiative.funding_goal|floatformat:2|intcomma }}</p>
+                    <ul class="list-unstyled">
+                        <li><strong>Status:</strong> {{ initiative.get_status_display }}</li>
+                        <li><strong>Category:</strong> {{ initiative.get_category_display }}</li>
+                        <li><strong>Funding Progress:</strong> ${{ initiative.amount_raised|floatformat:2|intcomma }} / ${{ initiative.funding_goal|floatformat:2|intcomma }}</li>
+                    </ul>
                 </div>
             </div>
         </div>
@@ -52,4 +53,50 @@
     </div>
 </div>
 
+<style>
+    /* Custom CSS for the initiative list */
+    .initiative-image {
+        max-height: 200px; /* Adjust the height as needed */
+        width: 100%; /* Ensure the image is responsive */
+        object-fit: cover; /* Maintain aspect ratio and cover the space */
+        border-radius: 10px 10px 0 0; /* Match the card's border radius */
+    }
+
+    .card {
+        border: none; /* Remove default border */
+        border-radius: 10px; /* Rounded corners */
+        transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+    }
+
+    .card:hover {
+        transform: translateY(-5px); /* Slight lift on hover */
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15); /* Enhanced shadow on hover */
+    }
+
+    .card-body {
+        padding: 20px; /* Add padding for better spacing */
+    }
+
+    .card-title a {
+        color: #2d6a4f; /* Dark green for titles */
+        text-decoration: none; /* Remove underline */
+    }
+
+    .card-title a:hover {
+        color: #1abc9c; /* Light green on hover */
+    }
+
+    .list-unstyled li {
+        margin-bottom: 8px; /* Add spacing between list items */
+    }
+
+    .btn-primary {
+        background-color: #4caf50; /* Medium green */
+        border: none;
+    }
+
+    .btn-primary:hover {
+        background-color: #388e3c; /* Darker green */
+    }
+</style>
 {% endblock %}
