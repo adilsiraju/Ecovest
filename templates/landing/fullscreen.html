@@ -10,6 +10,52 @@
     {% bootstrap_javascript %}
     {% block extra_css %}{% endblock %}
     <style>
+        /* Keyframe Animations */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.05);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes rotateIn {
+            from {
+                opacity: 0;
+                transform: rotate(-180deg) scale(0.5);
+            }
+            to {
+                opacity: 1;
+                transform: rotate(0) scale(1);
+            }
+        }
+
         /* Full-Screen Hero Section */
         .hero-section {
             position: relative;
@@ -20,10 +66,11 @@
             background: url('{% static 'images/landing-hero.png' %}') no-repeat center center/cover;
             color: white;
             text-align: center;
+            overflow: hidden;
         }
 
         .hero-section .overlay {
-            background-color: rgba(0, 0, 0, 0.5); /* Dark overlay for better text visibility */
+            background-color: rgba(0, 0, 0, 0.5);
             position: absolute;
             top: 0;
             left: 0;
@@ -35,41 +82,96 @@
         .hero-section .container {
             position: relative;
             z-index: 1;
+            opacity: 0;
+            animation: fadeInUp 1s forwards;
+            animation-delay: 0.5s;
         }
 
         .hero-section h1 {
             font-size: 4rem;
             font-weight: bold;
             margin-bottom: 1.5rem;
+            animation: fadeInUp 1s forwards;
         }
 
         .hero-section p {
             font-size: 1.5rem;
             margin-bottom: 2rem;
+            animation: fadeInUp 1s forwards;
+            animation-delay: 0.3s;
         }
 
         .hero-section .btn {
             font-size: 1.25rem;
             padding: 0.75rem 2rem;
+            animation: pulse 2s infinite;
+            transition: all 0.3s ease;
+        }
+
+        .hero-section .btn:hover {
+            transform: scale(1.05);
         }
 
         /* Features Section */
         .features-section {
             padding: 4rem 0;
+            overflow: hidden;
+        }
+
+        .features-section .col-md-4 {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 1s ease;
         }
 
         .features-section img {
-            transition: transform 0.3s ease;
+            transition: all 0.5s ease;
+            opacity: 0.8;
         }
 
         .features-section img:hover {
             transform: scale(1.1);
+            opacity: 1;
         }
 
         /* Call-to-Action Section */
         .cta-section {
             background-color: #f8f9fa;
             padding: 4rem 0;
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        /* Scroll Animation Classes */
+        .animate-on-scroll {
+            opacity: 50;
+            transform: translateY(30px);
+            transition: all 1s ease;
+        }
+
+        .animate-on-scroll.is-visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        footer {
+            background-color: #212529 !important;
+            color: white;
+            opacity: 5;
+            transform: translateY(50px);
+            transition: all 1s ease;
+        }
+
+        footer a {
+            color: #6c757d;
+            transition: color 0.3s ease;
+        }
+
+        footer a:hover {
+            color: white;
+            text-decoration: none;
         }
     </style>
 </head>
@@ -88,17 +190,17 @@
     <div class="features-section">
         <div class="container">
             <div class="row text-center">
-                <div class="col-md-4">
+                <div class="col-md-4 animate-on-scroll">
                     <img src="{% static 'images/icon-tree.png' %}" alt="Tree Icon" class="mb-3" width="100">
                     <h3>Reduce Carbon Emissions</h3>
                     <p>Support projects that reduce CO₂ emissions and combat climate change.</p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 animate-on-scroll">
                     <img src="{% static 'images/icon-solar.png' %}" alt="Solar Icon" class="mb-3" width="100">
                     <h3>Generate Clean Energy</h3>
                     <p>Invest in renewable energy projects like solar and wind farms.</p>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-4 animate-on-scroll">
                     <img src="{% static 'images/icon-water.png' %}" alt="Water Icon" class="mb-3" width="100">
                     <h3>Conserve Water</h3>
                     <p>Support initiatives that save water and protect our planet's most precious resource.</p>
@@ -108,7 +210,7 @@
     </div>
 
     <!-- Call-to-Action Section -->
-    <div class="cta-section text-center">
+    <div class="cta-section text-center animate-on-scroll">
         <div class="container">
             <h2>Ready to Make a Difference?</h2>
             <p class="lead">Join Ecovest today and start investing in a greener future.</p>
@@ -117,7 +219,7 @@
     </div>
 
     <!-- Footer -->
-    <footer class="bg-dark text-white text-center py-4">
+    <footer class="bg-dark text-white text-center py-4 animate-on-scroll">
         <div class="container">
             <p class="mb-0">© 2025 Ecovest. All rights reserved.</p>
             <p class="mb-0">
@@ -127,5 +229,28 @@
         </div>
     </footer>
 
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Scroll Animation Function
+            function checkScroll() {
+                const animateElements = document.querySelectorAll('.animate-on-scroll');
+                
+                animateElements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const viewportHeight = window.innerHeight;
+                    
+                    if (elementPosition < viewportHeight * 0.75) {
+                        element.classList.add('is-visible');
+                    }
+                });
+            }
+
+            // Initial check
+            checkScroll();
+
+            // Add scroll event listener
+            window.addEventListener('scroll', checkScroll);
+        });
+    </script>
 </body>
 </html>

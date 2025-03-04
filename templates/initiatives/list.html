@@ -34,38 +34,41 @@
     <div class="row">
         {% for initiative in initiatives %}
         <div class="col-md-4 mb-4">
-            <div class="card h-100 shadow-sm">
-                <!-- Initiative Image -->
-                {% if initiative.image %}
-                    <img src="{{ initiative.image.url }}" class="card-img-top initiative-image" alt="{{ initiative.title }}">
-                {% else %}
-                    <img src="{% static 'images/categories/' %}{{ initiative.category.name|lower|cut:' ' }}.jpg" class="card-img-top initiative-image" alt="{{ initiative.title }}">
-                {% endif %}
-                <div class="card-body">
-                    <h2 class="card-title">
-                        <a href="{% url 'initiative-detail' initiative.pk %}" class="text-decoration-none text-dark">
-                            {{ initiative.title }}
-                        </a></h2>
-                    <p class="card-text">{{ initiative.description|truncatewords:30 }}</p>
-                    <ul class="list-unstyled">
-                        <li><strong>Status:</strong> {{ initiative.get_status_display }}</li>
-                        <li><strong>Category:</strong> {{ initiative.category.name }}</li>
-                        <li>
-                            <strong>Funding Progress:</strong>
-                            <div class="progress mt-2">
-                                <div class="progress-bar bg-success" role="progressbar" 
-                                     style="width: {{ initiative.percentage_funded }}%;" 
-                                     aria-valuenow="{{ initiative.percentage_funded }}" 
-                                     aria-valuemin="0" 
-                                     aria-valuemax="100">
-                                    {{ initiative.percentage_funded|floatformat:0 }}%
+            <a href="{% url 'initiative-detail' initiative.pk %}" class="text-decoration-none text-dark">
+                <div class="card h-100 shadow-sm">
+                    <!-- Initiative Image -->
+                    {% if initiative.image %}
+                        <img src="{{ initiative.image.url }}" class="card-img-top initiative-image" alt="{{ initiative.title }}">
+                    {% else %}
+                        <img src="{% static 'images/categories/' %}{{ initiative.category.name|lower|cut:' ' }}.jpg" class="card-img-top initiative-image" alt="{{ initiative.title }}">
+                    {% endif %}
+                    <div class="card-body">
+                        <h2 class="card-title">
+                            <!-- <a href="{% url 'initiative-detail' initiative.pk %}" class="text-decoration-none text-dark"> -->
+                                {{ initiative.title }}
+                            <!-- </a> -->
+                        </h2>
+                        <p class="card-text">{{ initiative.description|truncatewords:30 }}</p>
+                        <ul class="list-unstyled">
+                            <li><strong>Status:</strong> {{ initiative.get_status_display }}</li>
+                            <li><strong>Category:</strong> {{ initiative.category.name }}</li>
+                            <li>
+                                <strong>Funding Progress:</strong>
+                                <div class="progress mt-2">
+                                    <div class="progress-bar bg-success" role="progressbar" 
+                                        style="width: {{ initiative.percentage_funded }}%;" 
+                                        aria-valuenow="{{ initiative.percentage_funded }}" 
+                                        aria-valuemin="0" 
+                                        aria-valuemax="100">
+                                        {{ initiative.percentage_funded|floatformat:0 }}%
+                                    </div>
                                 </div>
-                            </div>
-                            <small class="text-muted">${{ initiative.amount_raised|floatformat:2|intcomma }} / ${{ initiative.funding_goal|floatformat:2|intcomma }}</small>
-                        </li>
-                    </ul>
+                                <small class="text-muted">${{ initiative.amount_raised|floatformat:2|intcomma }} / ${{ initiative.funding_goal|floatformat:2|intcomma }}</small>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
-            </div>
+            </a>
         </div>
         {% endfor %}
     </div>
