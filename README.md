@@ -14,6 +14,47 @@ Mission
     
 ![image](https://github.com/user-attachments/assets/6b024469-906f-40a9-bb57-3224ecceb921)
 
+Installation
+-----------
+
+Follow these steps to set up the Ecovest project locally:
+
+1. **Clone the repository**
+   ```
+   git clone https://github.com/adilsiraju/Ecovest
+   cd Ecovest
+   ```
+
+2. **Create a virtual environment**
+   ```
+   python -m venv venv
+   .\venv\Scripts\activate
+   ```
+
+3. **Install dependencies**
+   ```
+   pip install -r requirements.txt
+   ```
+
+4. **Run database migrations**
+   ```
+   python manage.py migrate
+   ```
+
+5. **Create a superuser (admin)**
+   ```
+   python manage.py createsuperuser
+   ```
+
+6. **Run the development server**
+   ```
+   python manage.py runserver
+   ```
+
+7. **Access the application**
+   - Open your browser and navigate to http://127.0.0.1:8000/
+   - Admin interface: http://127.0.0.1:8000/admin/
+
 Investment Options
 ------------------
 
