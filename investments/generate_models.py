@@ -91,20 +91,18 @@ class ModelGenerator:
         X = []
         y_carbon = []
         y_energy = []
-        y_water = []
-
-        # Base impact values per ₹1,000 (aligned with original dataset)
+        y_water = []        # Base impact values per ₹1,000 (realistic values based on environmental research)
         base_impacts = {
-            'Renewable Energy': {'carbon': 750, 'energy': 1000, 'water': 50},
-            'Recycling': {'carbon': 300, 'energy': 100, 'water': 200},
-            'Emission Control': {'carbon': 900, 'energy': 150, 'water': 300},
-            'Water Conservation': {'carbon': 100, 'energy': 30, 'water': 3000},
-            'Reforestation': {'carbon': 950, 'energy': 0, 'water': 500},
-            'Sustainable Agriculture': {'carbon': 400, 'energy': 50, 'water': 800},
-            'Clean Transportation': {'carbon': 800, 'energy': 750, 'water': 20},
-            'Waste Management': {'carbon': 500, 'energy': 400, 'water': 150},
-            'Green Technology': {'carbon': 400, 'energy': 350, 'water': 250},
-            'Ocean Conservation': {'carbon': 250, 'energy': 50, 'water': 2500}
+            'Renewable Energy': {'carbon': 80, 'energy': 100, 'water': 5},
+            'Recycling': {'carbon': 30, 'energy': 25, 'water': 20},
+            'Emission Control': {'carbon': 60, 'energy': 15, 'water': 10},
+            'Water Conservation': {'carbon': 10, 'energy': 5, 'water': 200},
+            'Reforestation': {'carbon': 50, 'energy': 0, 'water': 30},
+            'Sustainable Agriculture': {'carbon': 35, 'energy': 5, 'water': 45},
+            'Clean Transportation': {'carbon': 40, 'energy': 70, 'water': 2},
+            'Waste Management': {'carbon': 25, 'energy': 30, 'water': 15},
+            'Green Technology': {'carbon': 20, 'energy': 40, 'water': 12},
+            'Ocean Conservation': {'carbon': 15, 'energy': 0, 'water': 100}
         }
 
         # Generate dataset
@@ -157,20 +155,34 @@ class ModelGenerator:
                 impact_multiplier = investment / 1000  # per ₹1,000
                 duration_factor = duration / 12  # normalized to 1 year
                 scale_factor = scale
-                
-                # Apply location-specific adjustments
+                  # Apply location-specific adjustments
                 location_factor = 1.0
+                # Check for geographically appropriate adjustments
                 if location in ['Rajasthan', 'Gujarat'] and category == 'Renewable Energy':
                     location_factor = 1.3  # More sun for solar energy
+                elif location in ['Karnataka', 'Maharashtra', 'Gujarat'] and tech == 'Wind':
+                    location_factor = 1.2  # Good for wind energy
                 elif location in ['Assam', 'Kerala', 'Meghalaya'] and category == 'Water Conservation':
-                    location_factor = 0.8  # Less need for water conservation
+                    location_factor = 1.2  # High rainfall areas benefit from water harvesting
+                elif location in ['Tamil Nadu', 'Kerala', 'West Bengal', 'Odisha', 'Andhra Pradesh', 'Gujarat', 'Maharashtra'] and category == 'Ocean Conservation':
+                    location_factor = 1.5  # Coastal states benefit more from ocean conservation
+                elif location in ['Rajasthan'] and category == 'Ocean Conservation':
+                    location_factor = 0.0  # Rajasthan is landlocked, no ocean impact
+                elif location in ['Uttarakhand', 'Himachal Pradesh', 'Sikkim'] and category == 'Reforestation':
+                    location_factor = 1.4  # Hill states benefit more from reforestation
                 
-                # Apply technology-specific adjustments
+                # Apply seasonal and geographic constraints
+                if location in ['Rajasthan', 'Gujarat', 'Madhya Pradesh'] and category == 'Water Conservation':
+                    location_factor = 1.3  # Drought-prone regions benefit more
+                  # Apply technology-specific adjustments
                 tech_factor = 1.0
                 if tech == 'AI' and category == 'Green Technology':
                     tech_factor = 1.2  # AI is more efficient
                 elif tech == 'Solar' and category == 'Renewable Energy':
                     tech_factor = 1.1  # Solar is efficient
+                elif tech == 'EV' and category == 'Clean Transportation':
+                    tech_factor = 1.3  # EVs have higher carbon reduction
+                elif tech == 'Hydro' and category == 'Renewable Energy':                tech_factor = 1.25  # Hydro has higher energy output
                 
                 # Calculate final impact values with some randomness
                 carbon = base_impacts[category]['carbon'] * impact_multiplier * duration_factor * scale_factor * location_factor * tech_factor
@@ -183,11 +195,43 @@ class ModelGenerator:
                 water *= 1.0 + (np.random.random() - 0.5) * 0.2
                 
                 # Special cases
-                if category in ['Sustainable Agriculture', 'Ocean Conservation']:
+                if category in ['Sustainable Agriculture']:
+                    # Sustainable Agriculture doesn't save energy directly
                     energy = 0
+                    
+                    # Cap Sustainable Agriculture impacts to realistic ranges
+                    if carbon > 5000:  # Cap at 5 tons of CO2 per ₹1M
+                        carbon = 5000
+                    if water > 5000:  # Cap at 5000L of water per ₹1M
+                        water = 5000
+                        
+                # Cap Emission Control to realistic ranges
+                if category == 'Emission Control':
+                    if carbon > 2000:  # Cap at 2 tons of CO2 per ₹1M
+                        carbon = 2000
                 
+                # Ocean Conservation no energy savings and location constraints
+                if category == 'Ocean Conservation':
+                    energy = 0
+                    # No ocean conservation impact in landlocked states
+                    if location in ['Rajasthan', 'Madhya Pradesh', 'Chhattisgarh', 'Haryana', 
+                                    'Delhi', 'Uttar Pradesh', 'Bihar', 'Jharkhand']:
+                        carbon = carbon * 0.1  # Minimal impact
+                        water = water * 0.1
+                        
+                # Reforestation water impact capping
+                if category == 'Reforestation':
+                    if water > 3000:
+                        water = 3000
+                        
+                # Water Conservation impact capping
+                if category == 'Water Conservation':
+                    if water > 4000:
+                        water = 4000
+                
+                # Green Technology AI special case
                 if category == 'Green Technology' and tech == 'AI':
-                    water = 0
+                    water = water * 0.3  # AI uses some water for cooling
                 
                 X.append(feature_vector)
                 y_carbon.append(max(0, carbon))
