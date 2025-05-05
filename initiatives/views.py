@@ -47,7 +47,7 @@ def initiative_list(request):
         total_carbon += initiative.impact_for_1000.get('carbon', 0)
     
     # Pagination
-    paginator = Paginator(initiatives, 9)
+    paginator = Paginator(initiatives, 8)
     page = request.GET.get('page')
     initiatives = paginator.get_page(page)
     
