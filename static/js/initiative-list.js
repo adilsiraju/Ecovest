@@ -86,38 +86,29 @@ document.addEventListener('DOMContentLoaded', function() {
             document.getElementById('quickViewCurrentAmount').textContent = currentAmount;
             document.getElementById('quickViewGoalAmount').textContent = goalAmount;
             document.getElementById('quickViewProgressBar').style.width = progressPercent;
-            document.getElementById('quickViewProgressPercent').textContent = progressText;
-              // Get categories
-            const categories = [];
-            card.querySelectorAll('.category-badge').forEach(badge => {
-                categories.push(`<span class="badge ${badge.className.split(' ')[1]}">${badge.textContent}</span>`);
-            });
-            document.getElementById('quickViewCategories').innerHTML = categories.join(' ');
+            document.getElementById('quickViewProgressPercent').textContent = progressText;    viewToggles.forEach(toggle => {
+        toggle.addEventListener('click', function() {
+            // Update active state
+            viewToggles.forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
             
-            // Get metadata
-            const metadata = [];
-            
-            // Look for location in status tags instead of initiative-tag
-            const locationBadge = card.querySelector('.status-tags .badge.bg-secondary');
-            if (locationBadge) {
-                const location = locationBadge.textContent.trim();
-                metadata.push(`
-                    <div class="col-6 mb-2">
-                        <div class="text-muted small">Location</div>
-                        <div class="fw-bold">${location}</div>
-                    </div>
-                `);
+            // Change view with animation
+            const viewType = this.dataset.view;
+            if (viewType === 'compact') {
+                initiativesContainer.classList.add('compact-view');
+                localStorage.setItem('initiativeViewPreference', 'compact');
+            } else {
+                initiativesContainer.classList.remove('compact-view');
+                localStorage.setItem('initiativeViewPreference', 'grid');
             }
-            
-            const minInvestment = card.querySelector('.initiative-tag.investment').textContent.trim();
-            metadata.push(`
-                <div class="col-6 mb-2">
-                    <div class="text-muted small">Minimum Investment</div>
-                    <div class="fw-bold text-success">${minInvestment}</div>
-                </div>
-            `);
-            
-            document.getElementById('quickViewMetadata').innerHTML = metadata.join('');
+        });
+    });
+
+    // Initialize tooltips
+    const tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'));
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl);
+    });
             const detailsSection = card.querySelector('.initiative-details');
             if (detailsSection) {
                 const impactStats = detailsSection.querySelectorAll('.impact-stat');

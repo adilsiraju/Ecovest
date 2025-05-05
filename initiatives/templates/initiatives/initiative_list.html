@@ -1407,15 +1407,10 @@
                             </div>
                         </div>
                     </div>
-                    
-                    <div class="d-flex gap-2 mt-2">
-                        <a href="{% url 'initiative_detail' initiative.pk %}" class="btn-learn-more flex-grow-1">
+                      <div class="mt-2">
+                        <a href="{% url 'initiative_detail' initiative.pk %}" class="btn-learn-more w-100">
                             <i class="fas fa-external-link-alt me-2"></i> Learn More
                         </a>
-                        <button class="btn btn-outline-success quick-view-btn" data-initiative="{{ initiative.pk }}" 
-                                style="border-radius: 12px; padding: 0.85rem; width: 50px;">
-                            <i class="fas fa-eye"></i>
-                        </button>
                     </div>
                 </div>
             </div>        
@@ -1475,44 +1470,10 @@
             </div>
             <div class="modal-body">
                 <div class="row g-0">
-                    <div class="col-md-5">
-                        <img src="" alt="" class="modal-initiative-image" id="quickViewImage">
-                    </div>
-                    <div class="col-md-7">
-                        <div class="modal-initiative-content">
-                            <h3 id="quickViewTitle"></h3>
-                            <div id="quickViewCategories" class="mb-3"></div>
-                            <p id="quickViewDescription" class="mb-3"></p>
-                            
-                            <div class="mb-3">
-                                <div class="d-flex justify-content-between mb-2">
-                                    <span class="fw-bold text-success" id="quickViewCurrentAmount"></span>
-                                    <span class="text-muted" id="quickViewGoalAmount"></span>
-                                </div>
-                                <div class="progress mb-1">
-                                    <div class="progress-bar" id="quickViewProgressBar"></div>
-                                </div>
-                                <div class="d-flex justify-content-between text-muted small">
-                                    <span>Progress</span>
-                                    <span id="quickViewProgressPercent"></span>
-                                </div>
-                            </div>
-                            
-                            <div class="row mb-3" id="quickViewMetadata">
-                                <!-- Metadata will be inserted here -->
-                            </div>
-                            
-                            <div class="mb-3" id="quickViewImpact">
-                                <h6 class="fw-bold mb-2">Impact per ₹1,000</h6>
-                                <div class="row">
-                                    <!-- Impact data will be inserted here -->
-                                </div>
-                            </div>
-                            
-                            <a href="#" class="btn btn-success w-100" id="quickViewLearnMore">
-                                View Full Details
-                            </a>
-                        </div>
+                    <div class="col-md-12 text-center py-5">
+                        <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
+                        <h4>Quick preview has been disabled</h4>
+                        <p class="text-muted">Please use the Learn More button to view full initiative details</p>
                     </div>
                 </div>
             </div>
