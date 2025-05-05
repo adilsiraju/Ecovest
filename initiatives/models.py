@@ -134,3 +134,13 @@ class Initiative(models.Model):
 
     class Meta:
         ordering = ['-created_at']
+
+# Utility function to get landlocked states
+def get_landlocked_states():
+    """Return a list of landlocked Indian states that don't have coastlines"""
+    return [
+        'Rajasthan', 'Madhya Pradesh', 'Chhattisgarh', 'Haryana', 
+        'Delhi', 'Uttar Pradesh', 'Bihar', 'Jharkhand', 'Uttarakhand',
+        'Himachal Pradesh', 'Assam', 'Meghalaya', 'Nagaland', 'Manipur',
+        'Mizoram', 'Sikkim', 'Tripura', 'Arunachal Pradesh', 'Telangana'
+    ]
