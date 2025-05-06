@@ -165,5 +165,14 @@ def impact_preview(request, pk):
         print(f"Impact preview - error processing amount: {e}")
         amount = initiative.min_investment
     
+    # Get impact data with more precise calculations
     impact = Investment.calculate_impact_for_amount(initiative, amount)
-    return JsonResponse(impact)
+    
+    # Format the impact values with proper precision
+    formatted_impact = {
+        'carbon': round(float(impact.get('carbon', 0)), 1),
+        'energy': round(float(impact.get('energy', 0)), 1),
+        'water': round(float(impact.get('water', 0)), 1),
+    }
+    
+    return JsonResponse(formatted_impact)

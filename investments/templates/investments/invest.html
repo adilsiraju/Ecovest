@@ -197,13 +197,14 @@
                     {% csrf_token %}
                     <div class="mb-4">
                         <label for="amount" class="form-label">Investment Amount (₹)</label>
-                        <div class="input-group">
-                            <span class="input-group-text">₹</span>
+                        <div class="input-group">                            <span class="input-group-text">₹</span>
                             <input type="text" class="form-control form-control-lg" id="amount" name="amount" 
+                                   value="{{ min_investment }}"
                                    required {% if initiative.status == 'funded' %}disabled{% endif %}
                                    placeholder="Enter amount (minimum ₹{{ min_investment|intcomma }})">
                         </div>
                         <div class="form-text">Minimum investment: ₹{{ min_investment|intcomma }}{% if max_investment %}, Maximum: ₹{{ max_investment|intcomma }}{% endif %}</div>
+                        <div id="amount-error" class="text-danger mt-1" style="display: none;"></div>
                     </div>
 
                     <div class="impact-preview">
@@ -301,73 +302,138 @@
 
 {% block extra_js %}
 <script>
-// Function to fetch and update impact metrics
+// Function to format currency
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(amount).replace('₹', '');
+}
+
+// Function to fetch and update impact metrics with debounce
+let impactUpdateTimeout;
 function updateImpactMetrics(amount) {
-    fetch('/investments/impact-preview/{{ initiative.pk }}/?amount=' + amount, {
-        method: 'GET',
-        headers: {
-            'X-Requested-With': 'XMLHttpRequest'
-        }
-    })
-    .then(response => response.json())
-    .then(data => {
-        document.getElementById('carbonImpact').textContent = `${data.carbon.toFixed(1)} kg CO₂`;
-        document.getElementById('energyImpact').textContent = `${data.energy.toFixed(1)} kWh`;
-        document.getElementById('waterImpact').textContent = `${data.water.toFixed(1)} L`;
-    })
-    .catch(error => console.error('Error fetching impact:', error));
+    // Clear any pending timeout
+    clearTimeout(impactUpdateTimeout);
+    
+    // Don't update if amount is not valid
+    if (isNaN(amount) || amount <= 0) {
+        return;
+    }
+    
+    // Set a timeout to prevent too many API calls while typing
+    impactUpdateTimeout = setTimeout(() => {
+        fetch('/investments/impact-preview/{{ initiative.pk }}/?amount=' + amount, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('carbonImpact').textContent = `${data.carbon.toFixed(1)} kg CO₂`;
+            document.getElementById('energyImpact').textContent = `${data.energy.toFixed(1)} kWh`;
+            document.getElementById('waterImpact').textContent = `${data.water.toFixed(1)} L`;
+        })
+        .catch(error => console.error('Error fetching impact:', error));
+    }, 300); // Debounce for 300ms
+}
+
+// Validate amount and show errors
+function validateAmount(amount) {
+    const minInvestment = {{ min_investment }};
+    {% if max_investment %}
+    const maxInvestment = {{ max_investment }};
+    {% endif %}
+    const errorElement = document.getElementById('amount-error');
+    
+    if (amount < minInvestment) {
+        errorElement.textContent = `Minimum investment is ₹${formatCurrency(minInvestment)}`;
+        errorElement.style.display = 'block';
+        return false;
+    }
+    {% if max_investment %}
+    else if (amount > maxInvestment) {
+        errorElement.textContent = `Maximum investment is ₹${formatCurrency(maxInvestment)}`;
+        errorElement.style.display = 'block';
+        return false;
+    }
+    {% endif %}
+    else {
+        errorElement.style.display = 'none';
+        return true;
+    }
 }
 
 // Initialize summary with default amount (min_investment) and update impact metrics
 document.addEventListener('DOMContentLoaded', function() {
     const amountInput = document.getElementById('amount');
-    let amount = parseFloat(amountInput.value) || {{ min_investment }};
-    updateSummary(amount);
-    updateImpactMetrics(amount); // Update impact metrics on page load
-});
-
-document.getElementById('amount').addEventListener('input', function(e) {
-    const amount = parseFloat(e.target.value) || 0;
-    updateSummary(amount);
-    updateImpactMetrics(amount); // Update impact metrics when input changes
-});
-
-document.getElementById('investmentForm').addEventListener('submit', function(e) {
-    const amountInput = document.getElementById('amount').value;
-    // Clean input similar to server-side processing
-    const cleanedAmount = amountInput.replace(/[^\d.]/g, '');
     
-    if (!cleanedAmount) {
+    // Set initial values
+    let amount = parseFloat(amountInput.value.replace(/[^\d.]/g, '')) || {{ min_investment }};
+    updateSummary(amount);
+    updateImpactMetrics(amount);
+    
+    // Add input event listener to update in real-time
+    amountInput.addEventListener('input', function() {
+        // Clean the input and convert to number
+        const value = this.value.replace(/[^\d.]/g, '');
+        const amount = parseFloat(value) || 0;
+        
+        // Validate amount
+        validateAmount(amount);
+        
+        // Update summary and impact preview
+        updateSummary(amount);
+        updateImpactMetrics(amount);
+    });
+    
+    // Add blur event to format the input nicely
+    amountInput.addEventListener('blur', function() {
+        const amount = parseFloat(this.value.replace(/[^\d.]/g, '')) || 0;
+        if (amount > 0) {
+            this.value = formatCurrency(amount);
+        }
+    });
+    
+    // Add focus event to show raw number for editing
+    amountInput.addEventListener('focus', function() {
+        const value = parseFloat(this.value.replace(/[^\d.]/g, '')) || '';
+        this.value = value;
+    });
+});
+
+// Form submission validation
+document.getElementById('investmentForm').addEventListener('submit', function(e) {
+    const amountInput = document.getElementById('amount');
+    const cleanedAmount = amountInput.value.replace(/[^\d.]/g, '');
+    const amount = parseFloat(cleanedAmount) || 0;
+    
+    if (!validateAmount(amount)) {
         e.preventDefault();
-        alert('Please enter an investment amount');
         return;
     }
     
-    const amount = parseFloat(cleanedAmount);
-    const minInvestment = {{ min_investment }};
-    {% if max_investment %}
-    const maxInvestment = {{ max_investment }};
-    {% endif %}
-    
-    if (isNaN(amount) || amount < minInvestment) {
+    if (amount <= 0) {
         e.preventDefault();
-        alert('Minimum investment amount is ₹{{ min_investment|intcomma }}');
+        document.getElementById('amount-error').textContent = 'Please enter a valid investment amount';
+        document.getElementById('amount-error').style.display = 'block';
     }
-    {% if max_investment %}
-    else if (amount > maxInvestment) {
-        e.preventDefault();
-        alert('Maximum investment amount is ₹{{ max_investment|intcomma }}');
-    }
-    {% endif %}
 });
 
 function updateSummary(amount) {
+    if (isNaN(amount) || amount <= 0) {
+        amount = 0;
+    }
+
     const fee = amount * 0.02;
     const total = amount + fee;
     
-    document.getElementById('summaryAmount').textContent = `₹${amount.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-    document.getElementById('summaryFee').textContent = `₹${fee.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
-    document.getElementById('summaryTotal').textContent = `₹${total.toLocaleString('en-IN', {minimumFractionDigits: 2, maximumFractionDigits: 2})}`;
+    document.getElementById('summaryAmount').textContent = `₹${formatCurrency(amount)}`;
+    document.getElementById('summaryFee').textContent = `₹${formatCurrency(fee)}`;
+    document.getElementById('summaryTotal').textContent = `₹${formatCurrency(total)}`;
 }
 </script>
 {% endblock %}
