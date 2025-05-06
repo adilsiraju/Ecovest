@@ -1,0 +1,182 @@
+/* Compact view with improved layout - full row layout */
+.compact-view .initiative-item {
+    width: 100%;
+    max-width: 100%;
+    flex: 0 0 100%;
+    margin-bottom: 0.75rem;
+}
+
+.compact-view .initiative-card {
+    flex-direction: row;
+    height: auto;
+    max-height: 120px;
+    overflow: hidden;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+    transition: all 0.3s ease;
+}
+
+.compact-view .initiative-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+}
+
+/* Ensure interactive elements within the card are clickable */
+.compact-view .details-toggle,
+.compact-view .btn-learn-more {
+    position: relative;
+    z-index: 5;
+}
+
+.compact-view .initiative-image-wrapper {
+    width: 15%;
+    min-width: 120px;
+    height: 120px;
+    overflow: hidden;
+}
+
+.compact-view .initiative-image {
+    height: 100%;
+    object-position: center;
+    object-fit: cover;
+}
+
+.compact-view .initiative-content {
+    width: 85%;
+    padding: 0.6rem 0.75rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.compact-view .initiative-description {
+    -webkit-line-clamp: 1;
+    line-clamp: 1;
+    margin-bottom: 0.35rem;
+    font-size: 0.8rem;
+    max-height: 1.2rem;
+    overflow: hidden;
+}
+
+.compact-view .initiative-meta {
+    flex-direction: row;
+    margin-top: 0;
+    gap: 0.5rem;
+}
+
+.compact-view .initiative-title {
+    font-size: 0.95rem;
+    margin-bottom: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.compact-view .funding-info {
+    display: flex;
+    align-items: center;
+    margin-bottom: 0;
+    max-height: 30px;
+}
+
+.compact-view .funding-row {
+    width: 30%;
+    margin-bottom: 0;
+    margin-right: 0.4rem;
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.compact-view .funding-amount {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.compact-view .funding-goal {
+    font-size: 0.7rem;
+    opacity: 0.8;
+}
+
+.compact-view .progress {
+    width: 35%;
+    margin: 0 0.5rem;
+    height: 4px;
+}
+
+.compact-view .d-flex.justify-content-between.text-muted.small {
+    width: 20%;
+    margin-left: 0.4rem;
+    font-size: 0.65rem;
+}
+
+.compact-view .category-badge {
+    font-size: 0.65rem;
+    padding: 0.15rem 0.4rem;
+}
+
+.compact-view .initiative-header {
+    margin-bottom: 0.25rem;
+}
+
+.compact-view .category-badge-container {
+    margin-top: 0.15rem;
+}
+
+.compact-view .details-toggle {
+    margin: 0;
+    font-size: 0.75rem;
+    padding: 0.2rem 0;
+}
+
+/* Responsive adjustments for compact view */
+@media (max-width: 991px) {
+    .compact-view .initiative-card {
+        max-height: none;
+    }
+    
+    .compact-view .initiative-image-wrapper {
+        width: 22%;
+        min-width: 110px;
+        height: 110px;
+    }
+    
+    .compact-view .initiative-content {
+        width: 78%;
+        padding: 0.5rem 0.6rem;
+    }
+    
+    .compact-view .funding-info {
+        flex-direction: column;
+        align-items: flex-start;
+        max-height: none;
+    }
+    
+    .compact-view .funding-row,
+    .compact-view .progress,
+    .compact-view .d-flex.justify-content-between.text-muted.small {
+        width: 100%;
+        margin: 0.15rem 0;
+    }
+}
+
+@media (max-width: 767px) {
+    .compact-view .initiative-card {
+        flex-direction: column;
+    }
+    
+    .compact-view .initiative-image-wrapper,
+    .compact-view .initiative-content {
+        width: 100%;
+    }
+    
+    .compact-view .initiative-image-wrapper {
+        height: 110px;
+        min-height: auto;
+        min-width: auto;
+    }
+    
+    .compact-view .initiative-image {
+        height: 110px;
+    }
+}

@@ -4,6 +4,7 @@
 {% block title %}Sustainable Investment Opportunities - Ecovest{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/initiative-list-compact.css' %}">
 <style>
     /* Modern Hero Section with enhanced visual features */
     .hero {
@@ -784,42 +785,119 @@
     .view-toggle-btn:not(.active):hover {
         background: #f0f0f0;
         transform: translateY(-2px);
+    }    /* Compact view with improved layout - full row layout */
+    .compact-view .initiative-item {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        margin-bottom: 0.75rem;
     }
     
-    /* Compact view with improved layout */
     .compact-view .initiative-card {
         flex-direction: row;
         height: auto;
+        max-height: 140px;
+        overflow: hidden;
+        border-radius: 10px;
     }
     
     .compact-view .initiative-image-wrapper {
-        width: 30%;
-        height: auto;
-        min-height: 100%;
+        width: 18%;
+        min-width: 150px;
+        height: 140px;
+        overflow: hidden;
     }
     
     .compact-view .initiative-image {
         height: 100%;
+        object-position: center;
+        object-fit: cover;
+    }
+      .compact-view .initiative-content {
+        width: 82%;
+        padding: 0.75rem 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
     
-    .compact-view .initiative-content {
-        width: 70%;
-    }
-      .compact-view .initiative-description {
+    .compact-view .initiative-description {
         -webkit-line-clamp: 1;
         line-clamp: 1;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
     }
     
     .compact-view .initiative-meta {
         flex-direction: row;
+        margin-top: 0;
+        gap: 0.75rem;
+    }
+    
+    .compact-view .initiative-title {
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }    .compact-view .funding-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0;
+        max-height: 35px;
+    }
+    
+    .compact-view .funding-row {
+        width: 30%;
+        margin-bottom: 0;
+        margin-right: 0.5rem;
+        display: flex;
+        align-items: baseline;
+        gap: 0.35rem;
+    }
+    
+    .compact-view .funding-amount {
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    
+    .compact-view .funding-goal {
+        font-size: 0.75rem;
+        opacity: 0.8;
+    }
+    
+    .compact-view .progress {
+        width: 35%;
+        margin: 0 0.75rem;
+        height: 5px;
+    }
+    
+    .compact-view .d-flex.justify-content-between.text-muted.small {
+        width: 20%;
+        margin-left: 0.5rem;
+        font-size: 0.7rem;
+    }
+      .compact-view .category-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+    }
+    
+    .compact-view .initiative-header {
+        margin-bottom: 0.35rem;
+    }
+    
+    .compact-view .category-badge-container {
+        margin-top: 0.2rem;
+    }
+    
+    .compact-view .details-toggle {
+        margin: 0;
+        font-size: 0.8rem;
+        padding: 0.25rem 0;
     }
     
     /* Enhanced Pagination styling */
     .pagination {
         margin: 3rem 0;
     }
-    
-    .page-link {
+      .page-link {
         color: #25a244;
         padding: 0.6rem 0.9rem;
         font-size: 0.95rem;
@@ -830,17 +908,66 @@
         font-weight: 500;
     }
     
-    .page-item.active .page-link {
-        background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
-        border-color: transparent;
-        box-shadow: 0 5px 15px rgba(37, 162, 68, 0.2);
-    }
-    
     .page-link:hover:not(.active) {
         background-color: #e8f5e9;
         color: #1e8e37;
         transform: translateY(-3px);
         box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .page-item.active .page-link {
+        background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+        border-color: transparent;
+        box-shadow: 0 5px 15px rgba(37, 162, 68, 0.2);
+    }    /* Responsive adjustments for compact view */
+    @media (max-width: 991px) {
+        .compact-view .initiative-card {
+            max-height: none;
+        }
+        
+        .compact-view .initiative-image-wrapper {
+            width: 25%;
+            min-width: 150px;
+        }
+        
+        .compact-view .initiative-content {
+            width: 75%;
+            padding: 0.75rem;
+        }
+        
+        .compact-view .funding-info {
+            flex-direction: column;
+            align-items: flex-start;
+            max-height: none;
+        }
+        
+        .compact-view .funding-row,
+        .compact-view .progress,
+        .compact-view .d-flex.justify-content-between.text-muted.small {
+            width: 100%;
+            margin: 0.2rem 0;
+        }
+    }
+    
+    @media (max-width: 767px) {
+        .compact-view .initiative-card {
+            flex-direction: column;
+        }
+        
+        .compact-view .initiative-image-wrapper,
+        .compact-view .initiative-content {
+            width: 100%;
+        }
+        
+        .compact-view .initiative-image-wrapper {
+            height: 140px;
+            min-height: auto;
+            min-width: auto;
+        }
+        
+        .compact-view .initiative-image {
+            height: 140px;
+        }
     }
     
     /* Improved animations for better UX */
@@ -1172,15 +1299,14 @@
 </div>
 
 <div class="container">    <!-- Enhanced Filter Section with Interactive Elements - Always Expanded -->
-    <div class="filter-section fade-in-up" style="animation-delay: 0.3s;">
-        <!-- Active Filters Row with Improved Design -->
-        {% if request.GET.category or request.GET.status or request.GET.sort or request.GET.search %}
+    <div class="filter-section fade-in-up" style="animation-delay: 0.3s;">        <!-- Active Filters Row with Improved Design -->
+        {% if request.GET.category or request.GET.status or default_status == 'active' and not request.GET.status or request.GET.sort or request.GET.search %}
         <div class="filter-row">
             <span class="small fw-bold me-2"><i class="fas fa-filter me-1"></i> Active Filters:</span>
             {% if request.GET.category %}
             <div class="filter-chip">
                 <i class="fas fa-tag"></i> Category: {{ request.GET.category }} 
-                <a href="?{% if request.GET.status %}status={{ request.GET.status }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                <a href="?{% if request.GET.status %}status={{ request.GET.status }}{% elif default_status == 'active' and not request.GET.status %}status=active{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
                     <i class="fas fa-times-circle"></i>
                 </a>
             </div>
@@ -1190,6 +1316,13 @@
             <div class="filter-chip">
                 <i class="fas fa-flag"></i> Status: {{ request.GET.status|title }} 
                 <a href="?{% if request.GET.category %}category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                    <i class="fas fa-times-circle"></i>
+                </a>
+            </div>
+            {% elif default_status == 'active' and not request.GET.status %}
+            <div class="filter-chip">
+                <i class="fas fa-flag"></i> Status: Active 
+                <a href="?status={% if request.GET.category %}category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
                     <i class="fas fa-times-circle"></i>
                 </a>
             </div>
@@ -1203,8 +1336,7 @@
                 </a>
             </div>
             {% endif %}
-            
-            <a href="?" class="filter-chip reset">
+              <a href="?" class="filter-chip reset">
                 <i class="fas fa-undo"></i> Reset all filters
             </a>
         </div>
@@ -1224,13 +1356,12 @@
                         {% endfor %}
                     </select>
                 </div>
-                <div class="col-md-3 form-group">
-                    <label class="form-label">Project Status</label>
+                <div class="col-md-3 form-group">                    <label class="form-label">Project Status</label>
                     <select name="status" class="form-select">
                         <option value="">All Statuses</option>
                         {% for value, label in initiatives.0.STATUS_CHOICES %}
                         {% if value != 'draft' %}
-                        <option value="{{ value }}" {% if request.GET.status == value %}selected{% endif %}>
+                        <option value="{{ value }}" {% if request.GET.status == value or default_status == value and not request.GET.status %}selected{% endif %}>
                             {{ label }}
                         </option>
                         {% endif %}
@@ -1245,10 +1376,10 @@
                         <option value="amount" {% if request.GET.sort == 'amount' %}selected{% endif %}>Goal Amount</option>
                     </select>
                 </div>
-                <div class="col-md-3 form-group">
-                    <label class="form-label">Search Projects</label>
+                <div class="col-md-3 form-group">                    <label class="form-label">Search Projects</label>
                     <div class="input-group">
                         <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ request.GET.search }}">
+                        <input type="hidden" name="status" value="{{ request.GET.status|default:default_status }}" id="hiddenStatusInput">
                         <button type="submit" class="btn btn-primary">
                             <i class="fas fa-search"></i>
                         </button>
@@ -1260,8 +1391,7 @@
 
     <!-- Enhanced View Toggle with Better Visual Feedback -->
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i> Showing {{ initiatives.count }} projects</h5>
-        <div class="view-toggle">
+        <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i> Showing {{ initiatives.count }} projects</h5>        <div class="view-toggle">
             <button class="view-toggle-btn active" data-view="grid">
                 <i class="fas fa-th-large"></i> Grid
             </button>
@@ -1270,10 +1400,10 @@
             </button>
         </div>
     </div>    <!-- Initiatives Grid - Enhanced Design and Functionality - Smaller and 4 Columns Layout -->
-    <div class="row g-4" id="initiatives-container">
-        {% for initiative in initiatives %}
+    <div class="row g-4" id="initiatives-container">        {% for initiative in initiatives %}
         {% if initiative.status != 'draft' %}
         <div class="col-lg-3 col-md-4 col-sm-6 initiative-item fade-in-up" style="animation-delay: {{ forloop.counter|add:'2' }}00ms;">
+            <a href="{% url 'initiative_detail' initiative.pk %}" class="initiative-link" style="text-decoration: none; color: inherit; display: block;">
             <div class="initiative-card hover-highlight {{ initiative.categories.first.name|slugify }}">
                 <div class="initiative-image-wrapper">
                     <!-- Status tag -->
@@ -1302,7 +1432,8 @@
                 </div>
                 
                 <div class="initiative-content">
-                    <div class="initiative-header">                        <div class="initiative-title-area">
+                    <div class="initiative-header">
+                        <div class="initiative-title-area">
                             <h3 class="initiative-title" title="{{ initiative.title }}">{{ initiative.title }}</h3>
                             <div class="category-badge-container">
                                 {% for category in initiative.categories.all|slice:":2" %}
@@ -1406,14 +1537,14 @@
                                 {% endif %}
                             </div>
                         </div>
-                    </div>
-                      <div class="mt-2">
+                    </div>                      <div class="mt-2">
                         <a href="{% url 'initiative_detail' initiative.pk %}" class="btn-learn-more w-100">
                             <i class="fas fa-external-link-alt me-2"></i> Learn More
                         </a>
                     </div>
                 </div>
-            </div>        
+            </div>
+            </a>      
         </div>
         {% endif %}
         {% endfor %}
@@ -1434,10 +1565,9 @@
     <!-- Enhanced Pagination with Better Visual Design -->
     {% if initiatives.has_other_pages %}
     <nav aria-label="Page navigation" class="mt-5">
-        <ul class="pagination justify-content-center">
-            {% if initiatives.has_previous %}
+        <ul class="pagination justify-content-center">            {% if initiatives.has_previous %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ initiatives.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                <a class="page-link" href="?page={{ initiatives.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% elif default_status == 'active' and not request.GET.status %}&status=active{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
                     <i class="fas fa-chevron-left"></i>
                 </a>
             </li>
@@ -1445,13 +1575,13 @@
             
             {% for num in initiatives.paginator.page_range %}
             <li class="page-item {% if initiatives.number == num %}active{% endif %}">
-                <a class="page-link" href="?page={{ num }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
+                <a class="page-link" href="?page={{ num }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% elif default_status == 'active' and not request.GET.status %}&status=active{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
             </li>
             {% endfor %}
             
             {% if initiatives.has_next %}
             <li class="page-item">
-                <a class="page-link" href="?page={{ initiatives.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                <a class="page-link" href="?page={{ initiatives.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% elif default_status == 'active' and not request.GET.status %}&status=active{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
                     <i class="fas fa-chevron-right"></i>
                 </a>
             </li>
@@ -1592,4 +1722,14 @@
 <!-- Load external JS files -->
 <script src="{% static 'js/initiative-list.js' %}"></script>
 <script src="{% static 'js/initiative-charts.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Prevent clicks on interactive elements from navigating to the detail page
+        document.querySelectorAll('.details-toggle, .btn-learn-more').forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    });
+</script>
 {% endblock %}

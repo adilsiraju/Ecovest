@@ -28,12 +28,16 @@ document.addEventListener('DOMContentLoaded', function() {
     // View toggle functionality with smooth transitions
     const viewToggles = document.querySelectorAll('.view-toggle-btn');
     const initiativesContainer = document.getElementById('initiatives-container');
-    
-    // Apply saved view preference if exists
+      // Apply saved view preference if exists
     const savedView = localStorage.getItem('initiativeViewPreference');
     if (savedView) {
         if (savedView === 'compact') {
             initiativesContainer.classList.add('compact-view');
+            document.querySelectorAll('.initiative-item').forEach(item => {
+                // Force full width in compact view
+                item.classList.remove('col-lg-3', 'col-md-4', 'col-sm-6');
+                item.classList.add('col-12');
+            });
             viewToggles.forEach(btn => {
                 btn.classList.remove('active');
                 if (btn.dataset.view === 'compact') {
