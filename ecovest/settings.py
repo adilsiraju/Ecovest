@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
+import dj_database_url
+import os
 
 from pathlib import Path
 
@@ -23,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-6a*xu2&pr#beq6g72m6q)uxxc+(6vb=ls_(5#m1##jg+vk1rn^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = "True"
 
 ALLOWED_HOSTS = []
 
@@ -91,6 +93,7 @@ DATABASES = {
     }
 }
 
+DATABASES['default'] = dj_database_url.parse("postgresql://ecovest_db_user:asMQ4MhAS1CoFTQBtv66VZ5MHypwspe6@dpg-d0opjfuuk2gs738ud720-a.oregon-postgres.render.com/ecovest_db")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators

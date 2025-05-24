@@ -515,7 +515,7 @@
         <i class="fas fa-tree hero-leaf hero-leaf-3"></i>
         
         <div class="container">
-            <div class="profile-image-container">
+            <!-- <div class="profile-image-container">
                 {% if user.profile.profile_image %}
                     <img src="{{ user.profile.profile_image.url }}" class="profile-image" alt="Profile Image">
                 {% else %}
@@ -524,7 +524,7 @@
                 <label for="profile-image-input" class="profile-image-upload" title="Change profile picture">
                     <i class="fas fa-camera"></i>
                 </label>
-            </div>
+            </div> -->
             <h1 class="display-4 fw-bold mb-3">
                 {% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}
             </h1>
