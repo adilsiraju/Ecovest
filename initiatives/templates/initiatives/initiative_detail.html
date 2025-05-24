@@ -4,6 +4,7 @@
 {% block title %}{{ initiative.title }} - Ecovest{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/initiative-detail-mobile.css' %}">
 <style>
 .hero {
     background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
@@ -517,6 +518,7 @@
 
 {% block extra_js %}
 {{ block.super }}
+<script src="{% static 'js/initiative-detail-mobile.js' %}"></script>
 <script>
 function share(platform) {
     const url = encodeURIComponent(window.location.href);

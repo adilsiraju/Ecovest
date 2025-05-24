@@ -4,6 +4,7 @@
 {% block title %}My Dashboard - Ecovest{% endblock %}
 
 {% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/dashboard-mobile.css' %}">
 <style>    /* Enhanced Hero Section with modern visual features */
     .hero {
         background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
@@ -537,6 +538,8 @@
     </div>
     
     <div class="container hero-content">
+        <!-- Added hero title for mobile collapsible functionality -->
+        <h1 class="hero-title d-md-none mb-3">My Dashboard</h1>
         <div class="row g-4">
             <div class="col-md-3">
                 <div class="stat-card fade-in" style="animation-delay: 0.1s;">
@@ -570,16 +573,22 @@
     </div>
 </div>
 
-<div class="container mt-4">
-    <!-- Two-column layout for better screen utilization -->
+<div class="container mt-4">    <!-- Two-column layout for better screen utilization -->
     <div class="row">
         <!-- Left column: AI Insights and Investment Distribution -->
         <div class="col-md-4">
+            <!-- Mobile toggle for Portfolio Insights -->
+            <button class="section-toggle d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#portfolioInsights" aria-expanded="true" aria-controls="portfolioInsights">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-robot me-2"></i> Portfolio Insights</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </button>
+            
             <!-- AI Portfolio Insights -->
-            <div class="dashboard-card fade-in-up" style="animation-delay: 0.2s;">
+            <div id="portfolioInsights" class="dashboard-card fade-in-up collapse show" style="animation-delay: 0.2s;">
                 <h2><i class="fas fa-robot text-primary"></i> Portfolio Insights</h2>
-                {% if portfolio_recommendations %}
-                    {% for rec in portfolio_recommendations %}
+                {% if portfolio_recommendations %}                    {% for rec in portfolio_recommendations %}
                     <div class="ai-insight-card {{ rec.severity }}">
                         <i class="fas {% if rec.severity == 'high' %}fa-exclamation-circle{% elif rec.severity == 'medium' %}fa-exclamation-triangle{% else %}fa-check-circle{% endif %}"></i>
                         {{ rec.message }}
@@ -593,8 +602,16 @@
                 {% endif %}
             </div>
             
+            <!-- Mobile toggle for Investment Distribution -->
+            <button class="section-toggle d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#investmentDistribution" aria-expanded="true" aria-controls="investmentDistribution">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-chart-pie me-2"></i> Investment Distribution</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </button>
+            
             <!-- Investment Distribution (Charts) -->
-            <div class="dashboard-card fade-in-up" style="animation-delay: 0.3s;">
+            <div id="investmentDistribution" class="dashboard-card fade-in-up collapse show" style="animation-delay: 0.3s;">
                 <h2><i class="fas fa-chart-pie text-info"></i> Investment Distribution</h2>
                 <div class="chart-container">
                     <canvas id="categoryChart"></canvas>
@@ -626,17 +643,24 @@
                                 <td>{{ impact.water|floatformat:0|intcomma }} L</td>
                             </tr>
                             {% endfor %}
-                        </tbody>
-                    </table>
+                        </tbody>                    </table>
                 </div>
             </div>
         </div>
 
         <!-- Right column: Recommendations and Recent Investments -->
         <div class="col-md-8">
+            <!-- Mobile toggle for Recommendations -->
+            <button class="section-toggle d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#recommendations" aria-expanded="true" aria-controls="recommendations">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-lightbulb me-2"></i> Recommended for You</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </button>
+            
             <!-- Personalized Recommendations -->
             {% if user_preferences %}
-            <div class="dashboard-card fade-in-up" style="animation-delay: 0.2s;">
+            <div id="recommendations" class="dashboard-card fade-in-up collapse show" style="animation-delay: 0.2s;">
                 <h2><i class="fas fa-lightbulb text-warning"></i> Recommended for You</h2>
                 <div class="row g-3">
                     {% for initiative in recommended_initiatives %}
@@ -691,11 +715,18 @@
                     </div>
                     {% endfor %}
                 </div>
-            </div>
-            {% endif %}
+            </div>            {% endif %}
 
+            <!-- Mobile toggle for My Holdings -->
+            <button class="section-toggle d-md-none" type="button" data-bs-toggle="collapse" data-bs-target="#myHoldings" aria-expanded="true" aria-controls="myHoldings">
+                <div class="d-flex justify-content-between align-items-center">
+                    <span><i class="fas fa-folder-open me-2"></i> My Holdings</span>
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+            </button>
+            
             <!-- My Holdings -->
-            <div class="dashboard-card fade-in-up" style="animation-delay: 0.3s;">
+            <div id="myHoldings" class="dashboard-card fade-in-up collapse show" style="animation-delay: 0.3s;">
                 <h2><i class="fas fa-folder-open text-secondary"></i> My Holdings</h2>
                 <div class="row g-3">
                     {% for investment_data in recent_investments %}

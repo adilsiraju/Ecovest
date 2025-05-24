@@ -1,0 +1,117 @@
+/* Mobile Responsive Enhancements for Profile Page */
+
+/* Small screens (mobile) */
+@media (max-width: 576px) {
+    /* Profile card adjustments */
+    .profile-card {
+        padding: 1.25rem !important;
+    }
+    
+    .profile-image {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto 1rem auto;
+    }
+    
+    /* Form and button adjustments */
+    .profile-form .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    .profile-form .btn {
+        width: 100%;
+        margin-top: 0.5rem;
+    }
+    
+    /* Tabs and sections for mobile */
+    .profile-tabs {
+        overflow-x: auto;
+        white-space: nowrap;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.5rem;
+    }
+    
+    .profile-tabs .nav-link {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Collapsible sections */
+    .mobile-profile-section {
+        margin-bottom: 1rem;
+    }
+    
+    .mobile-profile-header {
+        background-color: #f8f9fa;
+        padding: 0.75rem 1rem;
+        border-radius: 0.5rem;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+    }
+    
+    .mobile-profile-header i {
+        transition: transform 0.2s ease;
+    }
+    
+    .mobile-profile-header.collapsed i {
+        transform: rotate(-90deg);
+    }
+    
+    /* Better spacing for activity feed */
+    .activity-item {
+        padding: 0.75rem 0;
+    }
+    
+    /* Profile stats more compact */
+    .profile-stats {
+        margin-bottom: 1rem;
+    }
+    
+    .profile-stats .stat-card {
+        padding: 0.75rem;
+    }
+    
+    .profile-stats h3 {
+        font-size: 1.25rem;
+    }
+}
+
+/* Medium screens (tablets) */
+@media (max-width: 768px) {
+    /* Profile layout adjustments */
+    .profile-sidebar {
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Settings forms */
+    .settings-form .row {
+        margin-bottom: 0;
+    }
+    
+    .settings-form .form-group {
+        margin-bottom: 1rem;
+    }
+    
+    /* Better spacing for preference cards */
+    .preference-card {
+        margin-bottom: 1rem;
+    }
+}
+
+/* Large screens (small laptops) */
+@media (max-width: 992px) {
+    /* Layout adjustments */
+    .profile-container {
+        padding: 1.5rem;
+    }
+    
+    /* Interest tags more compact */
+    .interest-tag {
+        margin: 0.25rem;
+        padding: 0.4rem 0.75rem;
+    }
+}

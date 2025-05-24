@@ -1,0 +1,161 @@
+/* Mobile Dashboard Optimizations */
+
+@media (max-width: 768px) {
+    /* Reduce hero section height */
+    .hero {
+        padding: 2rem 0 !important;
+        border-radius: 0 0 20px 20px !important;
+    }
+    
+    /* Adjust hero content spacing */
+    .hero-content {
+        padding: 0 10px;
+    }
+    
+    /* Make stat cards more compact */
+    .stat-card {
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
+        border-radius: 12px !important;
+    }
+    
+    .stat-card i {
+        font-size: 1.75rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .stat-card h3 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    .stat-card p {
+        font-size: 0.85rem !important;
+    }
+    
+    /* Compact dashboard cards */
+    .dashboard-card {
+        padding: 1rem !important;
+        margin-bottom: 1.25rem !important;
+        border-radius: 12px !important;
+    }
+    
+    .dashboard-card h2 {
+        font-size: 1.2rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Make tables responsive */
+    .table-responsive {
+        margin-bottom: 0 !important;
+    }
+    
+    .dashboard-table th, 
+    .dashboard-table td {
+        padding: 0.5rem !important;
+        font-size: 0.85rem !important;
+    }
+    
+    /* Compact charts */
+    .chart-container {
+        height: 220px !important;
+    }
+    
+    /* Improve spacing */
+    .mb-4 {
+        margin-bottom: 1rem !important;
+    }
+    
+    .my-4 {
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Make recommendation cards more compact */
+    .recommendation-card {
+        margin-bottom: 1rem !important;
+        padding: 0.75rem !important;
+    }
+    
+    .recommendation-card .card-title {
+        font-size: 1rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .recommendation-card .card-text {
+        font-size: 0.85rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Adjust portfolio section */
+    .portfolio-header {
+        font-size: 1.2rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Improve button layout */
+    .dashboard-card .btn {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Enhance mobile scrolling for tables */
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+    
+    /* Collapse some sections by default on mobile */
+    .collapse-mobile {
+        display: none;
+    }
+    
+    .collapse-mobile.show {
+        display: block;
+    }
+    
+    /* Add section toggle buttons */
+    .section-toggle {
+        display: block;
+        width: 100%;
+        text-align: left;
+        background: #f8f9fa;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 8px;
+        padding: 0.75rem;
+        margin-bottom: 1rem;
+        font-weight: 500;
+    }
+    
+    .section-toggle i {
+        transition: transform 0.3s ease;
+    }
+    
+    .section-toggle[aria-expanded="true"] i {
+        transform: rotate(180deg);
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 576px) {
+    /* Further spacing optimizations */
+    .container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+    
+    /* Stack buttons on very small screens */
+    .btn-group {
+        flex-direction: column !important;
+    }
+    
+    .btn-group .btn {
+        margin-bottom: 0.5rem !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Simplify charts */
+    .chart-container {
+        height: 180px !important;
+    }
+}

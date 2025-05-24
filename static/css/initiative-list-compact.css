@@ -180,3 +180,174 @@
         height: 110px;
     }
 }
+
+/* Mobile-specific styles for initiative list */
+@media (max-width: 768px) {
+    /* Reduce hero section height */
+    .hero {
+        padding: 2rem 0 !important;
+    }
+    
+    .hero-title {
+        font-size: 1.75rem !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem !important;
+    }
+    
+    /* Make filter section more compact */
+    .filter-section {
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    .filter-section .form-control, 
+    .filter-section .form-select {
+        font-size: 0.9rem;
+        padding: 0.5rem;
+    }
+    
+    /* Compact initiative cards */
+    .initiative-card {
+        margin-bottom: 1rem !important;
+        border-radius: 10px !important;
+    }
+    
+    .card-body {
+        padding: 1rem !important;
+    }
+    
+    .card-img-top {
+        height: 150px !important;
+        border-radius: 10px 10px 0 0 !important;
+    }
+    
+    /* Reduce spacing between elements */
+    .card-title {
+        font-size: 1.1rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .card-text {
+        font-size: 0.9rem !important;
+        margin-bottom: 0.5rem !important;
+        line-height: 1.4 !important;
+    }
+    
+    /* Compact the stats section */
+    .impact-stat {
+        padding: 0.5rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .impact-stat i {
+        font-size: 1rem !important;
+    }
+    
+    .impact-stat p {
+        font-size: 0.8rem !important;
+        margin-bottom: 0 !important;
+    }
+    
+    .impact-stat h5 {
+        font-size: 1rem !important;
+        margin-bottom: 0 !important;
+    }
+    
+    /* Make progress bar smaller */
+    .progress {
+        height: 8px !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Compact badges */
+    .badge {
+        font-size: 0.7rem !important;
+        padding: 0.3rem 0.5rem !important;
+    }
+    
+    /* Compact buttons */
+    .card .btn {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Layout adjustments */
+    .row.gy-4 {
+        --bs-gutter-y: 0.75rem !important;
+    }
+    
+    /* Hide some elements on mobile */
+    .initiative-card .text-muted {
+        font-size: 0.8rem !important;
+    }
+    
+    /* Truncate long descriptions */
+    .initiative-description {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        max-height: 2.8em;
+    }
+    
+    /* Force compact view on mobile */
+    .compact-view-toggle {
+        display: none !important;
+    }
+    
+    body:not(.compact-view) .initiative-item {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        margin-bottom: 0.75rem;
+    }
+    
+    body:not(.compact-view) .initiative-card {
+        flex-direction: row;
+        height: auto;
+        max-height: 120px;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    
+    body:not(.compact-view) .initiative-image-wrapper {
+        width: 30%;
+        min-width: 100px;
+        height: 120px;
+        overflow: hidden;
+    }
+    
+    body:not(.compact-view) .initiative-content {
+        width: 70%;
+        padding: 0.6rem 0.75rem;
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 576px) {
+    /* Further reduce padding */
+    .container {
+        padding-left: 10px !important;
+        padding-right: 10px !important;
+    }
+    
+    /* One card per row on very small screens */
+    .initiative-card-col {
+        width: 100% !important;
+    }
+    
+    /* Add a toggle for filters */
+    .filter-toggle-btn {
+        display: block !important;
+        width: 100%;
+        margin-bottom: 0.75rem;
+        background-color: #f8f9fa;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 8px;
+        padding: 0.5rem;
+        text-align: center;
+        font-weight: 500;
+    }
+}

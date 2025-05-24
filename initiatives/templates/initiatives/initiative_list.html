@@ -1239,9 +1239,8 @@
     <img src="{% static 'images/leaf1.svg' %}" class="hero-leaf hero-leaf-1" alt="">
     <img src="{% static 'images/leaf2.svg' %}" class="hero-leaf hero-leaf-2" alt="">
     <img src="{% static 'images/leaf3.svg' %}" class="hero-leaf hero-leaf-3" alt="">
-    
-    <div class="container hero-content">
-        <div class="row mb-5">
+      <div class="container hero-content">
+        <div class="row mb-3 mb-md-5">
             <div class="col-lg-8 col-md-10">
                 <h1 class="hero-title fade-in" style="animation-delay: 0.1s;">Sustainable Investment Opportunities</h1>
                 <p class="hero-subtitle fade-in" style="animation-delay: 0.2s;">
@@ -1298,8 +1297,15 @@
     </div>
 </div>
 
-<div class="container">    <!-- Enhanced Filter Section with Interactive Elements - Always Expanded -->
-    <div class="filter-section fade-in-up" style="animation-delay: 0.3s;">        <!-- Active Filters Row with Improved Design -->
+<div class="container">
+    <!-- Mobile filter toggle button -->
+    <button class="filter-toggle-btn d-md-none mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#mobileFilterSection" aria-expanded="false" aria-controls="mobileFilterSection">
+        <i class="fas fa-filter me-2"></i> Show Filters
+    </button>
+    
+    <!-- Enhanced Filter Section with Interactive Elements - Always Expanded -->
+    <div class="filter-section collapse d-md-block" id="mobileFilterSection">
+        <!-- Active Filters Row with Improved Design -->
         {% if request.GET.category or request.GET.status or default_status == 'active' and not request.GET.status or request.GET.sort or request.GET.search %}
         <div class="filter-row">
             <span class="small fw-bold me-2"><i class="fas fa-filter me-1"></i> Active Filters:</span>
