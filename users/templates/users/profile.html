@@ -5,49 +5,127 @@
 
 {% block extra_css %}
 <style>
+    /* Enhanced Hero Section with modern visual features */
     .profile-container {
         background-color: #f8f9fa;
-        border-radius: 15px;
+        border-radius: 30px;
         max-width: 900px;
         margin: 2rem auto;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.08);
     }
     
     .profile-hero {
-        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
         color: white;
-        padding: 2rem 0;
-        border-radius: 15px 15px 0 0;
+        padding: 4rem 0;
+        position: relative;
+        overflow: hidden;
+        border-radius: 30px 30px 0 0;
     }
     
+    .profile-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("{% static 'images/pattern.svg' %}") repeat;
+        opacity: 0.08;
+        animation: patternFloat 60s linear infinite;
+    }
+    
+    .profile-hero::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
+        z-index: 1;
+    }
+    
+    @keyframes patternFloat {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(-100%) rotate(3deg); }
+    }
+    
+    /* Animated decorative elements */
+    .hero-leaf {
+        position: absolute;
+        opacity: 0.15;
+        z-index: 0;
+        animation: leafFloat 20s ease-in-out infinite alternate;
+    }
+    
+    .hero-leaf-1 { top: 20%; left: 10%; font-size: 2rem; animation-delay: 0s; }
+    .hero-leaf-2 { top: 60%; right: 15%; font-size: 1.5rem; animation-delay: 7s; }
+    .hero-leaf-3 { bottom: 30%; left: 20%; font-size: 1.8rem; animation-delay: 14s; }
+    
+    @keyframes leafFloat {
+        0% { transform: translateY(0px) rotate(0deg); }
+        100% { transform: translateY(-20px) rotate(5deg); }
+    }    
+    /* Enhanced Profile Image Container */
     .profile-image-container {
         position: relative;
-        width: 150px;
-        height: 150px;
+        width: 180px;
+        height: 180px;
         margin: 0 auto 1.5rem;
         border-radius: 50%;
         overflow: hidden;
-        border: 4px solid rgba(255, 255, 255, 0.7);
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        border: 6px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 2;
+    }
+    
+    .profile-image-container:hover {
+        transform: scale(1.05);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
     }
     
     .profile-image {
         width: 100%;
         height: 100%;
         object-fit: cover;
+        transition: transform 0.4s ease;
     }
     
+    .profile-image-container:hover .profile-image {
+        transform: scale(1.1);
+    }
+    
+    /* Enhanced Profile Form with modern card design */
     .profile-form {
         background: white;
-        border-radius: 8px;
-        padding: 2rem;
-        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        border-radius: 25px;
+        padding: 3rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
         margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(37, 162, 68, 0.06);
     }
     
+    .profile-form::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #25a244, #82ca9c);
+        z-index: 1;
+    }    
+    /* Enhanced Form Section Design */
     .form-section {
-        border-bottom: 1px solid #e9ecef;
-        padding-bottom: 1.5rem;
-        margin-bottom: 1.5rem;
+        border-bottom: 1px solid rgba(37, 162, 68, 0.1);
+        padding-bottom: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
     }
     
     .form-section:last-child {
@@ -57,166 +135,372 @@
     }
     
     .form-section-title {
-        color: #28a745;
-        font-weight: 600;
+        color: #25a244;
+        font-weight: 700;
         margin-bottom: 1rem;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        letter-spacing: -0.3px;
     }
     
+    .form-section-title::before {
+        content: '';
+        width: 4px;
+        height: 20px;
+        background: linear-gradient(135deg, #25a244, #82ca9c);
+        border-radius: 2px;
+        margin-right: 0.75rem;
+    }
+    
+    /* Enhanced Submit Button */
     .submit-btn {
-        background-color: #28a745;
-        border-color: #28a745;
-        padding: 0.6rem 1.5rem;
-        font-weight: 500;
-        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+        border: none;
+        padding: 0.8rem 2rem;
+        font-weight: 600;
+        border-radius: 12px;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(37, 162, 68, 0.3);
+    }
+    
+    .submit-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.6s;
     }
     
     .submit-btn:hover {
-        background-color: #218838;
-        border-color: #1e7e34;
-        transform: translateY(-2px);
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(37, 162, 68, 0.4);
+        background: linear-gradient(135deg, #1e8e3e 0%, #6fb86f 100%);
     }
     
+    .submit-btn:hover::before {
+        left: 100%;
+    }
+    
+    .submit-btn:active {
+        transform: translateY(-1px);
+    }    
+    /* Enhanced Profile Image Upload Button */
     .profile-image-upload {
         position: absolute;
-        bottom: 0;
-        right: 0;
-        background-color: rgba(40, 167, 69, 0.9);
-        width: 40px;
-        height: 40px;
+        bottom: 5px;
+        right: 5px;
+        background: linear-gradient(135deg, #25a244, #82ca9c);
+        width: 50px;
+        height: 50px;
         border-radius: 50%;
         display: flex;
         align-items: center;
         justify-content: center;
         cursor: pointer;
-        transition: all 0.3s ease;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 6px 20px rgba(37, 162, 68, 0.4);
+        border: 3px solid white;
+        z-index: 3;
     }
     
     .profile-image-upload:hover {
-        background-color: rgba(40, 167, 69, 1);
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(37, 162, 68, 0.5);
+        background: linear-gradient(135deg, #1e8e3e, #6fb86f);
     }
     
     .profile-image-upload i {
         color: white;
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .profile-image-upload:hover i {
+        transform: scale(1.1);
     }
     
     #profile-image-input {
         display: none;
     }
     
+    /* Enhanced Tab Design */
     .profile-tabs {
-        border-radius: 8px;
+        border-radius: 15px;
         overflow: hidden;
         border: none;
+        background: white;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
     }
     
     .profile-tabs .nav-link {
         border: none;
-        color: #495057;
-        font-weight: 500;
-        padding: 1rem 1.5rem;
+        color: #6c757d;
+        font-weight: 600;
+        padding: 1.2rem 1.8rem;
         position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: transparent;
+    }
+    
+    .profile-tabs .nav-link::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #25a244, #82ca9c);
+        transform: translateX(-50%);
+        transition: width 0.3s ease;
     }
     
     .profile-tabs .nav-link.active {
-        color: #28a745;
-        background-color: white;
-        border-bottom: 3px solid #28a745;
+        color: #25a244;
+        background: rgba(37, 162, 68, 0.05);
+    }
+    
+    .profile-tabs .nav-link.active::before {
+        width: 80%;
     }
     
     .profile-tabs .nav-link:hover:not(.active) {
-        background-color: rgba(40, 167, 69, 0.05);
+        background: rgba(37, 162, 68, 0.03);
+        color: #25a244;
+        transform: translateY(-2px);
     }
     
+    .profile-tabs .nav-link i {
+        transition: transform 0.3s ease;
+    }
+    
+    .profile-tabs .nav-link:hover i {
+        transform: scale(1.1);
+    }    
     .tab-container {
         margin-bottom: 2rem;
     }
     
-    /* Consistent form controls styling */
+    /* Enhanced Form Controls Styling */
     .form-control {
-        border-radius: 0.5rem;
-        padding: 0.75rem 1rem;
-        border: 1px solid #dee2e6;
-        height: calc(3rem + 2px);
+        border-radius: 12px;
+        padding: 0.9rem 1.2rem;
+        border: 2px solid #e9ecef;
+        height: auto;
         font-size: 1rem;
         width: 100%;
-        transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-        background-color: #f9f9f9;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background-color: #fafafa;
+        position: relative;
     }
     
     .form-control:hover {
         background-color: #f5f5f5;
+        border-color: #25a244;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 162, 68, 0.1);
+    }
+    
+    .form-control:focus {
+        border-color: #25a244;
+        box-shadow: 0 0 0 0.25rem rgba(37, 162, 68, 0.25);
+        background-color: #fff;
+        transform: translateY(-2px);
     }
     
     .form-control::placeholder {
         color: #adb5bd;
         font-style: italic;
+        transition: opacity 0.3s ease;
     }
     
-    /* Style for select dropdown */
+    .form-control:focus::placeholder {
+        opacity: 0.7;
+    }
+    
+    /* Enhanced Select Dropdown */
     select.form-control {
         appearance: none;
-        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23495057' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2325a244' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
         background-repeat: no-repeat;
-        background-position: right 1rem center;
+        background-position: right 1.2rem center;
         background-size: 16px 12px;
-        padding-right: 2.5rem;
+        padding-right: 3rem;
     }
     
-    /* Style for textarea */
+    /* Enhanced Textarea */
     textarea.form-control {
-        height: auto;
-        min-height: 120px;
+        min-height: 140px;
+        resize: vertical;
     }
     
-    .form-control:focus {
-        border-color: #28a745;
-        box-shadow: 0 0 0 0.25rem rgba(40, 167, 69, 0.25);
-        background-color: #fff;
-    }
-    
-    /* Input group styling for consistent look */
+    /* Enhanced Input Group */
     .input-group {
         position: relative;
     }
     
-    /* Form field containers */
+    /* Enhanced Form Field Containers */
     .col-md-6.mb-3, .mb-3 {
-        margin-bottom: 1.5rem !important;
+        margin-bottom: 1.8rem !important;
     }
     
-    /* Consistent form label styling */
+    /* Enhanced Form Label Styling */
     .form-label {
         display: block;
-        margin-bottom: 0.5rem;
-        font-weight: 500;
-        color: #495057;
+        margin-bottom: 0.6rem;
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
     }
     
-    /* Error styling */
+    /* Enhanced Error Styling */
     .invalid-feedback {
         display: block;
         width: 100%;
-        margin-top: 0.25rem;
+        margin-top: 0.4rem;
         font-size: 0.875em;
         color: #dc3545;
+        font-weight: 500;
     }
     
-    /* Form helper text */
+    /* Enhanced Form Helper Text */
     .form-text {
-        margin-top: 0.25rem;
-        font-size: 0.875em;
+        margin-top: 0.4rem;
+        font-size: 0.85em;
         color: #6c757d;
+        font-style: italic;
     }
     
+    /* Enhanced Alert Styling */
     .alert-success {
-        border-left: 4px solid #28a745;
-    }
-    
+        border-left: 4px solid #25a244;
+        background: linear-gradient(135deg, rgba(37, 162, 68, 0.1), rgba(130, 202, 156, 0.1));
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+    }    
     /* Fix for missing labels in the city field */
     .col-md-6.mb-3 .form-label {
         display: block;
+    }
+    
+    /* Enhanced Tab Content Animation */
+    .tab-content {
+        position: relative;
+    }
+    
+    .tab-pane {
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .tab-pane.show.active {
+        animation: fadeInUp 0.5s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Form Row Enhancements */
+    .row.g-3 {
+        gap: 1rem;
+    }
+    
+    /* Enhanced Button Container */
+    .text-end {
+        position: relative;
+        z-index: 2;
+    }
+    
+    /* Loading Animation for Forms */
+    .submit-btn.loading {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+    
+    .submit-btn.loading::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        margin: auto;
+        border: 2px solid transparent;
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    
+    /* Responsive Design Enhancements */
+    @media (max-width: 768px) {
+        .profile-container {
+            margin: 1rem;
+            border-radius: 20px;
+        }
+        
+        .profile-hero {
+            padding: 2.5rem 0;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .profile-image-container {
+            width: 150px;
+            height: 150px;
+        }
+        
+        .profile-form {
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+        }
+        
+        .profile-tabs .nav-link {
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .hero-leaf {
+            display: none;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .profile-hero h1 {
+            font-size: 1.8rem;
+        }
+        
+        .profile-form {
+            padding: 1.5rem 1rem;
+        }
+        
+        .form-section-title {
+            font-size: 1.1rem;
+        }
+        
+        .col-md-6 {
+            width: 100%;
+        }
     }
 </style>
 {% endblock %}
@@ -225,6 +509,11 @@
 <!-- Profile Hero Section -->
 <div class="profile-container">
     <div class="profile-hero text-center">
+        <!-- Decorative animated elements -->
+        <i class="fas fa-leaf hero-leaf hero-leaf-1"></i>
+        <i class="fas fa-seedling hero-leaf hero-leaf-2"></i>
+        <i class="fas fa-tree hero-leaf hero-leaf-3"></i>
+        
         <div class="container">
             <div class="profile-image-container">
                 {% if user.profile.profile_image %}
@@ -236,10 +525,13 @@
                     <i class="fas fa-camera"></i>
                 </label>
             </div>
-            <h1 class="display-5 fw-bold mb-2">
+            <h1 class="display-4 fw-bold mb-3">
                 {% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}
             </h1>
-            <p class="lead mb-0">Ecovest Member since {{ user.date_joined|date:"F Y" }}</p>
+            <p class="lead mb-0 opacity-90">Ecovest Member since {{ user.date_joined|date:"F Y" }}</p>
+            {% if user.profile.bio %}
+                <p class="mt-2 opacity-75">{{ user.profile.bio|truncatewords:15 }}</p>
+            {% endif %}
         </div>
     </div>
     
@@ -464,11 +756,13 @@
 
 {% block extra_js %}
 <script>
-    // Function to handle profile image upload
+    // Enhanced profile functionality
     document.addEventListener('DOMContentLoaded', function() {
         const profileImageInput = document.getElementById('profile-image-input');
         const profileImageLabel = document.querySelector('.profile-image-upload');
+        const submitButtons = document.querySelectorAll('.submit-btn');
         
+        // Profile image upload handler
         if (profileImageLabel) {
             profileImageLabel.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -476,7 +770,18 @@
             });
         }
         
-        // Keep the active tab after form submission if there was an error
+        // Enhanced form submission with loading state
+        submitButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                const form = this.closest('form');
+                if (form && form.checkValidity()) {
+                    this.classList.add('loading');
+                    this.innerHTML = '<span>Saving...</span>';
+                }
+            });
+        });
+        
+        // Tab persistence and smooth transitions
         const urlParams = new URLSearchParams(window.location.search);
         const tab = urlParams.get('tab');
         
@@ -487,6 +792,66 @@
                 tabInstance.show();
             }
         }
+        
+        // Enhanced form validation feedback
+        const formControls = document.querySelectorAll('.form-control');
+        formControls.forEach(control => {
+            control.addEventListener('blur', function() {
+                if (this.value.trim() !== '') {
+                    this.classList.add('has-value');
+                } else {
+                    this.classList.remove('has-value');
+                }
+            });
+            
+            // Add focus animation
+            control.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            control.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+        });
+        
+        // Auto-save indicator (visual feedback)
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            let changeTimeout;
+            const inputs = form.querySelectorAll('.form-control');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    clearTimeout(changeTimeout);
+                    this.classList.add('changed');
+                    
+                    changeTimeout = setTimeout(() => {
+                        this.classList.remove('changed');
+                    }, 2000);
+                });
+            });
+        });
+        
+        // Smooth scroll to form errors
+        const errorElements = document.querySelectorAll('.invalid-feedback');
+        if (errorElements.length > 0) {
+            const firstError = errorElements[0];
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // Add entrance animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        const animateElements = document.querySelectorAll('.form-section, .profile-form');
+        animateElements.forEach(el => {
+            observer.observe(el);
+        });
     });
 </script>
 {% endblock %}
