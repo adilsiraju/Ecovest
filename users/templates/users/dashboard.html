@@ -654,21 +654,22 @@
                                     {% endfor %}
                                 </div>
                                 <h3 class="investment-title" title="{{ initiative.title }}">{{ initiative.title }}</h3>
-                                <div class="investment-amount">₹{{ initiative.min_investment|intcomma }} min.</div>
-                                
-                                <div class="impact-stats">
+                                <div class="investment-amount">₹{{ initiative.min_investment|intcomma }} min.</div>                                <div class="impact-stats">
                                     <div class="impact-stat" title="Carbon Impact">
                                         <i class="fas fa-cloud"></i>
-                                        {{ initiative.carbon_impact|floatformat:0|intcomma }}
+                                        {{ initiative.impact_for_1000.carbon|default:"0"|intcomma }}
                                     </div>
                                     <div class="impact-stat" title="Energy Impact">
                                         <i class="fas fa-bolt"></i>
-                                        {{ initiative.energy_impact|floatformat:0|intcomma }}
+                                        {{ initiative.impact_for_1000.energy|default:"0"|intcomma }}
                                     </div>
                                     <div class="impact-stat" title="Water Impact">
                                         <i class="fas fa-tint"></i>
-                                        {{ initiative.water_impact|floatformat:0|intcomma }}
+                                        {{ initiative.impact_for_1000.water|default:"0"|intcomma }}
                                     </div>
+                                </div>
+                                <div class="text-muted small mb-2">
+                                    <i class="fas fa-info-circle me-1"></i> Impact metrics per ₹1,000 investment
                                 </div>
                                 
                                 <div class="mt-auto pt-3">
@@ -707,21 +708,22 @@
                             {% endif %}
                             <div class="investment-content">
                                 <h3 class="investment-title" title="{{ investment_data.initiative.title }}">{{ investment_data.initiative.title }}</h3>
-                                <div class="investment-amount">₹{{ investment_data.total_amount|intcomma }}</div>
-                                
-                                <div class="impact-stats">
+                                <div class="investment-amount">₹{{ investment_data.total_amount|intcomma }}</div>                                <div class="impact-stats">
                                     <div class="impact-stat" title="Carbon Impact">
                                         <i class="fas fa-cloud"></i>
-                                        {{ investment_data.impact_metrics.carbon|floatformat:0|intcomma }}
+                                        {{ investment_data.impact_metrics.carbon|default:"0"|floatformat:0|intcomma }}
                                     </div>
                                     <div class="impact-stat" title="Energy Impact">
                                         <i class="fas fa-bolt"></i>
-                                        {{ investment_data.impact_metrics.energy|floatformat:0|intcomma }}
+                                        {{ investment_data.impact_metrics.energy|default:"0"|floatformat:0|intcomma }}
                                     </div>
                                     <div class="impact-stat" title="Water Impact">
                                         <i class="fas fa-tint"></i>
-                                        {{ investment_data.impact_metrics.water|floatformat:0|intcomma }}
+                                        {{ investment_data.impact_metrics.water|default:"0"|floatformat:0|intcomma }}
                                     </div>
+                                </div>
+                                <div class="text-muted small mb-2">
+                                    <i class="fas fa-info-circle me-1"></i> Your actual impact from this investment
                                 </div>
                                 
                                 <div class="d-flex justify-content-between align-items-center mt-auto pt-3">

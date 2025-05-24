@@ -121,6 +121,14 @@ def dashboard(request):
             
             # Cap at 100%
             initiative.match_score = min(match_score, 100)
+            
+            # Calculate impact for ₹1000 for each initiative
+            from investments.models import Investment
+            impact = Investment.calculate_impact_for_amount(initiative, 1000)
+            if impact:
+                initiative.impact_for_1000 = {k: round(float(v), 2) for k, v in impact.items()}
+            else:
+                initiative.impact_for_1000 = {}
         
         # Sort by match score
         recommended_initiatives.sort(key=lambda x: getattr(x, 'match_score', 0), reverse=True)
