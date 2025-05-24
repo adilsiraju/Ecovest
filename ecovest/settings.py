@@ -93,7 +93,7 @@ DATABASES = {
     }
 }
 
-DATABASES['default'] = dj_database_url.parse("postgresql://ecovest_db_user:asMQ4MhAS1CoFTQBtv66VZ5MHypwspe6@dpg-d0opjfuuk2gs738ud720-a.oregon-postgres.render.com/ecovest_db")
+# DATABASES['default'] = dj_database_url.parse("postgresql://ecovest_db_user:asMQ4MhAS1CoFTQBtv66VZ5MHypwspe6@dpg-d0opjfuuk2gs738ud720-a.oregon-postgres.render.com/ecovest_db")
 
 # Password validation
 # https://docs.djangoproject.com/en/5.1/ref/settings/#auth-password-validators
