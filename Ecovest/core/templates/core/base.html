@@ -50,16 +50,15 @@
                         <li class="nav-item"><a class="nav-link {% if request.path == '/dashboard/' %}active{% endif %}" href="{% url 'dashboard' %}">Dashboard</a></li>
                         <li class="nav-item"><a class="nav-link {% if request.path == '/profile/' %}active{% endif %}" href="{% url 'profile' %}">Profile</a></li>
                     {% endif %}
-                </ul>
-                <div class="ms-lg-3 mt-3 mt-lg-0 d-flex flex-column flex-lg-row">
+                </ul>                <div class="ms-lg-3 mt-3 mt-lg-0 d-flex flex-column flex-lg-row navbar-buttons">
                     {% if user.is_authenticated %}
                         <form action="{% url 'logout' %}" method="post" class="d-inline">
                             {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-primary me-lg-2 mb-2 mb-lg-0 w-100">Logout</button>
+                            <button type="submit" class="btn btn-outline-primary me-lg-2 mb-2 mb-lg-0">Logout</button>
                         </form>
                     {% else %}
-                        <a href="{% url 'login' %}" class="btn btn-outline-primary me-lg-2 mb-2 mb-lg-0 w-100">Login</a>
-                        <a href="{% url 'register' %}" class="btn btn-primary w-100">Get Started</a>
+                        <a href="{% url 'login' %}" class="btn btn-outline-primary me-lg-2 mb-2 mb-lg-0">Login</a>
+                        <a href="{% url 'register' %}" class="btn btn-primary">Get Started</a>
                     {% endif %}
                 </div>
             </div>
@@ -140,10 +139,9 @@
     <script src="{% static 'js/mobile-performance.js' %}"></script>
     <script src="{% static 'js/hero-mobile.js' %}"></script>
     <script src="{% static 'js/dashboard-mobile-enhanced.js' %}"></script>
-    <script src="{% static 'js/mobile-gestures.js' %}"></script>
-    <script src="{% static 'js/mobile-accessibility.js' %}"></script>
+    <script src="{% static 'js/mobile-gestures.js' %}"></script>    <script src="{% static 'js/mobile-accessibility.js' %}"></script>
       
-      <!-- Custom JS for mobile menu -->    <script>
+      <!-- Custom JS for mobile menu --><script>
         document.addEventListener('DOMContentLoaded', function() {
             // Fix for navbar not closing on mobile when a link is clicked
             const navLinks = document.querySelectorAll('.navbar-nav .nav-link');

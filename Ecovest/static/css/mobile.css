@@ -167,8 +167,8 @@
     }
 }
 
-/* Large screens (small laptops) */
-@media (max-width: 992px) {
+/* Large screens (tablets and below) */
+@media (max-width: 991.98px) {
     /* Fix navbar appearance */
     .navbar-custom .navbar-collapse {
         background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
@@ -281,17 +281,10 @@
         background: rgba(255, 255, 255, 0.1);
         transition: all 0.2s ease;
     }
-    
-    .navbar-custom .nav-link:hover,
+      .navbar-custom .nav-link:hover,
     .navbar-custom .nav-link:focus,
     .navbar-custom .nav-link.active {
         background: rgba(255, 255, 255, 0.2);
-    }
-    
-    /* Mobile nav buttons */
-    .navbar-custom .btn {
-        margin-bottom: 0.75rem !important;
-        padding: 1rem !important;
     }
     
     /* Auto-close navbar when clicked outside */
