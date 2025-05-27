@@ -1,0 +1,391 @@
+:root {
+    --primary-color: #2ecc71;
+    --primary-dark: #27ae60;
+    --secondary-color: #20c997;
+    --accent-color: #F0F8FF;
+    --dark-color: #2c3e50;
+    --light-color: #f8f9fa;
+    --transition-cubic: cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base styles with modern updates */
+body {
+    font-family: 'Poppins', 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    color: var(--dark-color);
+    line-height: 1.6;
+}
+
+/* Enhanced navbar styling with landing page appearance */
+html body .navbar-custom {
+    background: linear-gradient(135deg, #155d27 0%, #25a244 100%) !important;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1030;
+    transition: all 0.3s ease;
+}
+
+html body .navbar-custom .navbar-brand {
+    font-weight: 700;
+    color: white !important;
+    font-size: 1.5rem;
+    transition: all 0.3s var(--transition-cubic);
+}
+
+html body .navbar-custom .navbar-brand:hover {
+    transform: translateY(-2px);
+    text-shadow: 0 5px 15px rgba(0,0,0,0.15);
+}
+
+html body .navbar-custom .nav-link {
+    color: rgba(255, 255, 255, 0.9) !important;
+    font-weight: 500;
+    padding: 0.5rem 1rem !important;
+    transition: all 0.3s var(--transition-cubic);
+    position: relative;
+}
+
+html body .navbar-custom .nav-link::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 1rem;
+    right: 1rem;
+    height: 2px;
+    background: white;
+    transform: scaleX(0);
+    transition: transform 0.3s var(--transition-cubic);
+}
+
+html body .navbar-custom .nav-link:hover::after,
+html body .navbar-custom .nav-link.active::after {
+    transform: scaleX(1);
+}
+
+html body .navbar-custom .navbar-toggler {
+    border: none;
+    padding: 0.25rem 0.75rem;
+    font-size: 1.25rem;
+    color: white;
+}
+
+html body .navbar-custom .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.9%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+html body .navbar-custom .navbar-toggler:focus {
+    box-shadow: 0 0 0 0.15rem rgba(255, 255, 255, 0.25);
+}
+
+/* Active and hover nav states with !important to prevent overrides */
+html body .navbar-custom .nav-link:hover,
+html body .navbar-custom .nav-link.active {
+    color: white !important;
+}
+
+/* Navbar buttons with important flags to prevent overrides */
+html body .navbar-custom .btn-outline-primary {
+    color: white !important;
+    border: 2px solid white !important;
+    background: transparent !important;
+    border-radius: 50px !important;
+    padding: 0.75rem 1.75rem !important;
+    transition: all 0.3s ease !important;
+}
+
+html body .navbar-custom .btn-outline-primary:hover {
+    background: rgba(255, 255, 255, 0.1) !important;
+    transform: translateY(-3px) !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15) !important;
+}
+
+html body .navbar-custom .btn-primary {
+    background: white !important;
+    color: #155d27 !important;
+    border: none !important;
+    border-radius: 50px !important;
+    padding: 0.75rem 1.75rem !important;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    transition: all 0.3s ease !important;
+}
+
+html body .navbar-custom .btn-primary:hover {
+    transform: translateY(-3px) !important;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15) !important;
+}
+
+/* Modern button styles */
+.btn {
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    border-radius: 8px;
+    transition: all 0.3s var(--transition-cubic);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.btn-primary::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0) 100%);
+    transform: translateX(-100%);
+    transition: transform 0.3s ease;
+}
+
+.btn-primary:hover::before {
+    transform: translateX(0);
+}
+
+.btn-outline-primary {
+    color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    background: transparent;
+}
+
+.btn-outline-primary:hover {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.hero {
+    background: linear-gradient(135deg, rgba(46, 139, 87, 0.9) 0%, rgba(60, 179, 113, 0.8) 100%), url('https://source.unsplash.com/random/1920x1080/?nature,sustainability') no-repeat center center;
+    background-size: cover;
+    color: white;
+    padding: 100px 0;
+}
+
+.feature-icon {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.impact-card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.impact-card:hover {
+    transform: translateY(-10px);
+}
+
+.impact-icon {
+    font-size: 2rem;
+    color: var(--primary-color);
+}
+
+.testimonial {
+    background-color: var(--accent-color);
+    padding: 80px 0;
+}
+
+.testimonial-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+}
+
+.project-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.project-card:hover {
+    transform: translateY(-5px);
+}
+
+.cta-section {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 80px 0;
+}
+
+/* Footer with modern updates */
+footer {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 5rem 0 2rem;
+    position: relative;
+    overflow: hidden;
+}
+
+footer::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+}
+
+.footer-brand {
+    font-size: 1.75rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    display: inline-block;
+    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.footer-links {
+    list-style: none;
+    padding-left: 0;
+}
+
+.footer-links li {
+    margin-bottom: 0.75rem;
+}
+
+.footer-links a {
+    color: rgba(255, 255, 255, 0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.footer-links a:hover {
+    color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.social-icon {
+    color: white;
+    font-size: 1.25rem;
+    margin-right: 1rem;
+    transition: all 0.3s var(--transition-cubic);
+    opacity: 0.8;
+}
+
+.social-icon:hover {
+    color: var(--primary-color);
+    opacity: 1;
+    transform: translateY(-3px);
+}
+
+.card-img-top {
+    height: 200px;
+    width: 100%;
+    object-fit: cover;
+}
+
+.initiative-card {
+    border: none;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s;
+}
+
+.initiative-card:hover {
+    transform: translateY(-5px);
+}
+
+.profile-img {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    border: 2px solid #ddd;
+}
+
+/* Modern card styles */
+.card {
+    border: none;
+    border-radius: 16px;
+    overflow: hidden;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: all 0.3s var(--transition-cubic);
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+}
+
+/* Form controls with modern styling */
+.form-control, .form-select {
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.form-control:focus, .form-select:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(46, 204, 113, 0.1);
+}
+
+/* Modern badges */
+.badge {
+    padding: 0.5em 1em;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.animate-fadeInUp {
+    animation: fadeInUp 0.6s var(--transition-cubic) forwards;
+}
+
+/* Toast notifications */
+.toast {
+    border-radius: 12px;
+    overflow: hidden;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.toast-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    border: none;
+}
+
+/* Modern scrollbar */
+::-webkit-scrollbar {
+    width: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-color);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-dark);
+}

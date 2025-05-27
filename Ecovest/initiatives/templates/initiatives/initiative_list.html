@@ -1,0 +1,1744 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Sustainable Investment Opportunities - Ecovest{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/initiative-list-compact.css' %}">
+<style>
+    /* Modern Hero Section with enhanced visual features */
+    .hero {
+        background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+        color: white;
+        padding: 4rem 0;
+        position: relative;
+        overflow: hidden;
+        border-radius: 0 0 30px 30px;
+    }
+    
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("{% static 'images/pattern.svg' %}") repeat;
+        opacity: 0.08;
+        animation: patternFloat 60s linear infinite;
+    }
+    
+    .hero::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
+        z-index: 1;
+    }
+    
+    @keyframes patternFloat {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(-100%) rotate(3deg); }
+    }
+    
+    /* Animated leaf elements */
+    .hero-leaf {
+        position: absolute;
+        opacity: 0.2;
+        z-index: 0;
+        animation: leafFloat 20s ease-in-out infinite alternate;
+    }
+    
+    .hero-leaf-1 {
+        top: 10%;
+        left: 5%;
+        width: 120px;
+        height: 120px;
+        animation-delay: 0s;
+    }
+    
+    .hero-leaf-2 {
+        bottom: 15%;
+        left: 15%;
+        width: 80px;
+        height: 80px;
+        animation-delay: 5s;
+    }
+    
+    .hero-leaf-3 {
+        top: 20%;
+        right: 10%;
+        width: 100px;
+        height: 100px;
+        animation-delay: 10s;
+    }
+    
+    @keyframes leafFloat {
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(5deg); }
+        100% { transform: translateY(20px) rotate(-5deg); }
+    }
+    
+    .hero-content {
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-title {
+        font-size: 2.5rem;
+        font-weight: 800;
+        margin-bottom: 1rem;
+        text-shadow: 0 2px 10px rgba(0,0,0,0.2);
+        letter-spacing: -0.5px;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+        font-weight: 400;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+        max-width: 600px;
+    }
+    
+    /* Enhanced Stat Cards */
+    .stat-card {
+        background: rgba(255, 255, 255, 0.12);
+        border-radius: 16px;
+        padding: 1.5rem;
+        text-align: center;
+        backdrop-filter: blur(10px);
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 20px rgba(0,0,0,0.08);
+        border: 1px solid rgba(255,255,255,0.15);
+    }
+    
+    .stat-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: rgba(255,255,255,0.4);
+        transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover {
+        transform: translateY(-7px) scale(1.03);
+        background: rgba(255, 255, 255, 0.18);
+        box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    }
+    
+    .stat-card:hover::before {
+        background: rgba(255,255,255,0.8);
+    }
+    
+    .stat-card i {
+        font-size: 2rem;
+        margin-bottom: 0.8rem;
+        opacity: 0.9;
+        background: linear-gradient(135deg, rgba(255,255,255,1) 0%, rgba(255,255,255,0.7) 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        transition: all 0.3s ease;
+    }
+    
+    .stat-card:hover i {
+        transform: scale(1.2);
+    }
+    
+    .stat-card h3 {
+        font-size: 2rem;
+        margin-bottom: 0.5rem;
+        font-weight: 700;
+        text-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    
+    .stat-card p {
+        margin: 0;
+        opacity: 0.85;
+        font-size: 0.95rem;
+        font-weight: 500;
+    }
+    
+    .stat-card .stat-trend {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        font-size: 0.8rem;
+        padding: 0.25rem 0.5rem;
+        background: rgba(255,255,255,0.2);
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+    }
+    
+    .stat-trend.up {
+        color: #a7f3d0;
+    }
+    
+    /* Modern Advanced Filter Section */
+    .filter-section {
+        background: white;
+        padding: 1.75rem;
+        border-radius: 20px;
+        box-shadow: 0 15px 35px rgba(0,0,0,0.07);
+        margin-bottom: 2.5rem;
+        margin-top: -2.5rem;
+        position: relative;
+        z-index: 10;
+        transition: all 0.3s ease;
+    }
+    
+    .filter-section:hover {
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .form-label {
+        font-size: 0.9rem;
+        margin-bottom: 0.4rem;
+        color: #555;
+        font-weight: 600;
+        transition: all 0.2s ease;
+    }
+    
+    .form-group:focus-within .form-label {
+        color: #25a244;
+    }
+    
+    .form-select, .form-control {
+        font-size: 0.95rem;
+        padding: 0.65rem 0.85rem;
+        border-radius: 12px;
+        border: 1.5px solid rgba(0,0,0,0.08);
+        transition: all 0.3s ease;
+        background-color: #f9fafb;
+    }
+    
+    .form-select:focus, .form-control:focus {
+        box-shadow: 0 0 0 4px rgba(37, 162, 68, 0.15);
+        border-color: #25a244;
+        background-color: #fff;
+    }
+    
+    .btn {
+        font-size: 0.95rem;
+        padding: 0.65rem 1.25rem;
+        border-radius: 12px;
+        font-weight: 500;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    .btn-primary {
+        background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+        border: none;
+        box-shadow: 0 8px 15px rgba(37, 162, 68, 0.25);
+    }
+    
+    .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 12px 25px rgba(37, 162, 68, 0.35);
+        background: linear-gradient(135deg, #1e8e37 0%, #6db985 100%);
+    }    /* Enhanced Modern Initiative Card Design - Smaller and More Compact */
+    .initiative-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 12px 28px rgba(0,0,0,0.05);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        border: none;
+    }
+    
+    .initiative-card:hover {
+        transform: translateY(-8px);
+        box-shadow: 0 18px 35px rgba(0,0,0,0.1);
+    }
+    
+    .initiative-image-wrapper {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .initiative-image {
+        height: 180px;
+        object-fit: cover;
+        width: 100%;
+        transition: transform 0.7s ease;
+    }
+    
+    .initiative-card:hover .initiative-image {
+        transform: scale(1.08);
+    }    .initiative-content {
+        padding: 1.25rem;
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        position: relative;
+    }
+    
+    .initiative-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin-bottom: 0.75rem;
+    }
+    
+    .initiative-title-area {
+        flex: 1;
+    }
+    
+    .initiative-title {
+        font-size: 1.1rem;
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+        color: #1a1a1a;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        transition: all 0.3s ease;
+    }
+      .initiative-card:hover .initiative-title {
+        color: #25a244;
+    }
+    
+    /* Status badge styles */
+    .status-tags .badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        backdrop-filter: blur(4px);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }    .initiative-description {
+        color: #555;
+        margin-bottom: 1rem;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2;
+        line-clamp: 2;
+        overflow: hidden;
+        font-size: 0.9rem;
+        line-height: 1.5;
+        transition: all 0.3s ease;
+    }
+    
+    .funding-info {
+        margin-bottom: 1rem;
+        position: relative;
+    }
+      .funding-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.4rem;
+        font-size: 0.9rem;
+    }
+    
+    .funding-amount {
+        font-weight: 700;
+        font-size: 1rem;
+        color: #25a244;
+        transition: all 0.3s ease;
+    }
+    
+    .initiative-card:hover .funding-amount {
+        transform: scale(1.05);
+    }
+    
+    .funding-goal {
+        color: #666;
+        font-size: 0.8rem;
+    }
+    
+    .progress {
+        height: 8px;
+        margin-bottom: 0.4rem;
+        border-radius: 4px;
+        background-color: #f3f3f3;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .progress-bar {
+        background: linear-gradient(90deg, #25a244, #82ca9c);
+        border-radius: 5px;
+        transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .progress-bar::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+            90deg, 
+            rgba(255,255,255,0) 0%, 
+            rgba(255,255,255,0.2) 50%, 
+            rgba(255,255,255,0) 100%
+        );
+        animation: shimmer 2s infinite;
+        transform: translateX(-100%);
+    }
+    
+    @keyframes shimmer {
+        100% {
+            transform: translateX(100%);
+        }
+    }
+      .initiative-meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: auto;
+        margin-bottom: 0.75rem;
+    }
+    
+    .initiative-tag {
+        font-size: 0.75rem;
+        padding: 0.25rem 0.7rem;
+        border-radius: 30px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+    }
+    
+    .initiative-tag.location {
+        background: #f8f9fa;
+        color: #555;
+    }
+    
+    .initiative-tag.investment {
+        background: #e8f5e9;
+        color: #2e7d32;
+        font-weight: 600;
+    }
+    
+    .initiative-tag i {
+        font-size: 0.8rem;
+        opacity: 0.8;
+    }
+    
+    .initiative-card:hover .initiative-tag {
+        transform: translateY(-3px);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+    }
+      .btn-learn-more {
+        background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+        color: white;
+        padding: 0.7rem;
+        border-radius: 12px;
+        text-decoration: none;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        font-size: 0.9rem;
+        text-align: center;
+        display: block;
+        font-weight: 600;
+        box-shadow: 0 6px 12px rgba(37, 162, 68, 0.15);
+        transform-origin: center;
+    }
+    
+    .btn-learn-more:hover {
+        background: linear-gradient(135deg, #1e8e37 0%, #6db985 100%);
+        color: white;
+        transform: translateY(-2px) scale(1.01);
+        box-shadow: 0 8px 18px rgba(37, 162, 68, 0.25);
+    }
+    
+    /* Details toggle section with improved animations */
+    .details-toggle {
+        color: #25a244;
+        font-size: 0.9rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 0.85rem 0;
+        user-select: none;
+        transition: all 0.3s ease;
+        padding: 0.5rem 0;
+        font-weight: 500;
+    }
+    
+    .details-toggle:hover {
+        color: #1e8e37;
+        gap: 0.7rem;
+    }
+    
+    .details-toggle .toggle-text {
+        position: relative;
+    }
+    
+    .details-toggle .toggle-text::after {
+        content: '';
+        position: absolute;
+        bottom: -2px;
+        left: 0;
+        width: 0;
+        height: 2px;
+        background-color: #25a244;
+        transition: width 0.3s ease;
+    }
+    
+    .details-toggle:hover .toggle-text::after {
+        width: 100%;
+    }
+    
+    .initiative-details {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        opacity: 0;
+    }
+    
+    .initiative-details.show {
+        max-height: 500px;
+        opacity: 1;
+    }
+    
+    .detail-section {
+        margin-top: 0.75rem;
+        padding: 1rem 0;
+        border-top: 1px solid rgba(0,0,0,0.05);
+        animation: fadeIn 0.5s ease forwards;
+    }
+    
+    .impact-stats {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.9rem;
+        color: #555;
+        margin-bottom: 1rem;
+    }
+    
+    .impact-stat {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 0.75rem;
+        border-radius: 12px;
+        background: #f9fafb;
+    }
+    
+    .initiative-card:hover .impact-stat {
+        transform: scale(1.05);
+        background: #f3f4f6;
+    }
+    
+    .impact-stat i {
+        color: #25a244;
+        font-size: 1rem;
+    }
+    
+    .impact-stat .impact-value {
+        font-weight: 600;
+        color: #333;
+    }
+    
+    /* Status and location tags with improved visibility */
+    .status-tags {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        z-index: 5;
+    }
+    
+    .status-tags .badge {
+        font-size: 0.75rem;
+        padding: 0.4rem 0.8rem;
+        border-radius: 8px;
+        box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+        backdrop-filter: blur(4px);
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    
+    .status-tags .badge.bg-primary {
+        background-color: rgba(13, 110, 253, 0.85) !important;
+    }
+    
+    .status-tags .badge.bg-info {
+        background-color: rgba(13, 202, 240, 0.85) !important;
+    }
+    
+    .status-tags .badge.bg-success {
+        background-color: rgba(25, 135, 84, 0.85) !important;
+    }
+    
+    .status-tags .badge.bg-secondary {
+        background-color: rgba(108, 117, 125, 0.85) !important;
+    }
+
+    /* Enhanced category badge styling */
+    .category-badge-container {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-top: 0.5rem;
+    }
+    
+    .category-badge {
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+        padding: 0.3rem 0.75rem;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+    }
+    
+    .category-badge:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+    }
+      /* Updated category colors with improved accessibility and visual hierarchy */
+    .badge-renewable-energy {
+        background-color: #d1fae5;
+        color: #065f46;
+        border-left: 3px solid #10b981;
+    }
+    
+    .badge-recycling {
+        background-color: #e0f2fe;
+        color: #0369a1;
+        border-left: 3px solid #0ea5e9;
+    }
+    
+    .badge-emission-control {
+        background-color: #fef3c7;
+        color: #92400e;
+        border-left: 3px solid #f59e0b;
+    }
+    
+    .badge-water-conservation {
+        background-color: #dbeafe;
+        color: #1e40af;
+        border-left: 3px solid #3b82f6;
+    }
+    
+    .badge-reforestation {
+        background-color: #dcfce7;
+        color: #166534;
+        border-left: 3px solid #22c55e;
+    }
+    
+    .badge-sustainable-agriculture {
+        background-color: #ecfccb;
+        color: #3f6212;
+        border-left: 3px solid #84cc16;
+    }
+    
+    .badge-clean-transportation {
+        background-color: #f3e8ff;
+        color: #6b21a8;
+        border-left: 3px solid #a855f7;
+    }
+    
+    .badge-waste-management {
+        background-color: #fee2e2;
+        color: #991b1b;
+        border-left: 3px solid #ef4444;
+    }
+    
+    .badge-green-technology {
+        background-color: #dbeafe;
+        color: #1e40af;
+        border-left: 3px solid #2563eb;
+    }
+    
+    .badge-ocean-conservation {
+        background-color: #cffafe;
+        color: #155e75;
+        border-left: 3px solid #06b6d4;
+    }    /* Filter components with improved usability - Always expanded */
+    .row.g-3 {
+        --bs-gutter-x: 1.5rem;
+        --bs-gutter-y: 1.5rem;
+    }
+    
+    .filter-form-container {
+        opacity: 1;
+        transition: none;
+        max-height: none !important;
+    }
+    
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.35rem 0.7rem;
+        border-radius: 30px;
+        font-weight: 600;
+        box-shadow: 0 3px 8px rgba(0,0,0,0.05);
+        transition: all 0.2s ease;
+    }
+    
+    .badge:hover {
+        transform: translateY(-2px);
+    }
+    
+    /* Enhanced filter chips for active filters */
+    .filter-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-bottom: 1.25rem;
+        align-items: center;
+    }
+    
+    .filter-chip {
+        background: #f8f9fa;
+        border-radius: 30px;
+        padding: 0.4rem 1rem;
+        font-size: 0.9rem;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 10px rgba(0,0,0,0.07);
+        border: 1px solid rgba(0,0,0,0.04);
+    }
+    
+    .filter-chip:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+    }
+    
+    .filter-chip i {
+        cursor: pointer;
+        opacity: 0.7;
+        transition: all 0.2s ease;
+        font-size: 0.85rem;
+    }
+    
+    .filter-chip i:hover {
+        opacity: 1;
+        transform: scale(1.2) rotate(90deg);
+        color: #e03131;
+    }
+    
+    .filter-chip.reset {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+    
+    .filter-chip.reset:hover {
+        background: #d7f0db;
+    }
+    
+    .filter-chip.reset i {
+        color: #2e7d32;
+    }
+    
+    /* Enhanced View Toggle controls */
+    .view-toggle {
+        display: flex;
+        margin-bottom: 1rem;
+    }
+    
+    .view-toggle-btn {
+        padding: 0.5rem 1rem;
+        background: #f8f9fa;
+        border: none;
+        font-size: 0.9rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: 1px solid rgba(0,0,0,0.05);
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+    
+    .view-toggle-btn:first-child {
+        border-radius: 12px 0 0 12px;
+    }
+    
+    .view-toggle-btn:last-child {
+        border-radius: 0 12px 12px 0;
+    }
+    
+    .view-toggle-btn.active {
+        background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+        color: white;
+        font-weight: 500;
+        box-shadow: 0 5px 15px rgba(37, 162, 68, 0.2);
+    }
+    
+    .view-toggle-btn:not(.active):hover {
+        background: #f0f0f0;
+        transform: translateY(-2px);
+    }    /* Compact view with improved layout - full row layout */
+    .compact-view .initiative-item {
+        width: 100%;
+        max-width: 100%;
+        flex: 0 0 100%;
+        margin-bottom: 0.75rem;
+    }
+    
+    .compact-view .initiative-card {
+        flex-direction: row;
+        height: auto;
+        max-height: 140px;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    
+    .compact-view .initiative-image-wrapper {
+        width: 18%;
+        min-width: 150px;
+        height: 140px;
+        overflow: hidden;
+    }
+    
+    .compact-view .initiative-image {
+        height: 100%;
+        object-position: center;
+        object-fit: cover;
+    }
+      .compact-view .initiative-content {
+        width: 82%;
+        padding: 0.75rem 1rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    
+    .compact-view .initiative-description {
+        -webkit-line-clamp: 1;
+        line-clamp: 1;
+        margin-bottom: 0.5rem;
+        font-size: 0.85rem;
+    }
+    
+    .compact-view .initiative-meta {
+        flex-direction: row;
+        margin-top: 0;
+        gap: 0.75rem;
+    }
+    
+    .compact-view .initiative-title {
+        font-size: 1rem;
+        margin-bottom: 0.25rem;
+    }    .compact-view .funding-info {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0;
+        max-height: 35px;
+    }
+    
+    .compact-view .funding-row {
+        width: 30%;
+        margin-bottom: 0;
+        margin-right: 0.5rem;
+        display: flex;
+        align-items: baseline;
+        gap: 0.35rem;
+    }
+    
+    .compact-view .funding-amount {
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    
+    .compact-view .funding-goal {
+        font-size: 0.75rem;
+        opacity: 0.8;
+    }
+    
+    .compact-view .progress {
+        width: 35%;
+        margin: 0 0.75rem;
+        height: 5px;
+    }
+    
+    .compact-view .d-flex.justify-content-between.text-muted.small {
+        width: 20%;
+        margin-left: 0.5rem;
+        font-size: 0.7rem;
+    }
+      .compact-view .category-badge {
+        font-size: 0.7rem;
+        padding: 0.2rem 0.5rem;
+    }
+    
+    .compact-view .initiative-header {
+        margin-bottom: 0.35rem;
+    }
+    
+    .compact-view .category-badge-container {
+        margin-top: 0.2rem;
+    }
+    
+    .compact-view .details-toggle {
+        margin: 0;
+        font-size: 0.8rem;
+        padding: 0.25rem 0;
+    }
+    
+    /* Enhanced Pagination styling */
+    .pagination {
+        margin: 3rem 0;
+    }
+      .page-link {
+        color: #25a244;
+        padding: 0.6rem 0.9rem;
+        font-size: 0.95rem;
+        border-radius: 12px;
+        margin: 0 0.25rem;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        border: none;
+        font-weight: 500;
+    }
+    
+    .page-link:hover:not(.active) {
+        background-color: #e8f5e9;
+        color: #1e8e37;
+        transform: translateY(-3px);
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    }
+    
+    .page-item.active .page-link {
+        background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+        border-color: transparent;
+        box-shadow: 0 5px 15px rgba(37, 162, 68, 0.2);
+    }    /* Responsive adjustments for compact view */
+    @media (max-width: 991px) {
+        .compact-view .initiative-card {
+            max-height: none;
+        }
+        
+        .compact-view .initiative-image-wrapper {
+            width: 25%;
+            min-width: 150px;
+        }
+        
+        .compact-view .initiative-content {
+            width: 75%;
+            padding: 0.75rem;
+        }
+        
+        .compact-view .funding-info {
+            flex-direction: column;
+            align-items: flex-start;
+            max-height: none;
+        }
+        
+        .compact-view .funding-row,
+        .compact-view .progress,
+        .compact-view .d-flex.justify-content-between.text-muted.small {
+            width: 100%;
+            margin: 0.2rem 0;
+        }
+    }
+    
+    @media (max-width: 767px) {
+        .compact-view .initiative-card {
+            flex-direction: column;
+        }
+        
+        .compact-view .initiative-image-wrapper,
+        .compact-view .initiative-content {
+            width: 100%;
+        }
+        
+        .compact-view .initiative-image-wrapper {
+            height: 140px;
+            min-height: auto;
+            min-width: auto;
+        }
+        
+        .compact-view .initiative-image {
+            height: 140px;
+        }
+    }
+    
+    /* Improved animations for better UX */
+    .fade-in {
+        animation: fadeIn 0.7s ease forwards;
+    }
+    
+    .fade-in-up {
+        animation: fadeInUp 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    .fade-in-right {
+        animation: fadeInRight 0.7s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    @keyframes fadeInRight {
+        from {
+            opacity: 0;
+            transform: translateX(-30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateX(0);
+        }
+    }
+    
+    /* Parallax effect for images on scroll */
+    .parallax-wrapper {
+        overflow: hidden;
+        position: relative;
+    }
+    
+    /* Hover highlight effect */
+    .hover-highlight {
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hover-highlight::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(37, 162, 68, 0);
+        transition: background 0.3s ease;
+        z-index: 1;
+        pointer-events: none;
+    }
+    
+    .hover-highlight:hover::after {
+        background: rgba(37, 162, 68, 0.05);
+    }
+    
+    /* Skeleton loaders for better perceived performance */
+    @keyframes skeletonPulse {
+        0% { background-position: -200px 0; }
+        100% { background-position: calc(200px + 100%) 0; }
+    }
+    
+    .skeleton {
+        background: linear-gradient(90deg, #f0f0f0 25%, #e8e8e8 50%, #f0f0f0 75%);
+        background-size: 200px 100%;
+        animation: skeletonPulse 1.5s infinite;
+        border-radius: 10px;
+        min-height: 20px;
+    }
+    
+    .skeleton-card {
+        height: 100%;
+        border-radius: 16px;
+        overflow: hidden;
+    }
+    
+    .skeleton-img {
+        height: 180px;
+        width: 100%;
+    }
+    
+    .skeleton-title {
+        height: 24px;
+        margin: 1rem 0 0.5rem;
+        width: 80%;
+    }
+    
+    .skeleton-text {
+        height: 14px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .skeleton-text.sm {
+        width: 60%;
+    }
+    
+    .skeleton-text.md {
+        width: 80%;
+    }
+    
+    .skeleton-text.lg {
+        width: 100%;
+    }
+    
+    /* Quick view modal styling */
+    .modal-quick-view {
+        padding: 0 !important;
+    }
+    
+    .modal-quick-view .modal-dialog {
+        max-width: 900px;
+    }
+    
+    .modal-quick-view .modal-content {
+        border-radius: 20px;
+        overflow: hidden;
+        border: none;
+    }
+    
+    .modal-quick-view .modal-body {
+        padding: 0;
+    }
+    
+    .modal-initiative-content {
+        padding: 2rem;
+    }
+    
+    .modal-initiative-image {
+        height: 300px;
+        width: 100%;
+        object-fit: cover;
+    }
+    
+    .quick-view-close {
+        position: absolute;
+        top: 1rem;
+        right: 1rem;
+        background: rgba(255, 255, 255, 0.8);
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        z-index: 10;
+        transition: all 0.3s ease;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .quick-view-close:hover {
+        background: white;
+        transform: rotate(90deg);
+    }
+      /* Responsive adjustments with improved mobile experience */
+    @media (max-width: 1199px) {
+        .col-lg-3.initiative-item {
+            flex: 0 0 auto;
+            width: 33.33333%;
+        }
+    }
+    
+    @media (max-width: 991px) {
+        .hero {
+            padding: 3rem 0;
+            border-radius: 0 0 25px 25px;
+        }
+        
+        .hero-title {
+            font-size: 2rem;
+        }
+        
+        .filter-section {
+            margin-top: -1.5rem;
+            padding: 1.5rem;
+        }
+        
+        .initiative-image {
+            height: 160px;
+        }
+        
+        .stat-card h3 {
+            font-size: 1.75rem;
+        }
+        
+        .initiative-title {
+            font-size: 1rem;
+        }
+        
+        .col-lg-3.initiative-item {
+            flex: 0 0 auto;
+            width: 50%;
+        }
+    }
+    
+    @media (max-width: 767px) {
+        .hero {
+            padding: 2.5rem 0;
+            border-radius: 0 0 20px 20px;
+        }
+        
+        .hero-title {
+            font-size: 1.75rem;
+        }
+        
+        .compact-view .initiative-card {
+            flex-direction: column;
+        }
+        
+        .compact-view .initiative-image-wrapper {
+            width: 100%;
+            height: 160px;
+        }
+        
+        .compact-view .initiative-content {
+            width: 100%;
+        }
+        
+        .initiative-meta {
+            flex-wrap: wrap;
+            gap: 0.5rem;
+        }
+        
+        .initiative-tag {
+            padding: 0.3rem 0.75rem;
+            font-size: 0.8rem;
+        }
+        
+        .impact-stats {
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        
+        .impact-stat {
+            width: 100%;
+        }
+        
+        .filter-row {
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        
+        .filter-chip {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Enhanced Hero Section with Visual Elements -->
+<div class="hero">
+    <!-- Decorative leaf elements for visual interest -->    <img src="{% static 'images/leaf1.svg' %}" class="hero-leaf hero-leaf-1" alt="">
+    <img src="{% static 'images/leaf2.svg' %}" class="hero-leaf hero-leaf-2" alt="">
+    <img src="{% static 'images/leaf3.svg' %}" class="hero-leaf hero-leaf-3" alt="">
+      <div class="container hero-content">
+        <div class="row mb-3 mb-md-5">
+            <div class="col-lg-8 col-md-10">
+                <h1 class="hero-title fade-in" style="animation-delay: 0.1s;">Sustainable Investment Opportunities</h1>
+                <p class="hero-subtitle fade-in" style="animation-delay: 0.2s;">
+                    Discover high-impact, environmentally-focused investment projects that align with your values and financial goals.
+                </p>
+                <button class="btn btn-light btn-lg mt-2 fade-in d-none d-md-inline-flex" id="showChartsBtn" style="animation-delay: 0.3s;" data-bs-toggle="modal" data-bs-target="#portfolioInsightsModal">
+                    <i class="fas fa-chart-pie me-2"></i> Portfolio Insights
+                </button>
+                <!-- Mobile-specific small button -->
+                <button class="btn btn-sm btn-light mt-2 fade-in d-md-none" id="showChartsMobileBtn" style="animation-delay: 0.3s;" data-bs-toggle="modal" data-bs-target="#portfolioInsightsModal">
+                    <i class="fas fa-chart-pie"></i>
+                </button>
+            </div>
+        </div>
+        
+        <div class="row g-3">
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card fade-in" style="animation-delay: 0.2s;">
+                    <i class="fas fa-project-diagram"></i>
+                    <h3>{{ total_initiatives|intcomma }}</h3>
+                    <p>Active Projects</p>
+                    <div class="stat-trend up">
+                        <i class="fas fa-arrow-up"></i> 12%
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card fade-in" style="animation-delay: 0.3s;">
+                    <i class="fas fa-users"></i>
+                    <h3>{{ total_investors|intcomma }}</h3>
+                    <p>Total Investors</p>
+                    <div class="stat-trend up">
+                        <i class="fas fa-arrow-up"></i> 8%
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card fade-in" style="animation-delay: 0.4s;">
+                    <i class="fas fa-rupee-sign"></i>
+                    <h3>₹{{ total_invested|intcomma }}</h3>
+                    <p>Total Invested</p>
+                    <div class="stat-trend up">
+                        <i class="fas fa-arrow-up"></i> 15%
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6">
+                <div class="stat-card fade-in" style="animation-delay: 0.5s;">
+                    <i class="fas fa-cloud"></i>
+                    <h3>{{ total_carbon|intcomma }}</h3>
+                    <p>CO₂ Reduced (kg)</p>
+                    <div class="stat-trend up">
+                        <i class="fas fa-arrow-up"></i> 21%
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <!-- Mobile filter toggle button -->
+    <button class="filter-toggle-btn d-md-none mb-3" type="button" data-bs-toggle="collapse" data-bs-target="#mobileFilterSection" aria-expanded="false" aria-controls="mobileFilterSection">
+        <i class="fas fa-filter me-2"></i> Show Filters
+    </button>
+    
+    <!-- Enhanced Filter Section with Interactive Elements - Always Expanded -->
+    <div class="filter-section collapse d-md-block" id="mobileFilterSection">
+        <!-- Active Filters Row with Improved Design -->
+        {% if request.GET.category or request.GET.status or default_status == 'active' and not request.GET.status or request.GET.sort or request.GET.search %}
+        <div class="filter-row">
+            <span class="small fw-bold me-2"><i class="fas fa-filter me-1"></i> Active Filters:</span>
+            {% if request.GET.category %}
+            <div class="filter-chip">
+                <i class="fas fa-tag"></i> Category: {{ request.GET.category }} 
+                <a href="?{% if request.GET.status %}status={{ request.GET.status }}{% elif default_status == 'active' and not request.GET.status %}status=active{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                    <i class="fas fa-times-circle"></i>
+                </a>
+            </div>
+            {% endif %}
+            
+            {% if request.GET.status %}
+            <div class="filter-chip">
+                <i class="fas fa-flag"></i> Status: {{ request.GET.status|title }} 
+                <a href="?{% if request.GET.category %}category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                    <i class="fas fa-times-circle"></i>
+                </a>
+            </div>
+            {% elif default_status == 'active' and not request.GET.status %}
+            <div class="filter-chip">
+                <i class="fas fa-flag"></i> Status: Active 
+                <a href="?status={% if request.GET.category %}category={{ request.GET.category }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                    <i class="fas fa-times-circle"></i>
+                </a>
+            </div>
+            {% endif %}
+            
+            {% if request.GET.search %}
+            <div class="filter-chip">
+                <i class="fas fa-search"></i> "{{ request.GET.search }}" 
+                <a href="?{% if request.GET.category %}category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}">
+                    <i class="fas fa-times-circle"></i>
+                </a>
+            </div>
+            {% endif %}
+              <a href="?" class="filter-chip reset">
+                <i class="fas fa-undo"></i> Reset all filters
+            </a>
+        </div>
+        {% endif %}
+        
+        <!-- Enhanced Filter Form with Better UX - Always Visible -->
+        <div class="filter-form-container">
+            <form method="get" class="row g-3">
+                <div class="col-md-3 form-group">
+                    <label class="form-label">Project Category</label>
+                    <select name="category" class="form-select">
+                        <option value="">All Categories</option>
+                        {% for category in categories %}
+                        <option value="{{ category.name }}" {% if request.GET.category == category.name %}selected{% endif %}>
+                            {{ category.name }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3 form-group">                    <label class="form-label">Project Status</label>
+                    <select name="status" class="form-select">
+                        <option value="">All Statuses</option>
+                        {% for value, label in initiatives.0.STATUS_CHOICES %}
+                        {% if value != 'draft' %}
+                        <option value="{{ value }}" {% if request.GET.status == value or default_status == value and not request.GET.status %}selected{% endif %}>
+                            {{ label }}
+                        </option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+                <div class="col-md-3 form-group">
+                    <label class="form-label">Sort Projects By</label>
+                    <select name="sort" class="form-select">
+                        <option value="newest" {% if request.GET.sort == 'newest' %}selected{% endif %}>Newest First</option>
+                        <option value="progress" {% if request.GET.sort == 'progress' %}selected{% endif %}>Funding Progress</option>
+                        <option value="amount" {% if request.GET.sort == 'amount' %}selected{% endif %}>Goal Amount</option>
+                    </select>
+                </div>
+                <div class="col-md-3 form-group">                    <label class="form-label">Search Projects</label>
+                    <div class="input-group">
+                        <input type="text" name="search" class="form-control" placeholder="Search..." value="{{ request.GET.search }}">
+                        <input type="hidden" name="status" value="{{ request.GET.status|default:default_status }}" id="hiddenStatusInput">
+                        <button type="submit" class="btn btn-primary">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Enhanced View Toggle with Better Visual Feedback -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h5 class="mb-0"><i class="fas fa-clipboard-list me-2"></i> Showing {{ initiatives.count }} projects</h5>        <div class="view-toggle">
+            <button class="view-toggle-btn active" data-view="grid">
+                <i class="fas fa-th-large"></i> Grid
+            </button>
+            <button class="view-toggle-btn" data-view="compact">
+                <i class="fas fa-list"></i> List
+            </button>
+        </div>
+    </div>    <!-- Initiatives Grid - Enhanced Design and Functionality - Smaller and 4 Columns Layout -->
+    <div class="row g-4" id="initiatives-container">        {% for initiative in initiatives %}
+        {% if initiative.status != 'draft' %}
+        <div class="col-lg-3 col-md-4 col-sm-6 initiative-item fade-in-up" style="animation-delay: {{ forloop.counter|add:'2' }}00ms;">
+            <a href="{% url 'initiative_detail' initiative.pk %}" class="initiative-link" style="text-decoration: none; color: inherit; display: block;">
+            <div class="initiative-card hover-highlight {{ initiative.categories.first.name|slugify }}">
+                <div class="initiative-image-wrapper">
+                    <!-- Status tag -->
+                    <div class="status-tags">
+                        {% if initiative.status == 'active' %}
+                        <span class="badge bg-primary">Active</span>
+                        {% elif initiative.status == 'funded' %}
+                        <span class="badge bg-info">Funded</span>
+                        {% elif initiative.status == 'completed' %}
+                        <span class="badge bg-success">Completed</span>
+                        {% endif %}
+                        
+                        <!-- Location tag if available -->
+                        {% if initiative.location %}
+                        <span class="badge bg-secondary">
+                            <i class="fas fa-map-marker-alt me-1"></i> {{ initiative.location }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    {% if initiative.image %}
+                    <img src="{{ initiative.image.url }}" alt="{{ initiative.title }}" class="initiative-image">
+                    {% else %}
+                    <img src="{% static 'images/placeholder.jpg' %}" alt="Placeholder" class="initiative-image">
+                    {% endif %}
+                </div>
+                
+                <div class="initiative-content">
+                    <div class="initiative-header">
+                        <div class="initiative-title-area">
+                            <h3 class="initiative-title" title="{{ initiative.title }}">{{ initiative.title }}</h3>
+                            <div class="category-badge-container">
+                                {% for category in initiative.categories.all|slice:":2" %}
+                                <span class="category-badge badge-{{ category.name|slugify }}">{{ category.name }}</span>
+                                {% endfor %}
+                                {% if initiative.categories.all|length > 2 %}
+                                <span class="badge bg-light text-dark">+{{ initiative.categories.all|length|add:"-2" }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="initiative-description">{{ initiative.description|truncatewords:20 }}</p>
+                    
+                    <div class="funding-info">
+                        <div class="funding-row">
+                            <span class="funding-amount">₹{{ initiative.current_amount|intcomma }}</span>
+                            <span class="funding-goal">of ₹{{ initiative.goal_amount|intcomma }}</span>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-bar" role="progressbar" 
+                                 style="width: {{ initiative.get_progress_percentage }}%"
+                                 aria-valuenow="{{ initiative.get_progress_percentage }}" 
+                                 aria-valuemin="0" 
+                                 aria-valuemax="100">
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between text-muted small">
+                            <span><i class="fas fa-chart-line me-1"></i> Progress</span>
+                            <span class="fw-bold">{{ initiative.get_progress_percentage|floatformat:1 }}%</span>
+                        </div>
+                    </div>
+                      <div class="initiative-meta">
+                        <div class="initiative-tag investment">
+                            <i class="fas fa-rupee-sign"></i>
+                            Min: ₹{{ initiative.min_investment|intcomma }}
+                        </div>
+                    </div>
+                    
+                    <div class="details-toggle" data-initiative="{{ initiative.pk }}">
+                        <span class="toggle-text">Show details</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                    
+                    <div class="initiative-details" id="details-{{ initiative.pk }}">
+                        <div class="detail-section">
+                            <h6 class="mb-3 fw-bold"><i class="fas fa-chart-pie me-2"></i>Impact Metrics</h6>
+                            <div class="impact-stats">
+                                <div class="impact-stat" title="Carbon Impact">
+                                    <i class="fas fa-cloud"></i>
+                                    <span class="impact-value">{{ initiative.impact_for_1000.carbon|intcomma }}</span>
+                                </div>
+                                <div class="impact-stat" title="Energy Impact">
+                                    <i class="fas fa-bolt"></i>
+                                    <span class="impact-value">{{ initiative.impact_for_1000.energy|intcomma }}</span>
+                                </div>
+                                <div class="impact-stat" title="Water Impact">
+                                    <i class="fas fa-tint"></i>
+                                    <span class="impact-value">{{ initiative.impact_for_1000.water|intcomma }}</span>
+                                </div>
+                            </div>
+                            <div class="text-muted small mb-3">
+                                <i class="fas fa-info-circle me-1"></i> Impact metrics per ₹1,000 investment
+                            </div>
+                            
+                            <div class="row g-2 mt-3">
+                                {% if initiative.duration_months %}
+                                <div class="col-6">
+                                    <div class="text-muted small mb-1">
+                                        <i class="fas fa-clock me-1"></i> Duration:
+                                    </div>
+                                    <div class="fw-bold">{{ initiative.duration_months }} months</div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if initiative.technology_type %}
+                                <div class="col-6">
+                                    <div class="text-muted small mb-1">
+                                        <i class="fas fa-microchip me-1"></i> Technology:
+                                    </div>
+                                    <div class="fw-bold">{{ initiative.technology_type }}</div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if initiative.risk_level %}
+                                <div class="col-6">
+                                    <div class="text-muted small mb-1">
+                                        <i class="fas fa-exclamation-triangle me-1"></i> Risk Level:
+                                    </div>
+                                    <div class="fw-bold">{{ initiative.get_risk_level_display }}</div>
+                                </div>
+                                {% endif %}
+                                
+                                {% if initiative.roi_estimate %}
+                                <div class="col-6">
+                                    <div class="text-muted small mb-1">
+                                        <i class="fas fa-chart-line me-1"></i> Est. ROI:
+                                    </div>
+                                    <div class="fw-bold">{{ initiative.roi_estimate }}%</div>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>                      <div class="mt-2">
+                        <a href="{% url 'initiative_detail' initiative.pk %}" class="btn-learn-more w-100">
+                            <i class="fas fa-external-link-alt me-2"></i> Learn More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            </a>      
+        </div>
+        {% endif %}
+        {% endfor %}
+        
+        {% if not initiatives %}
+        <!-- Enhanced empty state with better visual feedback -->
+        <div class="col-12 text-center">
+            <div class="p-5 bg-light rounded-4 shadow-sm">
+                <i class="fas fa-search fa-3x text-muted mb-4"></i>
+                <h4 class="mb-3">No initiatives found</h4>
+                <p class="text-muted mb-4">We couldn't find any projects matching your search criteria.</p>
+                <a href="?" class="btn btn-success px-4 py-2">Clear All Filters</a>
+            </div>
+        </div>
+        {% endif %}
+    </div>
+
+    <!-- Enhanced Pagination with Better Visual Design -->
+    {% if initiatives.has_other_pages %}
+    <nav aria-label="Page navigation" class="mt-5">
+        <ul class="pagination justify-content-center">            {% if initiatives.has_previous %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ initiatives.previous_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% elif default_status == 'active' and not request.GET.status %}&status=active{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                    <i class="fas fa-chevron-left"></i>
+                </a>
+            </li>
+            {% endif %}
+            
+            {% for num in initiatives.paginator.page_range %}
+            <li class="page-item {% if initiatives.number == num %}active{% endif %}">
+                <a class="page-link" href="?page={{ num }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% elif default_status == 'active' and not request.GET.status %}&status=active{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">{{ num }}</a>
+            </li>
+            {% endfor %}
+            
+            {% if initiatives.has_next %}
+            <li class="page-item">
+                <a class="page-link" href="?page={{ initiatives.next_page_number }}{% if request.GET.category %}&category={{ request.GET.category }}{% endif %}{% if request.GET.status %}&status={{ request.GET.status }}{% elif default_status == 'active' and not request.GET.status %}&status=active{% endif %}{% if request.GET.sort %}&sort={{ request.GET.sort }}{% endif %}{% if request.GET.search %}&search={{ request.GET.search }}{% endif %}">
+                    <i class="fas fa-chevron-right"></i>
+                </a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+</div>
+
+<!-- Quick View Modal for Enhanced UX -->
+<div class="modal fade modal-quick-view" id="quickViewModal" tabindex="-1" aria-labelledby="quickViewModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="quick-view-close" data-bs-dismiss="modal">
+                <i class="fas fa-times"></i>
+            </div>
+            <div class="modal-body">
+                <div class="row g-0">
+                    <div class="col-md-12 text-center py-5">
+                        <i class="fas fa-info-circle fa-3x text-muted mb-3"></i>
+                        <h4>Quick preview has been disabled</h4>
+                        <p class="text-muted">Please use the Learn More button to view full initiative details</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Portfolio Insights Modal -->
+<div class="modal fade" id="portfolioInsightsModal" tabindex="-1" aria-labelledby="portfolioInsightsModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title" id="portfolioInsightsModalLabel">
+                    <i class="fas fa-chart-pie me-2"></i> Portfolio Insights
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <ul class="nav nav-tabs mb-4" id="insightsTabs" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="category-tab" data-bs-toggle="tab" data-bs-target="#category-tab-pane" type="button" role="tab" aria-controls="category-tab-pane" aria-selected="true">
+                            <i class="fas fa-tags me-2"></i> Categories
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="status-tab" data-bs-toggle="tab" data-bs-target="#status-tab-pane" type="button" role="tab" aria-controls="status-tab-pane" aria-selected="false">
+                            <i class="fas fa-flag me-2"></i> Status
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="impact-tab" data-bs-toggle="tab" data-bs-target="#impact-tab-pane" type="button" role="tab" aria-controls="impact-tab-pane" aria-selected="false">
+                            <i class="fas fa-leaf me-2"></i> Impact
+                        </button>
+                    </li>
+                </ul>
+                <div class="tab-content" id="insightsTabContent">
+                    <!-- Category Distribution -->
+                    <div class="tab-pane fade show active" id="category-tab-pane" role="tabpanel" aria-labelledby="category-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="chart-container" style="position: relative; height: 300px;">
+                                    <canvas id="categoryDistributionChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="text-muted mb-3">Category Distribution</h6>
+                                <p>This chart shows the distribution of initiatives across different environmental categories.</p>
+                                <p class="small text-muted">
+                                    <i class="fas fa-info-circle me-1"></i> Hover over segments for more details.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Status Distribution -->
+                    <div class="tab-pane fade" id="status-tab-pane" role="tabpanel" aria-labelledby="status-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <div class="chart-container" style="position: relative; height: 300px;">
+                                    <canvas id="statusDistributionChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <h6 class="text-muted mb-3">Project Status</h6>
+                                <p>This chart illustrates the current status breakdown of all initiatives.</p>
+                                <div class="small mt-3">
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-primary me-2">Active</span>
+                                        <span>Projects currently accepting investments</span>
+                                    </div>
+                                    <div class="d-flex align-items-center mb-2">
+                                        <span class="badge bg-info me-2">Funded</span>
+                                        <span>Fully funded projects being implemented</span>
+                                    </div>
+                                    <div class="d-flex align-items-center">
+                                        <span class="badge bg-success me-2">Completed</span>
+                                        <span>Successfully completed projects</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Impact Comparison -->
+                    <div class="tab-pane fade" id="impact-tab-pane" role="tabpanel" aria-labelledby="impact-tab" tabindex="0">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="chart-container" style="position: relative; height: 300px;">
+                                    <canvas id="impactComparisonChart"></canvas>
+                                </div>
+                            </div>
+                            <div class="col-12 mt-3">
+                                <div class="alert alert-success">
+                                    <i class="fas fa-info-circle me-2"></i>
+                                    This chart compares the environmental impact metrics for ₹1,000 investment across the top 5 initiatives.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Close</button>
+                <a href="#" class="btn btn-success">
+                    <i class="fas fa-download me-2"></i> Download Report
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<!-- Load Chart.js for data visualization -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
+<!-- Load external JS files -->
+<script src="{% static 'js/initiative-list.js' %}"></script>
+<script src="{% static 'js/initiative-charts.js' %}"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Prevent clicks on interactive elements from navigating to the detail page
+        document.querySelectorAll('.details-toggle, .btn-learn-more').forEach(element => {
+            element.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        });
+    });
+</script>
+{% endblock %}

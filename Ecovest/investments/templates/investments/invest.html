@@ -1,0 +1,439 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}Invest in {{ initiative.title }} - Ecovest{% endblock %}
+
+{% block extra_css %}
+<style>
+.hero {
+    background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+    color: white;
+    padding: 3rem 0;
+    position: relative;
+    overflow: hidden;
+}
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("{% static 'images/pattern.svg' %}") repeat;
+    opacity: 0.06;
+    animation: patternFloat 60s linear infinite;
+}
+@keyframes patternFloat {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+}
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.2rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+.stat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.investment-form {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+.investment-form:hover {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    transform: translateY(-5px);
+}
+.impact-preview {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 1rem;
+}
+.impact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+.impact-icon {
+    width: 40px;
+    height: 40px;
+    background: #e9ecef;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1rem;
+    color: #28a745;
+    font-size: 1.2rem;
+}
+.info-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    height: 100%;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    border: none;
+}
+.info-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+.form-control:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+.btn-invest {
+    padding: 1rem 2rem;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+.investment-summary {
+    background: #f8f9fa;
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 0.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #e9ecef;
+}
+.summary-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+.summary-total {
+    font-weight: 600;
+    color: #28a745;
+}
+.content-wrapper {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+.fade-in {
+    animation: fadeIn 0.6s ease forwards;
+}
+.fade-in-up {
+    animation: fadeInUp 0.6s ease forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="content-wrapper">
+        <div class="row align-items-center">
+            <div class="col-lg-8 fade-in" style="animation-delay: 0.1s;">
+                <h1 class="display-4 fw-bold mb-4">Invest in {{ initiative.title }}</h1>
+                <p class="lead mb-0">Join us in making a sustainable impact through this innovative green initiative.</p>
+                {% if initiative.status == 'funded' %}
+                <div class="alert alert-success mt-3">
+                    <i class="fas fa-check-circle me-2"></i> This initiative has been fully funded!
+                </div>
+                {% endif %}
+            </div>
+            <div class="col-lg-4 fade-in" style="animation-delay: 0.2s;">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Progress</span>
+                        <span>{% widthratio initiative.current_amount initiative.goal_amount 100 %}%</span>
+                    </div>
+                    <div class="progress bg-white bg-opacity-25 mb-3" style="height: 10px; border-radius: 5px;">
+                        <div class="progress-bar bg-white" role="progressbar" 
+                             style="width: {% widthratio initiative.current_amount initiative.goal_amount 100 %}%; border-radius: 5px;"></div>
+                    </div>
+                    <div class="d-flex justify-content-between text-white-50">
+                        <span>₹{{ initiative.current_amount|floatformat:2|intcomma }}</span>
+                        <span>₹{{ initiative.goal_amount|floatformat:2|intcomma }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="content-wrapper mt-4">
+    <div class="row">
+        <!-- Investment Form -->
+        <div class="col-lg-8">
+            <div class="investment-form">
+                <h3 class="mb-4">Investment Details</h3>
+                {% if initiative.status == 'funded' %}
+                <div class="alert alert-info mb-4">
+                    <h5 class="mb-2"><i class="fas fa-info-circle me-2"></i> Funding Complete</h5>
+                    <p class="mb-0">This initiative has reached 100% of its goal amount and is no longer accepting investments. Thank you for your interest!</p>
+                </div>
+                {% endif %}
+                <form method="post" id="investmentForm" {% if initiative.status == 'funded' %}class="opacity-50"{% endif %}>
+                    {% csrf_token %}
+                    <div class="mb-4">
+                        <label for="amount" class="form-label">Investment Amount (₹)</label>
+                        <div class="input-group">                            <span class="input-group-text">₹</span>
+                            <input type="text" class="form-control form-control-lg" id="amount" name="amount" 
+                                   value="{{ min_investment }}"
+                                   required {% if initiative.status == 'funded' %}disabled{% endif %}
+                                   placeholder="Enter amount (minimum ₹{{ min_investment|intcomma }})">
+                        </div>
+                        <div class="form-text">Minimum investment: ₹{{ min_investment|intcomma }}{% if max_investment %}, Maximum: ₹{{ max_investment|intcomma }}{% endif %}</div>
+                        <div id="amount-error" class="text-danger mt-1" style="display: none;"></div>
+                    </div>
+
+                    <div class="impact-preview">
+                        <h5 class="mb-3">Your Impact Preview</h5>
+                        <div class="impact-item">
+                            <div class="impact-icon">
+                                <i class="fas fa-cloud"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">Carbon Reduction</div>
+                                <div class="text-muted" id="carbonImpact">{{ impact_metrics.carbon|floatformat:1 }} kg CO₂</div>
+                            </div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-icon">
+                                <i class="fas fa-bolt"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">Energy Saved</div>
+                                <div class="text-muted" id="energyImpact">{{ impact_metrics.energy|floatformat:1 }} kWh</div>
+                            </div>
+                        </div>
+                        <div class="impact-item">
+                            <div class="impact-icon">
+                                <i class="fas fa-tint"></i>
+                            </div>
+                            <div>
+                                <div class="fw-bold">Water Conserved</div>
+                                <div class="text-muted" id="waterImpact">{{ impact_metrics.water|floatformat:1 }} L</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="investment-summary">
+                        <h5 class="mb-3">Investment Summary</h5>
+                        <div class="summary-item">
+                            <span>Investment Amount</span>
+                            <span id="summaryAmount">₹0</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Platform Fee (2%)</span>
+                            <span id="summaryFee">₹0</span>
+                        </div>
+                        <div class="summary-item summary-total">
+                            <span>Total Amount</span>
+                            <span id="summaryTotal">₹0</span>
+                        </div>
+                    </div>
+
+                    <div class="d-grid mt-4">
+                        <button type="submit" class="btn btn-success btn-invest" {% if initiative.status == 'funded' %}disabled{% endif %}>
+                            {% if initiative.status == 'funded' %}Fully Funded{% else %}Confirm Investment{% endif %}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="info-card mb-4">
+                <h5 class="card-title mb-3">Initiative Overview</h5>
+                <div class="mb-3">
+                    <small class="text-muted d-block mb-1">Technology</small>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-microchip text-primary me-2"></i>
+                        {{ initiative.technology_type }}
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <small class="text-muted d-block mb-1">Duration</small>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-calendar-alt text-primary me-2"></i>
+                        {{ initiative.duration_months }} months
+                    </div>
+                </div>
+                <div class="mb-3">
+                    <small class="text-muted d-block mb-1">Location</small>
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                        {{ initiative.location }}
+                    </div>
+                </div>
+                <div>
+                    <small class="text-muted d-block mb-1">Categories</small>
+                    {% for category in initiative.categories.all %}
+                        <span class="badge bg-light text-dark me-2">{{ category.name }}</span>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Function to format currency
+function formatCurrency(amount) {
+    return new Intl.NumberFormat('en-IN', {
+        style: 'currency',
+        currency: 'INR',
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    }).format(amount).replace('₹', '');
+}
+
+// Function to fetch and update impact metrics with debounce
+let impactUpdateTimeout;
+function updateImpactMetrics(amount) {
+    // Clear any pending timeout
+    clearTimeout(impactUpdateTimeout);
+    
+    // Don't update if amount is not valid
+    if (isNaN(amount) || amount <= 0) {
+        return;
+    }
+    
+    // Set a timeout to prevent too many API calls while typing
+    impactUpdateTimeout = setTimeout(() => {
+        fetch('/investments/impact-preview/{{ initiative.pk }}/?amount=' + amount, {
+            method: 'GET',
+            headers: {
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('carbonImpact').textContent = `${data.carbon.toFixed(1)} kg CO₂`;
+            document.getElementById('energyImpact').textContent = `${data.energy.toFixed(1)} kWh`;
+            document.getElementById('waterImpact').textContent = `${data.water.toFixed(1)} L`;
+        })
+        .catch(error => console.error('Error fetching impact:', error));
+    }, 300); // Debounce for 300ms
+}
+
+// Validate amount and show errors
+function validateAmount(amount) {
+    const minInvestment = {{ min_investment }};
+    {% if max_investment %}
+    const maxInvestment = {{ max_investment }};
+    {% endif %}
+    const errorElement = document.getElementById('amount-error');
+    
+    if (amount < minInvestment) {
+        errorElement.textContent = `Minimum investment is ₹${formatCurrency(minInvestment)}`;
+        errorElement.style.display = 'block';
+        return false;
+    }
+    {% if max_investment %}
+    else if (amount > maxInvestment) {
+        errorElement.textContent = `Maximum investment is ₹${formatCurrency(maxInvestment)}`;
+        errorElement.style.display = 'block';
+        return false;
+    }
+    {% endif %}
+    else {
+        errorElement.style.display = 'none';
+        return true;
+    }
+}
+
+// Initialize summary with default amount (min_investment) and update impact metrics
+document.addEventListener('DOMContentLoaded', function() {
+    const amountInput = document.getElementById('amount');
+    
+    // Set initial values
+    let amount = parseFloat(amountInput.value.replace(/[^\d.]/g, '')) || {{ min_investment }};
+    updateSummary(amount);
+    updateImpactMetrics(amount);
+    
+    // Add input event listener to update in real-time
+    amountInput.addEventListener('input', function() {
+        // Clean the input and convert to number
+        const value = this.value.replace(/[^\d.]/g, '');
+        const amount = parseFloat(value) || 0;
+        
+        // Validate amount
+        validateAmount(amount);
+        
+        // Update summary and impact preview
+        updateSummary(amount);
+        updateImpactMetrics(amount);
+    });
+    
+    // Add blur event to format the input nicely
+    amountInput.addEventListener('blur', function() {
+        const amount = parseFloat(this.value.replace(/[^\d.]/g, '')) || 0;
+        if (amount > 0) {
+            this.value = formatCurrency(amount);
+        }
+    });
+    
+    // Add focus event to show raw number for editing
+    amountInput.addEventListener('focus', function() {
+        const value = parseFloat(this.value.replace(/[^\d.]/g, '')) || '';
+        this.value = value;
+    });
+});
+
+// Form submission validation
+document.getElementById('investmentForm').addEventListener('submit', function(e) {
+    const amountInput = document.getElementById('amount');
+    const cleanedAmount = amountInput.value.replace(/[^\d.]/g, '');
+    const amount = parseFloat(cleanedAmount) || 0;
+    
+    if (!validateAmount(amount)) {
+        e.preventDefault();
+        return;
+    }
+    
+    if (amount <= 0) {
+        e.preventDefault();
+        document.getElementById('amount-error').textContent = 'Please enter a valid investment amount';
+        document.getElementById('amount-error').style.display = 'block';
+    }
+});
+
+function updateSummary(amount) {
+    if (isNaN(amount) || amount <= 0) {
+        amount = 0;
+    }
+
+    const fee = amount * 0.02;
+    const total = amount + fee;
+    
+    document.getElementById('summaryAmount').textContent = `₹${formatCurrency(amount)}`;
+    document.getElementById('summaryFee').textContent = `₹${formatCurrency(fee)}`;
+    document.getElementById('summaryTotal').textContent = `₹${formatCurrency(total)}`;
+}
+</script>
+{% endblock %}

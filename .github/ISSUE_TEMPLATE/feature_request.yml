@@ -1,0 +1,152 @@
+name: Feature Request
+description: Suggest an idea for Ecovest
+title: "[FEATURE] "
+labels: ["enhancement", "feature-request"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for suggesting a new feature! Please provide as much detail as possible to help us understand your request.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission Checklist
+      description: Before submitting, please ensure you have done the following
+      options:
+        - label: I have searched for existing feature requests that might be similar
+          required: true
+        - label: I have read the [Contributing Guidelines](CONTRIBUTING.md)
+          required: true
+        - label: This feature aligns with Ecovest's mission of sustainable investing
+          required: true
+
+  - type: textarea
+    id: problem-statement
+    attributes:
+      label: Problem Statement
+      description: Is your feature request related to a problem? Please describe.
+      placeholder: I'm always frustrated when...
+    validations:
+      required: true
+
+  - type: textarea
+    id: proposed-solution
+    attributes:
+      label: Proposed Solution
+      description: Describe the solution you'd like to see implemented
+      placeholder: I would like to see...
+    validations:
+      required: true
+
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternative Solutions
+      description: Describe any alternative solutions or features you've considered
+      placeholder: Alternatively, we could...
+
+  - type: dropdown
+    id: feature-category
+    attributes:
+      label: Feature Category
+      description: Which area of Ecovest does this feature relate to?
+      options:
+        - AI/ML Predictions
+        - User Interface
+        - Investment Management
+        - Portfolio Analytics
+        - User Authentication
+        - API/Integration
+        - Admin/Backend
+        - Documentation
+        - Performance
+        - Security
+        - Other
+    validations:
+      required: true
+
+  - type: dropdown
+    id: priority
+    attributes:
+      label: Priority
+      description: How important is this feature to you?
+      options:
+        - Low - Nice to have
+        - Medium - Would improve user experience
+        - High - Critical for my use case
+        - Critical - Blocking current functionality
+    validations:
+      required: true
+
+  - type: dropdown
+    id: user-type
+    attributes:
+      label: User Type
+      description: Which type of user would benefit from this feature?
+      multiple: true
+      options:
+        - Individual Investors
+        - Institutional Investors
+        - Project Creators
+        - Platform Administrators
+        - Developers/API Users
+        - All Users
+
+  - type: textarea
+    id: user-story
+    attributes:
+      label: User Story
+      description: Write a user story for this feature
+      placeholder: As a [type of user], I want [feature] so that [benefit/goal]
+    validations:
+      required: true
+
+  - type: textarea
+    id: acceptance-criteria
+    attributes:
+      label: Acceptance Criteria
+      description: What criteria must be met for this feature to be considered complete?
+      placeholder: |
+        - [ ] Criterion 1
+        - [ ] Criterion 2
+        - [ ] Criterion 3
+
+  - type: textarea
+    id: mockups
+    attributes:
+      label: Mockups/Designs
+      description: If you have any mockups, designs, or visual references, please include them
+      placeholder: Drag and drop images here or paste URLs
+
+  - type: dropdown
+    id: implementation-complexity
+    attributes:
+      label: Implementation Complexity (if known)
+      description: How complex do you think this feature would be to implement?
+      options:
+        - Low - Minor changes or additions
+        - Medium - Moderate development effort
+        - High - Significant development effort
+        - Very High - Major architectural changes
+        - Unknown
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context, screenshots, or examples about the feature request
+      placeholder: Any additional information that might be helpful...
+
+  - type: checkboxes
+    id: contribution
+    attributes:
+      label: Contribution
+      description: Are you willing to contribute to implementing this feature?
+      options:
+        - label: I am willing to work on this feature myself
+        - label: I can provide guidance/consultation during development
+        - label: I can help with testing the feature
+        - label: I can only provide the idea and feedback

@@ -1,0 +1,81 @@
+{% extends 'core/base.html' %}
+{% block title %}Add Investment Goal - Ecovest{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="card-title mb-4">Add New Investment Goal</h2>
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="mb-3">
+                                <label for="goal_type" class="form-label">Goal Type</label>
+                                <select class="form-select" id="goal_type" name="goal_type" required>
+                                    <option value="amount">Investment Amount</option>
+                                    <option value="impact">Environmental Impact</option>
+                                    <option value="diversity">Portfolio Diversity</option>
+                                </select>
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="target_date" class="form-label">Target Date</label>
+                                <input type="date" class="form-control" id="target_date" name="target_date" required>
+                            </div>
+
+                            <!-- Dynamic fields based on goal type -->
+                            <div id="amount_fields">
+                                <div class="mb-3">
+                                    <label for="target_amount" class="form-label">Target Amount (₹)</label>
+                                    <input type="number" class="form-control" id="target_amount" name="target_amount" min="0" step="0.01">
+                                </div>
+                            </div>
+
+                            <div id="impact_fields" style="display: none;">
+                                <div class="mb-3">
+                                    <label for="target_carbon" class="form-label">Target Carbon Reduction (kg)</label>
+                                    <input type="number" class="form-control" id="target_carbon" name="target_carbon" min="0" step="0.1">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="target_energy" class="form-label">Target Energy Saved (kWh)</label>
+                                    <input type="number" class="form-control" id="target_energy" name="target_energy" min="0" step="0.1">
+                                </div>
+                                <div class="mb-3">
+                                    <label for="target_water" class="form-label">Target Water Conserved (L)</label>
+                                    <input type="number" class="form-control" id="target_water" name="target_water" min="0" step="0.1">
+                                </div>
+                            </div>
+
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">Add Goal</button>
+                                <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary">Cancel</a>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const goalTypeSelect = document.getElementById('goal_type');
+    const amountFields = document.getElementById('amount_fields');
+    const impactFields = document.getElementById('impact_fields');
+
+    function toggleFields() {
+        const selectedType = goalTypeSelect.value;
+        amountFields.style.display = selectedType === 'amount' ? 'block' : 'none';
+        impactFields.style.display = selectedType === 'impact' ? 'block' : 'none';
+    }
+
+    goalTypeSelect.addEventListener('change', toggleFields);
+    toggleFields(); // Initial state
+});
+</script>
+{% endblock %} 

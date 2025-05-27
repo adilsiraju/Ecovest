@@ -1,0 +1,522 @@
+/* Mobile Responsive Enhancements */
+
+/* Page loader animation */
+.page-loader {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    transition: opacity 0.5s ease;
+}
+
+.page-loader-fade {
+    opacity: 0;
+}
+
+.loader-content {
+    text-align: center;
+    color: white;
+}
+
+.loader-content i {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+}
+
+/* Small screens (mobile) */
+@media (max-width: 576px) {
+    /* General spacing adjustments */
+    .container {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+    
+    /* Reduce padding on hero sections */
+    .hero {
+        padding: 2rem 0 !important;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem !important;
+    }
+    
+    /* Adjust card and form paddings */
+    .dashboard-card, .card, .stat-card {
+        padding: 1.25rem !important;
+    }
+    
+    /* Adjust buttons for mobile */
+    .btn {
+        padding: 0.6rem 1rem;
+    }
+    
+    /* Make impact charts responsive */
+    canvas.impact-chart {
+        height: 250px !important;
+    }
+    
+    /* Adjust footer spacing */
+    footer {
+        padding: 3rem 0 1.5rem;
+    }
+    
+    /* Fix for navbar mobile alignment */
+    .navbar-collapse {
+        padding-top: 1rem;
+        padding-bottom: 1rem;
+    }
+    
+    .navbar-collapse .ms-lg-3 {
+        margin-top: 1rem !important;
+    }
+    
+    /* Make images responsive */
+    img {
+        max-width: 100%;
+        height: auto;
+    }
+    
+    /* Adjust initiative cards */
+    .initiative-card {
+        margin-bottom: 1.5rem;
+    }
+    
+    /* Make tables responsive */
+    table {
+        display: block;
+        width: 100%;
+        overflow-x: auto;
+    }
+}
+
+/* Medium screens (tablets) */
+@media (max-width: 768px) {
+    /* Adjust form elements */
+    .form-control, .form-select {
+        padding: 0.6rem 0.8rem;
+    }
+    
+    /* Adjust card spacing */
+    .card {
+        margin-bottom: 1.25rem;
+    }
+    
+    /* Make charts responsive */
+    canvas {
+        max-height: 300px !important;
+    }
+    
+    /* Adjust padding for section titles */
+    section h2 {
+        margin-bottom: 1.25rem;
+    }
+    
+    /* Add spacing for mobile initiative cards */
+    .initiative-card {
+        margin-bottom: 20px;
+    }
+    
+    /* Fix padding for dashboard cards */
+    .dashboard-card {
+        padding: 15px;
+    }
+    
+    /* Adjust font sizes for better readability */
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.3rem;
+    }
+    
+    /* Fix table overflow issues */
+    .table-container {
+        overflow-x: auto;
+        width: 100%;
+    }
+}
+
+/* Large screens (small laptops) */
+@media (max-width: 992px) {
+    /* Fix navbar appearance */
+    .navbar-custom .navbar-collapse {
+        background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+        padding: 1rem;
+        border-radius: 0 0 1rem 1rem;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+    }
+    
+    /* Adjust padding for larger sections */
+    .py-5 {
+        padding-top: 3rem !important;
+        padding-bottom: 3rem !important;
+    }
+    
+    /* Fix for impact card layout */
+    .impact-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .impact-row > div {
+        margin-bottom: 1rem;
+    }
+    
+    /* Full-page navbar on mobile */
+    .navbar-custom .navbar-collapse {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        width: 100%;
+        height: 100vh;
+        background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+        z-index: 1050;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        transform: translateX(100%);
+        opacity: 0;
+        overflow-y: auto;
+    }
+    
+    .navbar-custom .navbar-collapse.show {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    
+    /* Mobile nav header with close button */
+    .mobile-nav-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+        margin-bottom: 2rem;
+        padding-bottom: 1rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    /* Enhanced navbar toggler */
+    .navbar-toggler {
+        border: none;
+        padding: 0.5rem;
+        position: relative;
+        width: 44px;
+        height: 44px;
+    }
+    
+    .navbar-toggler:focus {
+        box-shadow: none;
+    }
+    
+    .navbar-toggler-icon {
+        transition: opacity 0.3s ease;
+    }
+    
+    .navbar-close-icon {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: rgba(255, 255, 255, 0.9);
+        font-size: 1.25rem;
+        opacity: 0;
+        transition: opacity 0.3s ease;
+    }
+    
+    .navbar-toggler[aria-expanded="true"] .navbar-toggler-icon {
+        opacity: 0;
+    }
+    
+    .navbar-toggler[aria-expanded="true"] .navbar-close-icon {
+        opacity: 1;
+    }
+    
+    /* Mobile nav links */
+    .navbar-custom .navbar-nav {
+        margin-top: 1rem;
+        width: 100%;
+    }
+    
+    .navbar-custom .nav-item {
+        margin-bottom: 0.5rem;
+    }
+    
+    .navbar-custom .nav-link {
+        padding: 1rem !important;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.1);
+        transition: all 0.2s ease;
+    }
+    
+    .navbar-custom .nav-link:hover,
+    .navbar-custom .nav-link:focus,
+    .navbar-custom .nav-link.active {
+        background: rgba(255, 255, 255, 0.2);
+    }
+    
+    /* Mobile nav buttons */
+    .navbar-custom .btn {
+        margin-bottom: 0.75rem !important;
+        padding: 1rem !important;
+    }
+    
+    /* Auto-close navbar when clicked outside */
+    .navbar-collapse-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: rgba(0, 0, 0, 0.5);
+        z-index: 1040;
+        display: none;
+    }
+    
+    .navbar-collapse-backdrop.show {
+        display: block;
+    }
+}
+
+/* Fix navbar toggler button styling */
+.navbar-toggler {
+    padding: 0.5rem !important;
+    margin-right: 0.5rem !important;
+    border: none !important;
+    color: #fff !important;
+}
+
+.navbar-toggler:focus {
+    box-shadow: 0 0 0 0.15rem rgba(255, 255, 255, 0.25) !important;
+    outline: none !important;
+}
+
+/* Fix for any overflowing content */
+body {
+    overflow-x: hidden;
+}
+
+/* Performance optimization styles */
+.is-scrolling .animate-on-scroll {
+    transition: none !important;
+    animation: none !important;
+}
+
+.is-scrolling .hover-effect {
+    transition: none !important;
+}
+
+/* Mobile app-like experience */
+body.is-mobile {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* Make touch targets better */
+.is-mobile button,
+.is-mobile .btn,
+.is-mobile a.nav-link,
+.is-mobile input[type="checkbox"],
+.is-mobile input[type="radio"] {
+    min-height: 44px;
+    min-width: 44px;
+}
+
+/* Adjust buttons for mobile touch */
+.is-mobile .btn-sm {
+    padding: 0.375rem 0.75rem;
+}
+
+/* Make all images responsive */
+img.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+
+/* Fix for forms on mobile */
+input, select, textarea {
+    font-size: 16px !important; /* Prevents iOS zoom on focus */
+}
+
+/* Improve form layout on mobile */
+.form-group {
+    margin-bottom: 1rem;
+}
+
+/* Fix for initiative detail page */
+.initiative-detail-img {
+    width: 100%;
+    height: auto;
+    max-height: 400px;
+    object-fit: cover;
+}
+
+/* Fix for investment tables */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+/* Back to top button styling */
+.back-to-top {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0.8;
+    transition: all 0.3s ease;
+}
+
+.back-to-top:hover {
+    opacity: 1;
+    transform: translateY(-5px);
+}
+
+/* Fix for form elements on mobile */
+@media (max-width: 576px) {
+    input, select, textarea {
+        font-size: 16px !important; /* Prevents zoom on focus in iOS */
+    }
+    
+    /* More compact buttons on mobile */
+    .btn {
+        padding: 0.5rem 1rem;
+    }
+    
+    /* Adjust input group for better mobile experience */
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .input-group > .form-control {
+        width: 100%;
+        border-radius: 8px !important;
+        margin-bottom: 10px;
+    }
+    
+    .input-group > .btn {
+        border-radius: 8px !important;
+        width: 100%;
+    }
+}
+
+/* Back to Top Button */
+.back-to-top-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    z-index: 1000;
+    transition: all 0.3s ease;
+}
+
+.back-to-top-btn:hover {
+    background-color: #218838;
+    transform: translateY(-3px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+}
+
+.back-to-top-btn.show {
+    display: flex;
+    animation: fadeIn 0.3s;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Additional Responsive Improvements */
+@media (max-width: 576px) {
+    /* Improve touch targets */
+    button, 
+    .btn, 
+    a.nav-link, 
+    input[type="checkbox"], 
+    input[type="radio"] {
+        min-height: 44px;
+        min-width: 44px;
+    }
+    
+    /* Optimize forms */
+    input, select, textarea {
+        font-size: 16px !important; /* Prevents iOS zoom on focus */
+    }
+    
+    /* Space list items better */
+    li {
+        margin-bottom: 0.5rem;
+    }
+    
+    /* Improve table readability */
+    td, th {
+        padding: 0.5rem !important;
+    }
+    
+    /* Make dropdowns easier to use on mobile */
+    .dropdown-menu {
+        width: 100%;
+    }
+    
+    /* Improve spacing for filter panels */
+    .filter-section {
+        padding: 1rem !important;
+    }
+    
+    /* Ensure proper spacing for buttons in rows */
+    .btn-row .btn {
+        margin-bottom: 0.5rem;
+    }
+}

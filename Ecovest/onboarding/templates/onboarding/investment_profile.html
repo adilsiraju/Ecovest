@@ -1,0 +1,241 @@
+{% extends 'core/base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Your Investment Profile{% endblock %}
+
+{% block extra_css %}
+<style>
+    .range-value {
+        text-align: center;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+    
+    .risk-option {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        padding: 1.5rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        height: 100%;
+    }
+    
+    .risk-option:hover {
+        border-color: #28a745;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    .risk-radio {
+        display: none;
+    }
+    
+    .risk-radio:checked + label .risk-option {
+        border-color: #28a745;
+        background-color: rgba(40, 167, 69, 0.1);
+    }
+    
+    .range-container {
+        position: relative;
+        margin-top: 2rem;
+        margin-bottom: 1.5rem;
+    }
+    
+    .range-labels {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 5px;
+    }
+    
+    .range-labels span {
+        font-size: 0.8rem;
+        color: #6c757d;
+    }
+    
+    .priority-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 0.5rem;
+    }
+    
+    .priority-value {
+        font-weight: bold;
+        min-width: 30px;
+        text-align: right;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow onboarding-card">
+                    <div class="card-body p-5">
+                        <!-- Progress Bar -->
+                        <div class="progress mb-5" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 75%;" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        
+                        <div class="text-center mb-5">
+                            <h1 class="display-6 fw-bold">Your Investment Profile</h1>
+                            <p class="lead">Tell us about your investment preferences and goals.</p>
+                        </div>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <h4 class="mb-3">Risk Tolerance</h4>
+                            <div class="row mb-5">
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <input type="radio" class="risk-radio" name="risk_tolerance" value="low" id="low_risk" {% if form.risk_tolerance.value == 'low' %}checked{% endif %}>
+                                    <label for="low_risk" class="w-100 h-100">
+                                        <div class="risk-option text-center">
+                                            <i class="fas fa-shield-alt fa-2x text-primary mb-3"></i>
+                                            <h5>Low Risk</h5>
+                                            <p class="text-muted">Steady returns with minimal volatility</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <input type="radio" class="risk-radio" name="risk_tolerance" value="moderate" id="moderate_risk" {% if form.risk_tolerance.value == 'moderate' %}checked{% endif %}>
+                                    <label for="moderate_risk" class="w-100 h-100">
+                                        <div class="risk-option text-center">
+                                            <i class="fas fa-balance-scale fa-2x text-warning mb-3"></i>
+                                            <h5>Moderate Risk</h5>
+                                            <p class="text-muted">Balanced approach with some volatility</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="radio" class="risk-radio" name="risk_tolerance" value="high" id="high_risk" {% if form.risk_tolerance.value == 'high' %}checked{% endif %}>
+                                    <label for="high_risk" class="w-100 h-100">
+                                        <div class="risk-option text-center">
+                                            <i class="fas fa-rocket fa-2x text-danger mb-3"></i>
+                                            <h5>High Risk</h5>
+                                            <p class="text-muted">Higher potential returns with increased volatility</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <h4 class="mb-3">Investment Timeframe</h4>
+                            <div class="row mb-5">
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <input type="radio" class="risk-radio" name="investment_timeframe" value="short" id="short_term" {% if form.investment_timeframe.value == 'short' %}checked{% endif %}>
+                                    <label for="short_term" class="w-100 h-100">
+                                        <div class="risk-option text-center">
+                                            <i class="fas fa-hourglass-start fa-2x text-info mb-3"></i>
+                                            <h5>Short-term</h5>
+                                            <p class="text-muted">< 1 year</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-md-4 mb-3 mb-md-0">
+                                    <input type="radio" class="risk-radio" name="investment_timeframe" value="medium" id="medium_term" {% if form.investment_timeframe.value == 'medium' %}checked{% endif %}>
+                                    <label for="medium_term" class="w-100 h-100">
+                                        <div class="risk-option text-center">
+                                            <i class="fas fa-hourglass-half fa-2x text-warning mb-3"></i>
+                                            <h5>Medium-term</h5>
+                                            <p class="text-muted">1-5 years</p>
+                                        </div>
+                                    </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <input type="radio" class="risk-radio" name="investment_timeframe" value="long" id="long_term" {% if form.investment_timeframe.value == 'long' %}checked{% endif %}>
+                                    <label for="long_term" class="w-100 h-100">
+                                        <div class="risk-option text-center">
+                                            <i class="fas fa-hourglass-end fa-2x text-success mb-3"></i>
+                                            <h5>Long-term</h5>
+                                            <p class="text-muted">5+ years</p>
+                                        </div>
+                                    </label>
+                                </div>
+                            </div>
+                            
+                            <h4 class="mb-3">Investment Amount Range (₹)</h4>
+                            <div class="row mb-5">
+                                <div class="col-md-6 mb-4">
+                                    <label for="{{ form.min_investment.id_for_label }}">{{ form.min_investment.label }}</label>
+                                    {{ form.min_investment }}
+                                    {% if form.min_investment.help_text %}
+                                    <small class="form-text text-muted">{{ form.min_investment.help_text }}</small>
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label for="{{ form.max_investment.id_for_label }}">{{ form.max_investment.label }}</label>
+                                    {{ form.max_investment }}
+                                    {% if form.max_investment.help_text %}
+                                    <small class="form-text text-muted">{{ form.max_investment.help_text }}</small>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <h4 class="mb-4">Impact Priorities</h4>
+                            <div class="mb-4">
+                                <div class="priority-title">
+                                    <label for="{{ form.carbon_priority.id_for_label }}">{{ form.carbon_priority.label }}</label>
+                                    <span class="priority-value" id="carbon-value">{{ form.carbon_priority.value }}</span>
+                                </div>
+                                {{ form.carbon_priority }}
+                                <div class="range-labels">
+                                    <span>Less important</span>
+                                    <span>More important</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4">
+                                <div class="priority-title">
+                                    <label for="{{ form.water_priority.id_for_label }}">{{ form.water_priority.label }}</label>
+                                    <span class="priority-value" id="water-value">{{ form.water_priority.value }}</span>
+                                </div>
+                                {{ form.water_priority }}
+                                <div class="range-labels">
+                                    <span>Less important</span>
+                                    <span>More important</span>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-5">
+                                <div class="priority-title">
+                                    <label for="{{ form.energy_priority.id_for_label }}">{{ form.energy_priority.label }}</label>
+                                    <span class="priority-value" id="energy-value">{{ form.energy_priority.value }}</span>
+                                </div>
+                                {{ form.energy_priority }}
+                                <div class="range-labels">
+                                    <span>Less important</span>
+                                    <span>More important</span>
+                                </div>
+                            </div>
+                            
+                            <div class="text-center">
+                                <a href="{% url 'onboarding_interests' %}" class="btn btn-outline-secondary me-3">Back</a>
+                                <button type="submit" class="btn btn-primary">Continue</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Update priority values when sliders change
+        document.getElementById('{{ form.carbon_priority.id_for_label }}').addEventListener('input', function() {
+            document.getElementById('carbon-value').textContent = this.value;
+        });
+        
+        document.getElementById('{{ form.water_priority.id_for_label }}').addEventListener('input', function() {
+            document.getElementById('water-value').textContent = this.value;
+        });
+        
+        document.getElementById('{{ form.energy_priority.id_for_label }}').addEventListener('input', function() {
+            document.getElementById('energy-value').textContent = this.value;
+        });
+    });
+</script>
+{% endblock %}

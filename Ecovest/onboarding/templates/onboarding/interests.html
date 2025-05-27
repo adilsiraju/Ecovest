@@ -1,0 +1,145 @@
+{% extends 'core/base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Your Investment Interests{% endblock %}
+
+{% block extra_css %}
+<style>
+    .interest-card {
+        border: 2px solid #e9ecef;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        cursor: pointer;
+        position: relative;
+        overflow: hidden;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        min-height: 180px; /* Set minimum height for consistency */
+    }
+    
+    .interest-card:hover {
+        border-color: #28a745;
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    
+    .interest-checkbox {
+        display: none;
+    }
+    
+    .interest-checkbox:checked + label .interest-card {
+        border-color: #28a745;
+        background-color: rgba(40, 167, 69, 0.1);
+    }
+    
+    .interest-checkbox:checked + label .interest-card::after {
+        content: '\f058';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        color: #28a745;
+        font-size: 1.5rem;
+    }
+    
+    .interest-label {
+        margin-bottom: 0;
+        height: 100%;
+        width: 100%; /* Ensure label takes full width */
+        display: block; /* Make label a block element */
+    }
+    
+    .category-wrapper {
+        margin-bottom: 1.5rem;
+        height: 100%; /* Ensure wrapper takes full height */
+        display: flex; /* Use flexbox for consistent sizing */
+    }
+    
+    /* Equal height row for each group of 3 cards */
+    .interest-row {
+        display: flex;
+        flex-wrap: wrap;
+    }
+    
+    .interest-row > div {
+        display: flex;
+        flex-direction: column;
+        margin-bottom: 1.5rem;
+    }
+    
+    .icon-container {
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow onboarding-card">
+                    <div class="card-body p-5">
+                        <!-- Progress Bar -->
+                        <div class="progress mb-5" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 50%;" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        
+                        <div class="text-center mb-5">
+                            <h1 class="display-6 fw-bold">What sustainability areas interest you?</h1>
+                            <p class="lead">Select the categories that align with your investment goals and values.</p>
+                        </div>
+                        
+                        <form method="post">
+                            {% csrf_token %}
+                            
+                            <div class="row interest-row mb-4">
+                                {% for choice in form.interests.field.queryset %}
+                                <div class="col-md-4">
+                                    <div class="category-wrapper">
+                                        <input type="checkbox" name="interests" value="{{ choice.id }}" id="interest_{{ choice.id }}" class="interest-checkbox">
+                                        <label for="interest_{{ choice.id }}" class="interest-label">
+                                            <div class="interest-card p-4 text-center">
+                                                <div class="icon-container">
+                                                {% if choice.name == 'Solar Energy' %}
+                                                    <i class="fas fa-sun fa-2x text-warning"></i>
+                                                {% elif choice.name == 'Wind Energy' %}
+                                                    <i class="fas fa-wind fa-2x text-primary"></i>
+                                                {% elif choice.name == 'Hydroelectric' %}
+                                                    <i class="fas fa-water fa-2x text-info"></i>
+                                                {% elif choice.name == 'Electric Vehicles' %}
+                                                    <i class="fas fa-car fa-2x text-secondary"></i>
+                                                {% elif choice.name == 'Waste Management' %}
+                                                    <i class="fas fa-recycle fa-2x text-success"></i>
+                                                {% elif choice.name == 'Sustainable Agriculture' %}
+                                                    <i class="fas fa-seedling fa-2x text-success"></i>
+                                                {% elif choice.name == 'Green Buildings' %}
+                                                    <i class="fas fa-building fa-2x text-secondary"></i>
+                                                {% else %}
+                                                    <i class="fas fa-leaf fa-2x text-success"></i>
+                                                {% endif %}
+                                                </div>
+                                                
+                                                <h5>{{ choice.name }}</h5>
+                                            </div>
+                                        </label>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                            
+                            <div class="text-center">
+                                <a href="{% url 'onboarding_welcome' %}" class="btn btn-outline-secondary me-3">Back</a>
+                                <button type="submit" class="btn btn-primary">Continue</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

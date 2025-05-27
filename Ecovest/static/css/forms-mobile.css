@@ -1,0 +1,132 @@
+/* Mobile Responsive Enhancements for Forms */
+
+/* Small screens (mobile) */
+@media (max-width: 576px) {
+    /* Form elements optimizations */
+    .form-container {
+        padding: 1.25rem !important;
+    }
+    
+    /* Make form labels clearer */
+    label {
+        font-weight: 500;
+        margin-bottom: 0.4rem;
+        display: block;
+    }
+    
+    /* Adjust input height for better touch targets */
+    .form-control,
+    .form-select {
+        height: 48px;
+        font-size: 16px !important; /* Prevents zoom on iOS */
+    }
+    
+    textarea.form-control {
+        height: auto;
+        min-height: 100px;
+    }
+    
+    /* Improve checkbox and radio positioning */
+    .form-check {
+        padding-left: 1.75rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    .form-check-input {
+        width: 1.2rem;
+        height: 1.2rem;
+        margin-left: -1.75rem;
+    }
+    
+    /* Make buttons larger for better touch targets */
+    .form-buttons .btn {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        margin-bottom: 0.75rem;
+    }
+    
+    /* Fix input group issues on small screens */
+    .input-group {
+        flex-direction: column;
+    }
+    
+    .input-group > .form-control,
+    .input-group > .form-select {
+        width: 100%;
+        border-radius: 0.375rem !important;
+        margin-bottom: 0.5rem;
+    }
+    
+    .input-group > .btn {
+        width: 100%;
+        border-radius: 0.375rem !important;
+        margin-top: 0.5rem;
+    }
+    
+    /* Mobile-specific form validations */
+    .invalid-feedback {
+        font-size: 0.875rem;
+        padding: 0.25rem 0;
+    }
+    
+    /* Improve date inputs */
+    input[type="date"],
+    input[type="time"],
+    input[type="datetime-local"] {
+        height: 48px;
+    }
+    
+    /* Improve file inputs */
+    input[type="file"] {
+        padding: 0.75rem 0.5rem;
+    }
+    
+    .custom-file-upload {
+        display: block;
+        width: 100%;
+        padding: 0.75rem 1rem;
+        background-color: #f8f9fa;
+        border: 1px solid #ced4da;
+        border-radius: 0.375rem;
+        cursor: pointer;
+        text-align: center;
+        transition: all 0.2s ease;
+    }
+    
+    .custom-file-upload:hover {
+        background-color: #e9ecef;
+    }
+    
+    /* Help text styling */
+    .form-text {
+        display: block;
+        margin-top: 0.25rem;
+        font-size: 0.875rem;
+    }
+}
+
+/* Medium screens (tablets) */
+@media (max-width: 768px) {
+    /* Better form layout on tablets */
+    .form-row {
+        margin-bottom: 1rem;
+    }
+    
+    /* Adjust button sizes for tablets */
+    .form-action-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .form-action-buttons .btn {
+        margin-bottom: 0.5rem;
+    }
+}
+
+/* Large screens (small laptops) */
+@media (max-width: 992px) {
+    /* Adjust form containers */
+    .card-form {
+        padding: 1.5rem;
+    }
+}

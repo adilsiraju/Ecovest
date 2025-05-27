@@ -1,0 +1,65 @@
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.4.0
+    hooks:
+      - id: trailing-whitespace
+      - id: end-of-file-fixer
+      - id: check-yaml
+      - id: check-added-large-files
+      - id: check-json
+      - id: check-merge-conflict
+      - id: check-toml
+      - id: debug-statements
+
+  - repo: https://github.com/psf/black
+    rev: 23.1.0
+    hooks:
+      - id: black
+        language_version: python3.11
+
+  - repo: https://github.com/pycqa/isort
+    rev: 5.12.0
+    hooks:
+      - id: isort
+        args: ["--profile", "black"]
+
+  - repo: https://github.com/pycqa/flake8
+    rev: 6.0.0
+    hooks:
+      - id: flake8
+        args: [--max-line-length=88, --extend-ignore=E203,W503]
+
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.0.1
+    hooks:
+      - id: mypy
+        additional_dependencies: [types-all]
+        exclude: migrations/
+
+  - repo: https://github.com/django-upgrade/django-upgrade
+    rev: 1.13.0
+    hooks:
+      - id: django-upgrade
+        args: [--target-version, "5.2"]
+
+  - repo: https://github.com/adamchainz/django-upgrade
+    rev: 1.13.0
+    hooks:
+      - id: django-upgrade
+        args: [--target-version, "5.2"]
+
+  - repo: local
+    hooks:
+      - id: django-check
+        name: Django Check
+        entry: python manage.py check
+        language: system
+        pass_filenames: false
+        always_run: true
+
+      - id: django-check-migrations
+        name: Django Check Migrations
+        entry: python manage.py makemigrations --check --dry-run
+        language: system
+        pass_filenames: false
+        always_run: true

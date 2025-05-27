@@ -1,0 +1,139 @@
+name: Bug Report
+description: File a bug report to help us improve
+title: "[BUG] "
+labels: ["bug", "triage"]
+assignees: []
+
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this bug report! Please provide as much detail as possible.
+
+  - type: checkboxes
+    id: terms
+    attributes:
+      label: Pre-submission Checklist
+      description: Before submitting, please ensure you have done the following
+      options:
+        - label: I have searched for existing issues that might be related to this bug
+          required: true
+        - label: I have read the [Contributing Guidelines](CONTRIBUTING.md)
+          required: true
+        - label: I am using the latest version of Ecovest
+          required: false
+
+  - type: textarea
+    id: bug-description
+    attributes:
+      label: Bug Description
+      description: A clear and concise description of what the bug is
+      placeholder: Describe the bug...
+    validations:
+      required: true
+
+  - type: textarea
+    id: steps-to-reproduce
+    attributes:
+      label: Steps to Reproduce
+      description: Steps to reproduce the behavior
+      placeholder: |
+        1. Go to '...'
+        2. Click on '...'
+        3. Scroll down to '...'
+        4. See error
+    validations:
+      required: true
+
+  - type: textarea
+    id: expected-behavior
+    attributes:
+      label: Expected Behavior
+      description: A clear and concise description of what you expected to happen
+      placeholder: What should have happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: actual-behavior
+    attributes:
+      label: Actual Behavior
+      description: A clear and concise description of what actually happened
+      placeholder: What actually happened?
+    validations:
+      required: true
+
+  - type: textarea
+    id: screenshots
+    attributes:
+      label: Screenshots
+      description: If applicable, add screenshots to help explain your problem
+      placeholder: Drag and drop screenshots here or paste image URLs
+
+  - type: dropdown
+    id: environment
+    attributes:
+      label: Environment
+      description: What environment are you running Ecovest in?
+      options:
+        - Development (local)
+        - Staging
+        - Production
+        - Other (please specify in additional context)
+    validations:
+      required: true
+
+  - type: input
+    id: python-version
+    attributes:
+      label: Python Version
+      description: What version of Python are you running?
+      placeholder: e.g., 3.11.2
+    validations:
+      required: true
+
+  - type: input
+    id: django-version
+    attributes:
+      label: Django Version
+      description: What version of Django are you running?
+      placeholder: e.g., 5.2.0
+    validations:
+      required: true
+
+  - type: dropdown
+    id: browsers
+    attributes:
+      label: Browser (if applicable)
+      description: What browser are you using?
+      multiple: true
+      options:
+        - Chrome
+        - Firefox
+        - Safari
+        - Edge
+        - Other
+
+  - type: input
+    id: operating-system
+    attributes:
+      label: Operating System
+      description: What operating system are you using?
+      placeholder: e.g., Windows 11, macOS 13.0, Ubuntu 22.04
+    validations:
+      required: true
+
+  - type: textarea
+    id: additional-context
+    attributes:
+      label: Additional Context
+      description: Add any other context about the problem here, such as error logs, configuration details, etc.
+      placeholder: Any additional information that might be helpful...
+
+  - type: textarea
+    id: error-logs
+    attributes:
+      label: Error Logs
+      description: If applicable, include relevant error logs
+      placeholder: Paste error logs here...
+      render: shell

@@ -1,0 +1,146 @@
+/* Mobile Responsive Hero Section Enhancements */
+
+/* Small screens (mobile) */
+@media (max-width: 576px) {
+    /* Compact hero section */
+    .hero {
+        padding: 1.5rem 0 !important;
+        transition: all 0.3s ease;
+        max-height: none;
+    }
+    
+    /* When collapsed */
+    .hero.hero-collapsed {
+        padding-top: 1rem !important;
+        padding-bottom: 1rem !important;
+        max-height: 110px;
+        overflow: hidden;
+    }
+    
+    /* Hero toggle button */
+    .hero-toggle {
+        position: absolute;
+        bottom: -15px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #28a745;
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        z-index: 100;
+        transition: all 0.3s ease;
+    }
+    
+    .hero-toggle i {
+        transition: transform 0.3s ease;
+    }
+    
+    .hero.hero-collapsed .hero-toggle i {
+        transform: rotate(180deg);
+    }
+    
+    /* Adjustments for hero content */
+    .hero-content {
+        transition: all 0.3s ease;
+    }
+    
+    .hero.hero-collapsed .hero-content {
+        transform: scale(0.95);
+    }
+    
+    /* Title adjustments */
+    .hero-title {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .hero-subtitle {
+        font-size: 0.9rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Stats in collapsed mode */
+    .hero.hero-collapsed .stat-card {
+        margin-top: 0 !important;
+        transform: translateY(100px);
+        opacity: 0;
+    }
+    
+    /* Reduce padding in stat cards */
+    .stat-card {
+        padding: 0.75rem !important;
+    }
+    
+    .stat-card h3 {
+        font-size: 1.2rem !important;
+        margin-bottom: 0.2rem !important;
+    }
+    
+    .stat-card p {
+        font-size: 0.8rem !important;
+        margin-bottom: 0.2rem !important;
+    }
+    
+    .stat-card i {
+        font-size: 1.2rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Hide decorative elements on collapsed mode */
+    .hero.hero-collapsed .hero-leaf {
+        opacity: 0 !important;
+    }
+    
+    /* Compact stats display */
+    .compact-stats {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        margin-top: 0.5rem;
+    }
+    
+    .compact-stat {
+        text-align: center;
+        flex: 1 0 25%;
+        padding: 0.25rem;
+    }
+    
+    .compact-stat i {
+        font-size: 1rem;
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 0.2rem;
+    }
+    
+    .compact-stat h5 {
+        font-size: 0.9rem;
+        margin-bottom: 0;
+        white-space: nowrap;
+    }
+    
+    .compact-stat small {
+        font-size: 0.7rem;
+        opacity: 0.8;
+    }
+}
+
+/* Medium screens (tablets) */
+@media (max-width: 768px) {
+    /* Slightly more spacious on tablets */
+    .hero {
+        padding: 2.5rem 0;
+    }
+    
+    .hero-title {
+        font-size: 1.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1rem;
+    }
+}

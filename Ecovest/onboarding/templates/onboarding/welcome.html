@@ -1,0 +1,60 @@
+{% extends 'core/base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Welcome to Ecovest{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow onboarding-card">
+                    <div class="card-body p-5">
+                        <!-- Progress Bar -->
+                        <div class="progress mb-5" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        
+                        <div class="text-center mb-5">
+                            <i class="fas fa-leaf text-success fa-4x mb-4"></i>
+                            <h1 class="display-5 fw-bold">Welcome to Ecovest!</h1>
+                            <p class="lead">Your journey towards sustainable investing starts here.</p>
+                        </div>
+                        
+                        <div class="row mb-5">
+                            <div class="col-md-4 text-center mb-4 mb-md-0">
+                                <div class="p-4 rounded bg-light">
+                                    <i class="fas fa-search fa-2x text-primary mb-3"></i>
+                                    <h4>Discover Projects</h4>
+                                    <p>Find sustainable initiatives that align with your values and financial goals.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center mb-4 mb-md-0">
+                                <div class="p-4 rounded bg-light">
+                                    <i class="fas fa-chart-line fa-2x text-primary mb-3"></i>
+                                    <h4>Track Impact</h4>
+                                    <p>Monitor the environmental and social impact of your investments in real-time.</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4 text-center">
+                                <div class="p-4 rounded bg-light">
+                                    <i class="fas fa-hands-helping fa-2x text-primary mb-3"></i>
+                                    <h4>Grow Returns</h4>
+                                    <p>Generate competitive financial returns while contributing to a sustainable future.</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="mb-4">To personalize your experience, we'll ask a few questions about your investment preferences.</p>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-lg">Let's Get Started</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

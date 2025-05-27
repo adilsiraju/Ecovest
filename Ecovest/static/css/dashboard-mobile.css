@@ -1,0 +1,295 @@
+/* Mobile Dashboard Optimizations */
+
+@media (max-width: 768px) {
+    /* Reduce hero section height */
+    .hero {
+        padding: 2rem 0 !important;
+        border-radius: 0 0 20px 20px !important;
+    }
+    
+    /* Adjust hero content spacing */
+    .hero-content {
+        padding: 0 10px;
+    }
+    
+    /* Make stat cards more compact */
+    .stat-card {
+        padding: 1rem !important;
+        margin-bottom: 1rem !important;
+        border-radius: 12px !important;
+    }
+    
+    .stat-card i {
+        font-size: 1.75rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .stat-card h3 {
+        font-size: 1.5rem !important;
+        margin-bottom: 0.25rem !important;
+    }
+    
+    .stat-card p {
+        font-size: 0.85rem !important;
+    }
+    
+    /* Compact dashboard cards */
+    .dashboard-card {
+        padding: 1rem !important;
+        margin-bottom: 1.25rem !important;
+        border-radius: 12px !important;
+    }
+    
+    .dashboard-card h2 {
+        font-size: 1.2rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Make tables responsive */
+    .table-responsive {
+        margin-bottom: 0 !important;
+    }
+    
+    .dashboard-table th, 
+    .dashboard-table td {
+        padding: 0.5rem !important;
+        font-size: 0.85rem !important;
+    }
+    
+    /* Compact charts */
+    .chart-container {
+        height: 220px !important;
+    }
+    
+    /* Improve spacing */
+    .mb-4 {
+        margin-bottom: 1rem !important;
+    }
+    
+    .my-4 {
+        margin-top: 1rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Make recommendation cards more compact */
+    .recommendation-card {
+        margin-bottom: 1rem !important;
+        padding: 0.75rem !important;
+    }
+    
+    .recommendation-card .card-title {
+        font-size: 1rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    .recommendation-card .card-text {
+        font-size: 0.85rem !important;
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Adjust portfolio section */
+    .portfolio-header {
+        font-size: 1.2rem !important;
+        margin-bottom: 1rem !important;
+    }
+    
+    /* Improve button layout */
+    .dashboard-card .btn {
+        padding: 0.4rem 0.8rem !important;
+        font-size: 0.9rem !important;
+    }
+    
+    /* Mobile stacked tables */
+    .table-mobile-stacked {
+        display: block;
+        width: 100%;
+    }
+    
+    .table-mobile-stacked thead {
+        display: none;
+    }
+    
+    .table-mobile-stacked tbody {
+        display: block;
+        width: 100%;
+    }
+    
+    .table-mobile-stacked tr {
+        display: block;
+        width: 100%;
+        margin-bottom: 1rem;
+        border: 1px solid rgba(0,0,0,0.1);
+        border-radius: 8px;
+        padding: 0.5rem;
+        background-color: rgba(0,0,0,0.02);
+    }
+    
+    .table-mobile-stacked td {
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        text-align: right;
+        padding: 0.5rem !important;
+        border-top: none !important;
+        border-bottom: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    .table-mobile-stacked td:last-child {
+        border-bottom: none;
+    }
+    
+    .table-mobile-stacked td:before {
+        content: attr(data-label);
+        font-weight: 600;
+        float: left;
+        text-align: left;
+    }
+    
+    /* Mobile quick filters */
+    .mobile-filters {
+        padding: 0.5rem 0;
+        margin-bottom: 1rem;
+        white-space: nowrap;
+    }
+    
+    .mobile-filters .btn {
+        font-size: 0.8rem !important;
+        padding: 0.3rem 0.6rem !important;
+    }
+    
+    /* Pull to refresh animation */
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    
+    .pull-to-refresh-indicator i.fa-spin {
+        animation: spin 1s linear infinite;
+    }
+    
+    /* Collapsible section headers */
+    .collapsible-header {
+        background-color: #f8f9fa;
+        padding: 0.75rem;
+        border-radius: 8px;
+        margin-bottom: 1rem;
+        cursor: pointer;
+        transition: background-color 0.2s ease;
+    }
+    
+    .collapsible-header:hover {
+        background-color: #e9ecef;
+    }
+    
+    .collapsible-header i {
+        transition: transform 0.3s ease;
+    }
+    
+    /* Touch feedback */
+    .btn-touch {
+        transform: scale(0.95);
+        opacity: 0.9;
+    }
+    
+    /* Scrollable tabs for mobile */
+    .nav-tabs {
+        flex-wrap: nowrap;
+        overflow-x: auto;
+        scrollbar-width: none;
+        -ms-overflow-style: none;
+    }
+    
+    .nav-tabs::-webkit-scrollbar {
+        display: none;
+    }
+    
+    .nav-tabs .nav-item {
+        white-space: nowrap;
+    }
+    
+    /* Make collapsible areas more noticeable */
+    [data-bs-toggle="collapse"] {
+        position: relative;
+    }
+    
+    [data-bs-toggle="collapse"]::after {
+        content: '\f078';
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 1rem;
+        transition: transform 0.3s ease;
+    }
+    
+    [aria-expanded="true"]::after {
+        transform: rotate(180deg);
+    }
+    
+    /* Quick action FAB */
+    .dashboard-fab {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 56px;
+        height: 56px;
+        border-radius: 50%;
+        background-color: #28a745;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+        z-index: 1000;
+        transition: all 0.3s ease;
+    }
+    
+    .dashboard-fab:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.25);
+    }
+    
+    /* Swipe hint animation */
+    .swipe-hint {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        opacity: 0;
+        pointer-events: none;
+        animation: fadeInOut 2s ease-in-out;
+    }
+    
+    @keyframes fadeInOut {
+        0%, 100% { opacity: 0; }
+        50% { opacity: 1; }
+    }
+}
+
+/* Extra small devices */
+@media (max-width: 576px) {
+    /* Further spacing optimizations */
+    .container {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+    }
+    
+    /* Stack buttons on very small screens */
+    .btn-group {
+        flex-direction: column !important;
+    }
+    
+    .btn-group .btn {
+        margin-bottom: 0.5rem !important;
+        border-radius: 8px !important;
+    }
+    
+    /* Simplify charts */
+    .chart-container {
+        height: 180px !important;
+    }
+}

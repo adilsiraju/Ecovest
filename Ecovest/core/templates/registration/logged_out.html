@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Logged Out{% endblock %}
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-6 text-center">
+                <div class="card shadow-sm">
+                    <div class="card-body p-4">
+                        <h2 class="card-title mb-4">Logged Out</h2>
+                        <p>You have been successfully logged out.</p>
+                        <a href="{% url 'login' %}" class="btn btn-primary">Login Again</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

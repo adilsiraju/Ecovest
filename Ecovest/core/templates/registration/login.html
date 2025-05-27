@@ -1,0 +1,249 @@
+{% extends 'core/base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% block title %}Log In to Ecovest - Access Your Dashboard{% endblock %}
+
+{% block extra_css %}
+<style>
+    .login-container {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+        max-width: 900px;
+        margin: 2rem auto;
+    }
+    
+    .login-hero {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 2rem 0;
+        border-radius: 15px 15px 0 0;
+    }
+    
+    .login-form {
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .login-benefits {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+    }
+    
+    .login-benefits:hover {
+        transform: translateY(-5px);
+    }
+    
+    .login-benefits i {
+        font-size: 2rem;
+        color: #28a745;
+        margin-bottom: 0.5rem;
+    }
+    
+    .input-valid {
+        border-color: #28a745 !important;
+    }
+    
+    .input-invalid {
+        border-color: #dc3545 !important;
+    }
+    
+    .feedback-message {
+        font-size: 0.85rem;
+        margin-top: 0.25rem;
+        display: none;
+    }
+    
+    .feedback-valid {
+        color: #28a745;
+        display: block;
+    }
+    
+    .feedback-invalid {
+        color: #dc3545;
+        display: block;
+    }
+    
+    .forgot-password {
+        color: #6c757d;
+        text-decoration: none;
+        font-size: 0.9rem;
+        display: block;
+        margin-top: 0.5rem;
+        text-align: right;
+    }
+    
+    .forgot-password:hover {
+        color: #28a745;
+        text-decoration: underline;
+    }
+    
+    .welcome-back {
+        margin-bottom: 2rem;
+    }
+    
+    .welcome-back h3 {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+    }
+    
+    .welcome-back p {
+        color: #6c757d;
+    }
+    
+    .login-error {
+        background-color: #f8d7da;
+        border-left: 4px solid #dc3545;
+        color: #721c24;
+        padding: 0.75rem 1.25rem;
+        margin-bottom: 1.5rem;
+        border-radius: 0 8px 8px 0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="login-container">
+        <div class="login-hero text-center">
+            <h1 class="display-4 fw-bold mb-2">Welcome Back</h1>
+            <p class="lead mb-0">Log in to continue your impact investment journey</p>
+        </div>
+        
+        <div class="row py-4 px-3">
+            <!-- Left column - Login benefits -->
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="login-benefits mb-4">
+                    <i class="fas fa-chart-line mb-3"></i>
+                    <h4>Track Your Portfolio</h4>
+                    <p class="mb-0">Access your dashboard to monitor your investments and impact metrics.</p>
+                </div>
+                
+                <div class="login-benefits mb-4">
+                    <i class="fas fa-leaf mb-3"></i>
+                    <h4>View Your Impact</h4>
+                    <p class="mb-0">See how your investments are creating positive environmental change.</p>
+                </div>
+                
+                <div class="login-benefits">
+                    <i class="fas fa-hand-holding-usd mb-3"></i>
+                    <h4>Explore New Opportunities</h4>
+                    <p class="mb-0">Discover new sustainable initiatives aligned with your investment goals.</p>
+                </div>
+            </div>
+            
+            <!-- Right column - Login form -->
+            <div class="col-lg-7">
+                <div class="login-form">
+                    <div class="welcome-back">
+                        <h3>Sign In</h3>
+                        <p>Enter your credentials to access your account</p>
+                    </div>
+                    
+                    {% if form.errors %}
+                        <div class="login-error">
+                            Your username and password didn't match. Please try again.
+                        </div>
+                    {% endif %}
+                    
+                    <form method="post">
+                        {% csrf_token %}
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                            {{ form.username }}
+                            <div id="username-feedback" class="feedback-message"></div>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="{{ form.password.id_for_label }}" class="form-label">Password</label>
+                            {{ form.password }}
+                            <div id="password-feedback" class="feedback-message"></div>
+                            <a href="{% url 'password_reset' %}" class="forgot-password">Forgot password?</a>
+                        </div>
+                        
+                        {% if next %}
+                            <input type="hidden" name="next" value="{{ next }}">
+                        {% endif %}
+                        
+                        <div class="mt-4">
+                            <button type="submit" class="btn btn-success w-100 py-2">Sign In</button>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-4 pt-3 border-top">
+                        <p>Don't have an account? <a href="{% url 'register' %}" class="text-success">Create Account</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get form elements
+        const usernameInput = document.getElementById('{{ form.username.id_for_label }}');
+        const passwordInput = document.getElementById('{{ form.password.id_for_label }}');
+        const usernameFeedback = document.getElementById('username-feedback');
+        const passwordFeedback = document.getElementById('password-feedback');
+        
+        // Add Bootstrap form classes
+        usernameInput.classList.add('form-control');
+        passwordInput.classList.add('form-control');
+        
+        // Add placeholder text
+        usernameInput.placeholder = 'Enter your username';
+        passwordInput.placeholder = 'Enter your password';
+        
+        // Username validation
+        usernameInput.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                this.classList.add('input-valid');
+                this.classList.remove('input-invalid');
+                usernameFeedback.classList.add('feedback-valid');
+                usernameFeedback.classList.remove('feedback-invalid');
+                usernameFeedback.textContent = '';
+                usernameFeedback.style.display = 'none';
+            } else {
+                this.classList.remove('input-valid');
+                this.classList.add('input-invalid');
+                usernameFeedback.classList.remove('feedback-valid');
+                usernameFeedback.classList.add('feedback-invalid');
+                usernameFeedback.textContent = 'Username is required';
+                usernameFeedback.style.display = 'block';
+            }
+        });
+        
+        // Password validation
+        passwordInput.addEventListener('input', function() {
+            if (this.value.length > 0) {
+                this.classList.add('input-valid');
+                this.classList.remove('input-invalid');
+                passwordFeedback.classList.add('feedback-valid');
+                passwordFeedback.classList.remove('feedback-invalid');
+                passwordFeedback.textContent = '';
+                passwordFeedback.style.display = 'none';
+            } else {
+                this.classList.remove('input-valid');
+                this.classList.add('input-invalid');
+                passwordFeedback.classList.remove('feedback-valid');
+                passwordFeedback.classList.add('feedback-invalid');
+                passwordFeedback.textContent = 'Password is required';
+                passwordFeedback.style.display = 'block';
+            }
+        });
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,1261 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load django_bootstrap5 %}
+{% load humanize %}
+{% block title %}Sustainable Investing for a Greener Future{% endblock %}
+
+{% block extra_css %}
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+/* Modern CSS Reset & Global Styles */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Animated Background Elements */
+.animated-bg {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.animated-bg .shape {
+    position: absolute;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+    animation: float 20s infinite;
+}
+
+.animated-bg .shape:nth-child(1) {
+    width: 400px;
+    height: 400px;
+    top: -100px;
+    left: -100px;
+    animation-delay: 0s;
+}
+
+.animated-bg .shape:nth-child(2) {
+    width: 200px;
+    height: 200px;
+    top: 50%;
+    right: -50px;
+    animation-delay: 5s;
+}
+
+.animated-bg .shape:nth-child(3) {
+    width: 300px;
+    height: 300px;
+    bottom: -100px;
+    right: 20%;
+    animation-delay: 10s;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    25% {
+        transform: translateY(-20px) rotate(5deg);
+    }
+    50% {
+        transform: translateY(0px) rotate(10deg);
+    }
+    75% {
+        transform: translateY(20px) rotate(5deg);
+    }
+}
+
+/* Enhanced Hero Section */
+.hero {
+    background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+    color: white;
+    padding: 10rem 0 8rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("{% static 'images/pattern.png' %}") repeat;
+    opacity: 0.06;
+    animation: patternFloat 60s linear infinite;
+}
+
+@keyframes patternFloat {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+}
+
+.hero::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 80%;
+    height: 150%;
+    background: radial-gradient(ellipse, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
+    transform: rotate(-15deg);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    animation: fadeInUp 1s ease forwards;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+    text-shadow: 0 2px 10px rgba(0,0,0,0.1);
+}
+
+.hero p.lead {
+    font-size: 1.3rem;
+    margin-bottom: 2.5rem;
+    font-weight: 400;
+    opacity: 0.9;
+    max-width: 600px;
+}
+
+.hero-image-container {
+    position: relative;
+    z-index: 2;
+    animation: fadeInRight 1s ease forwards 0.3s;
+    opacity: 0;
+}
+
+.hero-image {
+    border-radius: 20px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.2);
+    transform: perspective(1000px) rotateY(-5deg) translateZ(0);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+    backface-visibility: hidden;
+}
+
+.hero-image:hover {
+    transform: perspective(1000px) rotateY(0deg) translateZ(50px);
+}
+
+.hero-buttons {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+}
+
+.btn-hero-primary {
+    background: white;
+    color: #155d27;
+    border: none;
+    padding: 1rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
+
+.btn-hero-primary:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    background: white;
+    color: #155d27;
+}
+
+.btn-hero-secondary {
+    background: transparent;
+    color: white;
+    border: 2px solid white;
+    padding: 0.95rem 2rem;
+    border-radius: 50px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-hero-secondary:hover {
+    background: rgba(255,255,255,0.1);
+    transform: translateY(-3px);
+    color: white;
+}
+
+/* Floating Elements */
+.floating-element {
+    position: absolute;
+    z-index: 1;
+    opacity: 0.8;
+    filter: blur(1px);
+    animation: floatAnimation 6s ease-in-out infinite;
+}
+
+.float-leaf-1 {
+    width: 60px;
+    top: 20%;
+    left: 10%;
+    animation-delay: 0.5s;
+}
+
+.float-leaf-2 {
+    width: 40px;
+    top: 60%;
+    right: 15%;
+    animation-delay: 1.5s;
+}
+
+.float-leaf-3 {
+    width: 30px;
+    bottom: 20%;
+    left: 20%;
+    animation-delay: 2s;
+}
+
+@keyframes floatAnimation {
+    0%, 100% {
+        transform: translateY(0) rotate(0deg);
+    }
+    50% {
+        transform: translateY(-20px) rotate(10deg);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    from {
+        opacity: 0;
+        transform: translateX(30px) perspective(1000px) rotateY(-5deg);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0) perspective(1000px) rotateY(-5deg);
+    }
+}
+
+/* How It Works Section - Modern Redesign */
+.how-it-works {
+    padding: 8rem 0 6rem;
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #fcfcfc 0%, #f9f9f9 100%);
+}
+
+.section-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 0;
+    width: 80px;
+    height: 4px;
+    background: linear-gradient(90deg, #25a244, #82ca9c);
+    border-radius: 2px;
+}
+
+.section-subtitle {
+    font-size: 1.2rem;
+    color: #4a4a4a;
+    margin-bottom: 4rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.6;
+}
+
+.step-card {
+    text-align: center;
+    padding: 3rem 2rem;
+    position: relative;
+    background: white;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.03), 0 10px 20px rgba(0,0,0,0.02);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    height: 100%;
+    overflow: hidden;
+}
+
+.step-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #25a244, #82ca9c);
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+    transform-origin: left;
+}
+
+.step-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+}
+
+.step-card:hover::before {
+    transform: scaleX(1);
+}
+
+.step-number {
+    width: 70px;
+    height: 70px;
+    background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-weight: 700;
+    font-size: 1.8rem;
+    position: relative;
+    z-index: 1;
+    box-shadow: 0 10px 20px rgba(37, 162, 68, 0.3);
+}
+
+.step-number::after {
+    content: '';
+    position: absolute;
+    inset: -6px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+    opacity: 0.3;
+    z-index: -1;
+    transition: all 0.3s ease;
+}
+
+.step-card:hover .step-number::after {
+    transform: scale(1.2);
+    opacity: 0.15;
+}
+
+.step-icon {
+    font-size: 3rem;
+    color: #25a244;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s ease;
+}
+
+.step-card:hover .step-icon {
+    transform: scale(1.1);
+}
+
+.step-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.step-card p {
+    color: #666;
+    font-size: 1rem;
+    line-height: 1.6;
+}
+
+/* Featured Section with Modern Cards */
+.featured-section {
+    background: #f8f9fa;
+    padding: 7rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.featured-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(37, 162, 68, 0.03) 0%, rgba(130, 202, 156, 0.03) 100%);
+    z-index: 0;
+}
+
+.project-card {
+    border: none;
+    border-radius: 20px;
+    overflow: hidden;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.05);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    background: white;
+    position: relative;
+}
+
+.project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(37, 162, 68, 0.05) 0%, rgba(130, 202, 156, 0.05) 100%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.project-card:hover {
+    transform: translateY(-15px) scale(1.01);
+    box-shadow: 0 25px 50px rgba(0,0,0,0.12);
+}
+
+.project-card:hover::before {
+    opacity: 1;
+}
+
+.project-card .card-img-top {
+    height: 240px;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.project-card:hover .card-img-top {
+    transform: scale(1.05);
+}
+
+.card-body {
+    padding: 1.75rem;
+    position: relative;
+}
+
+.category-badges {
+    position: absolute;
+    top: -20px;
+    left: 20px;
+    z-index: 2;
+}
+
+.badge {
+    padding: 0.5rem 1rem;
+    border-radius: 30px;
+    font-weight: 500;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    margin-right: 0.5rem;
+}
+
+.badge-success {
+    background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+    border: none;
+}
+
+.card-title {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin: 1rem 0;
+    color: #333;
+}
+
+.card-text {
+    color: #666;
+    margin-bottom: 1.5rem;
+    line-height: 1.6;
+}
+
+.funding-progress {
+    margin-bottom: 1.5rem;
+}
+
+.progress {
+    height: 8px;
+    border-radius: 4px;
+    margin: 0.75rem 0;
+    background-color: #f3f3f3;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, #25a244, #82ca9c);
+    border-radius: 4px;
+    transition: width 1.5s ease;
+}
+
+.card-footer {
+    background: transparent;
+    border-top: 1px solid rgba(0,0,0,0.05);
+    padding: 1.25rem 1.75rem;
+}
+
+.btn-invest {
+    background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+    border: none;
+    color: white;
+    border-radius: 30px;
+    padding: 0.75rem 1.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: 0 5px 15px rgba(37, 162, 68, 0.2);
+}
+
+.btn-invest:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(37, 162, 68, 0.3);
+    background: linear-gradient(135deg, #1e8e37 0%, #6db985 100%);
+    color: white;
+}
+
+.view-all-btn {
+    background: white;
+    color: #25a244;
+    border: 2px solid #25a244;
+    border-radius: 30px;
+    padding: 0.9rem 2.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: inline-block;
+    margin-top: 1.5rem;
+}
+
+.view-all-btn:hover {
+    background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+    color: white;
+    border-color: transparent;
+    transform: translateY(-3px);
+    box-shadow: 0 10px 25px rgba(37, 162, 68, 0.2);
+}
+
+/* Impact Section - Modern Design */
+.impact-section {
+    padding: 7rem 0;
+    position: relative;
+    background: white;
+}
+
+.impact-cards-container {
+    position: relative;
+    z-index: 1;
+}
+
+.impact-card {
+    background: white;
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    text-align: center;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    height: 100%;
+    border: none;
+    position: relative;
+    overflow: hidden;
+}
+
+.impact-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 5px;
+    background: linear-gradient(90deg, #25a244, #82ca9c);
+    transform: scaleX(0);
+    transition: transform 0.5s ease;
+    transform-origin: left;
+}
+
+.impact-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at top right, rgba(37, 162, 68, 0.03) 0%, transparent 70%);
+}
+
+.impact-card:hover {
+    transform: translateY(-15px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+}
+
+.impact-card:hover::after {
+    transform: scaleX(1);
+}
+
+.impact-icon {
+    font-size: 3.5rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+.impact-card:hover .impact-icon {
+    transform: scale(1.1);
+    transition: transform 0.3s ease;
+}
+
+.impact-card h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 1rem;
+    color: #333;
+}
+
+.impact-card p {
+    color: #666;
+    margin-bottom: 2rem;
+    line-height: 1.6;
+}
+
+.impact-metric {
+    background: #f8f9fa;
+    border-radius: 15px;
+    padding: 1.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.impact-card:hover .impact-metric {
+    background: linear-gradient(135deg, rgba(37, 162, 68, 0.05) 0%, rgba(130, 202, 156, 0.05) 100%);
+}
+
+.impact-metric h4 {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.impact-metric p.display-6 {
+    font-size: 2.5rem;
+    background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-weight: 700;
+}
+
+/* Testimonial Section - Modern Design */
+.testimonial-section {
+    background: #f8f9fa;
+    padding: 7rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.testimonial-section::before {
+    content: '';
+    position: absolute;
+    top: -50px;
+    right: -50px;
+    width: 200px;
+    height: 200px;
+    background: linear-gradient(135deg, rgba(37, 162, 68, 0.05) 0%, rgba(130, 202, 156, 0.05) 100%);
+    border-radius: 50%;
+}
+
+.testimonial-section::after {
+    content: '';
+    position: absolute;
+    bottom: -100px;
+    left: -100px;
+    width: 300px;
+    height: 300px;
+    background: linear-gradient(135deg, rgba(37, 162, 68, 0.05) 0%, rgba(130, 202, 156, 0.05) 100%);
+    border-radius: 50%;
+}
+
+.testimonial-card {
+    background: white;
+    border-radius: 20px;
+    padding: 3rem 2rem;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+    height: 100%;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    border: none;
+    position: relative;
+}
+
+.testimonial-card::before {
+    content: '\201C';
+    position: absolute;
+    top: 30px;
+    left: 30px;
+    font-size: 5rem;
+    color: rgba(37, 162, 68, 0.1);
+    font-family: Georgia, serif;
+    line-height: 0;
+}
+
+.testimonial-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+}
+
+.testimonial-content {
+    position: relative;
+    z-index: 1;
+}
+
+.testimonial-text {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: #555;
+    margin-bottom: 2rem;
+    font-style: italic;
+}
+
+.testimonial-author {
+    display: flex;
+    align-items: center;
+}
+
+.testimonial-avatar {
+    width: 70px;
+    height: 70px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 3px solid white;
+    box-shadow: 0 5px 15px rgba(37, 162, 68, 0.2);
+    transition: transform 0.3s ease;
+}
+
+.testimonial-card:hover .testimonial-avatar {
+    transform: scale(1.1);
+}
+
+.testimonial-info {
+    margin-left: 1rem;
+}
+
+.testimonial-info h5 {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    color: #333;
+}
+
+.testimonial-info p {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* About Section - Modern Design */
+.about-section {
+    padding: 7rem 0;
+    position: relative;
+    background: white;
+}
+
+.about-content {
+    position: relative;
+    z-index: 1;
+}
+
+.about-content .lead {
+    font-size: 1.3rem;
+    color: #25a244;
+    margin-bottom: 1.5rem;
+    font-weight: 500;
+}
+
+.about-content p {
+    color: #555;
+    line-height: 1.8;
+    margin-bottom: 1.5rem;
+}
+
+.about-buttons {
+    margin-top: 2.5rem;
+}
+
+.about-image-container {
+    position: relative;
+    z-index: 1;
+}
+
+.about-image {
+    border-radius: 20px;
+    box-shadow: 0 30px 60px rgba(0,0,0,0.1);
+    transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.about-image:hover {
+    transform: scale(1.02);
+}
+
+.about-pattern {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 30px;
+    left: 30px;
+    border: 3px dashed rgba(37, 162, 68, 0.2);
+    border-radius: 20px;
+    z-index: -1;
+}
+
+/* Call to Action - Modern Design */
+.cta-section {
+    background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+    color: white;
+    padding: 7rem 0;
+    position: relative;
+    overflow: hidden;
+}
+
+.cta-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("{% static 'images/pattern.png' %}") repeat;
+    opacity: 0.05;
+    animation: patternFloat 60s linear infinite alternate;
+}
+
+.cta-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.cta-content h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    line-height: 1.2;
+}
+
+.cta-content .lead {
+    font-size: 1.3rem;
+    opacity: 0.9;
+    margin-bottom: 2.5rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-button {
+    background: white;
+    color: #155d27;
+    border: none;
+    padding: 1rem 3rem;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+    transition: all 0.3s ease;
+    display: inline-block;
+}
+
+.cta-button:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    background: white;
+    color: #155d27;
+}
+
+/* Animations and Additional Effects */
+.slide-in-left {
+    animation: slideInLeft 1s ease forwards;
+}
+
+.slide-in-right {
+    animation: slideInRight 1s ease forwards;
+}
+
+.fade-in-up {
+    animation: fadeInUp 1s ease forwards;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 991px) {
+    .hero {
+        padding: 7rem 0 5rem;
+    }
+    
+    .hero h1 {
+        font-size: 2.8rem;
+    }
+    
+    .hero-image-container {
+        margin-top: 3rem;
+    }
+    
+    .section-title {
+        font-size: 2.2rem;
+    }
+    
+    .section-subtitle {
+        font-size: 1.1rem;
+    }
+    
+    .step-card,
+    .impact-card,
+    .testimonial-card {
+        padding: 2rem 1.5rem;
+    }
+}
+
+@media (max-width: 767px) {
+    .hero {
+        padding: 5rem 0 4rem;
+    }
+    
+    .hero h1 {
+        font-size: 2.2rem;
+    }
+    
+    .hero p.lead {
+        font-size: 1.1rem;
+    }
+    
+    .section-title {
+        font-size: 2rem;
+    }
+    
+    .cta-content h2 {
+        font-size: 2.2rem;
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <!-- Floating Elements -->
+    <img src="{% static 'images/leaf1.svg' %}" alt="" class="floating-element float-leaf-1">
+    <img src="{% static 'images/leaf2.svg' %}" alt="" class="floating-element float-leaf-2">
+    <img src="{% static 'images/leaf3.svg' %}" alt="" class="floating-element float-leaf-3">
+    
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <div class="shape"></div>
+        <div class="shape"></div>
+        <div class="shape"></div>
+    </div>
+    
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="hero-content">
+                    <h1>Invest in Tomorrow's Sustainable Future</h1>
+                    <p class="lead">Join a community of forward-thinking investors creating wealth while driving positive environmental change through AI-powered green initiatives.</p>
+                    <div class="hero-buttons">
+                        <a href="{% url 'initiative_list' %}" class="btn btn-hero-primary">Explore Projects</a>
+                        <a href="{% url 'learn_more' %}" class="btn btn-hero-secondary">Learn More</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6 d-none d-lg-block">
+                <div class="hero-image-container">
+                    <img src="{% static 'images/hero.jpg' %}" alt="Sustainable Investing" class="img-fluid hero-image">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">How Ecovest Works</h2>
+            <p class="section-subtitle">Our platform makes green investing simple, transparent, and meaningful through a streamlined three-step process backed by advanced AI technology</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="step-card slide-in-left" style="animation-delay: 0.2s;">
+                    <div class="step-number">1</div>
+                    <i class="fas fa-search step-icon"></i>
+                    <h3>Discover Opportunities</h3>
+                    <p>Browse our curated collection of sustainable initiatives spanning renewable energy, conservation, and cutting-edge green technology solutions.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="step-card slide-in-left" style="animation-delay: 0.4s;">
+                    <div class="step-number">2</div>
+                    <i class="fas fa-hand-holding-usd step-icon"></i>
+                    <h3>Invest With Purpose</h3>
+                    <p>Select your investment amount and support projects that align with your financial goals and environmental values – all on one seamless platform.</p>
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="step-card slide-in-left" style="animation-delay: 0.6s;">
+                    <div class="step-number">3</div>
+                    <i class="fas fa-chart-line step-icon"></i>
+                    <h3>Track Real-Time Impact</h3>
+                    <p>Monitor your portfolio's financial performance alongside precise environmental impact metrics powered by our proprietary AI analytics engine.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Featured Opportunities Section -->
+<section class="featured-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Featured Opportunities</h2>
+            <p class="section-subtitle">Explore our handpicked selection of high-impact sustainable initiatives ready for your investment</p>
+        </div>
+        
+        <div class="row g-4">
+            {% for initiative in featured_initiatives %}
+                <div class="col-lg-4 mb-4">
+                    <div class="project-card fade-in-up" style="animation-delay: {{ forloop.counter|add:'2' }}00ms;">
+                        {% if initiative.image %}
+                            <img src="{{ initiative.image.url }}" class="card-img-top" alt="{{ initiative.title }}">
+                        {% else %}
+                            <img src="https://source.unsplash.com/random/600x400/?{{ initiative.categories.first.name|lower }},sustainability" class="card-img-top" alt="{{ initiative.title }}">
+                        {% endif %}
+                        
+                        <div class="category-badges">
+                            {% for category in initiative.categories.all|slice:":2" %}
+                                <span class="badge badge-success">{{ category.name }}</span>
+                            {% endfor %}
+                            {% if initiative.categories.all|length > 2 %}
+                                <span class="badge bg-light text-dark">+{{ initiative.categories.all|length|add:"-2" }}</span>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="card-body">
+                            <h4 class="card-title">{{ initiative.title }}</h4>
+                            <p class="card-text">{{ initiative.description|truncatewords:15 }}</p>
+                            
+                            <div class="funding-progress">
+                                <div class="d-flex justify-content-between">
+                                    <span class="text-success fw-bold">
+                                        {% widthratio initiative.current_amount initiative.goal_amount 100|floatformat:0 %}% Funded
+                                    </span>
+                                    <span class="text-muted">Goal: ₹{{ initiative.goal_amount|intcomma }}</span>
+                                </div>
+                                <div class="progress">
+                                    <div class="progress-bar" role="progressbar" 
+                                         style="width: {% widthratio initiative.current_amount initiative.goal_amount 100 %}%"></div>
+                                </div>
+                                <div class="d-flex justify-content-between mt-2">
+                                    <span class="text-muted small">Current: ₹{{ initiative.current_amount|intcomma }}</span>
+                                    <span class="text-muted small">
+                                        <i class="far fa-clock"></i> 
+                                        {% if initiative.duration_months %}{{ initiative.duration_months }} months{% else %}Ongoing{% endif %}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="card-footer">
+                            <a href="{% url 'invest_initiative' initiative.id %}" class="btn btn-invest w-100">Invest Now</a>
+                        </div>
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12 text-center">
+                    <div class="alert alert-light p-5 border">
+                        <i class="fas fa-leaf fa-3x text-success mb-3"></i>
+                        <h4>New Projects Coming Soon</h4>
+                        <p class="text-muted mb-0">We're cultivating a fresh batch of sustainable opportunities. Check back soon or sign up for notifications!</p>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center">
+            <a href="{% url 'initiative_list' %}" class="view-all-btn">View All Projects</a>
+        </div>
+    </div>
+</section>
+
+<!-- Impact Section -->
+<section class="impact-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Your Investment Impact</h2>
+            <p class="section-subtitle">Our advanced AI model provides transparent metrics showing the real environmental impact of your investments</p>
+        </div>
+        
+        <div class="row g-4 impact-cards-container">
+            <div class="col-lg-4">
+                <div class="impact-card fade-in-up" style="animation-delay: 0.2s;">
+                    <i class="fas fa-cloud impact-icon"></i>
+                    <h3>Carbon Reduction</h3>
+                    <p>Our AI model precisely calculates CO₂ emissions reduced by each project in your portfolio, allowing you to track your climate impact.</p>
+                    <div class="impact-metric">
+                        <h4>Average Reduction</h4>
+                        <p class="display-6 mb-0">42%</p>
+                        <span class="text-muted small">per project</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="impact-card fade-in-up" style="animation-delay: 0.4s;">
+                    <i class="fas fa-bolt impact-icon"></i>
+                    <h3>Energy Efficiency</h3>
+                    <p>See exactly how many kilowatt-hours are saved through your investments in renewable energy and efficiency projects.</p>
+                    <div class="impact-metric">
+                        <h4>Average per ₹1,000</h4>
+                        <p class="display-6 mb-0">1,200 kWh</p>
+                        <span class="text-muted small">annually</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="impact-card fade-in-up" style="animation-delay: 0.6s;">
+                    <i class="fas fa-tint impact-icon"></i>
+                    <h3>Water Conservation</h3>
+                    <p>Track the precise volume of water conserved through your investments in water-saving and purification initiatives.</p>
+                    <div class="impact-metric">
+                        <h4>Average per ₹1,000</h4>
+                        <p class="display-6 mb-0">8,500 L</p>
+                        <span class="text-muted small">annually</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Testimonials Section -->
+<section class="testimonial-section">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h2 class="section-title">Investor Success Stories</h2>
+            <p class="section-subtitle">Hear from our community of investors making a positive impact while growing their portfolios</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="testimonial-card slide-in-right" style="animation-delay: 0.2s;">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"Ecovest's AI insights have transformed my approach to investing. I can clearly see how my money is working for both the planet and my financial future."</p>
+                        <div class="testimonial-author">
+                            <img src="{% static 'images/avatar1.jpg' %}" class="testimonial-avatar" alt="Sarah Johnson">
+                            <div class="testimonial-info">
+                                <h5>Sarah Johnson</h5>
+                                <p>Investor since 2022</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="testimonial-card slide-in-right" style="animation-delay: 0.4s;">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"The platform's transparency and real-time impact tracking make it uniquely powerful. I finally feel connected to the environmental change my investments create."</p>
+                        <div class="testimonial-author">
+                            <img src="{% static 'images/avatar2.jpg' %}" class="testimonial-avatar" alt="David Chen">
+                            <div class="testimonial-info">
+                                <h5>David Chen</h5>
+                                <p>Investor since 2021</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-4">
+                <div class="testimonial-card slide-in-right" style="animation-delay: 0.6s;">
+                    <div class="testimonial-content">
+                        <p class="testimonial-text">"As someone deeply concerned about climate change, Ecovest gives me peace of mind knowing my investments are making a measurable difference while providing strong returns."</p>
+                        <div class="testimonial-author">
+                            <img src="https://source.unsplash.com/random/100x100/?portrait,woman,professional" class="testimonial-avatar" alt="Maya Patel">
+                            <div class="testimonial-info">
+                                <h5>Maya Patel</h5>
+                                <p>Investor since 2023</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section class="about-section">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 mb-5 mb-lg-0">
+                <div class="about-content slide-in-left">
+                    <h2 class="section-title">About Ecovest</h2>
+                    <p class="lead">Democratizing sustainable investing for everyone</p>
+                    <p>Founded in 2025, Ecovest bridges the gap between environmentally conscious investors and thoroughly vetted sustainable initiatives across renewable energy, conservation, clean water, and green technology sectors.</p>
+                    <p>Our proprietary AI platform leverages real-world environmental data to precisely forecast and track the impact of investments—measuring carbon reduced, energy saved, and water conserved with unprecedented accuracy. Every opportunity on our platform undergoes rigorous evaluation by our team of financial analysts and environmental scientists.</p>
+                    <div class="about-buttons">
+                        <a href="{% url 'learn_more' %}#ourteam" class="btn btn-success me-3">Meet Our Team</a>
+                        <a href="{% url 'learn_more' %}" class="btn btn-outline-success">Our Mission</a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="about-image-container slide-in-right">
+                    <div class="about-pattern"></div>
+                    <img src="{% static 'images/about.jpg' %}" alt="About Ecovest" class="img-fluid about-image">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Invest in a Better Tomorrow?</h2>
+            <p class="lead">Join thousands of investors funding the sustainable innovations our planet needs while securing their financial future.</p>
+            <a href="{% url 'register' %}" class="cta-button">Create Your Account</a>
+        </div>
+    </div>
+</section>
+{% endblock %}

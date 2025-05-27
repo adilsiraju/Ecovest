@@ -1,0 +1,679 @@
+{% extends 'core/base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% block title %}Join Ecovest - Start Your Impact Investment Journey{% endblock %}
+
+{% block extra_css %}
+<style>
+    .registration-container {
+        background-color: #f8f9fa;
+        border-radius: 15px;
+    }
+    
+    .registration-hero {
+        background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+        color: white;
+        padding: 2rem 0;
+        border-radius: 15px 15px 0 0;
+    }
+    
+    .reg-benefits {
+        background-color: white;
+        border-radius: 8px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        transition: transform 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        height: auto;
+        min-height: 0;
+    }
+    
+    .reg-benefits:hover {
+        transform: translateY(-5px);
+    }
+    
+    .reg-benefits i {
+        font-size: 2rem;
+        color: #28a745;
+        margin-bottom: 0.5rem;
+    }
+    
+    .reg-benefits h3 {
+        margin-bottom: 0.5rem;
+        font-size: 1.25rem;
+    }
+    
+    .reg-benefits p {
+        margin-bottom: 0;
+        font-size: 0.95rem;
+    }
+    
+    .benefits-container {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+    }
+    
+    .form-step {
+        display: none;
+    }
+    
+    .form-step.active {
+        display: block;
+    }
+    
+    .form-navigation {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 1.5rem;
+    }
+    
+    .registration-form {
+        background: white;
+        border-radius: 8px;
+        padding: 2rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+    
+    .registration-progress {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+    
+    .progress-step {
+        width: 30px;
+        height: 30px;
+        border-radius: 50%;
+        background-color: #e9ecef;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 10px;
+        font-weight: bold;
+        position: relative;
+    }
+    
+    .progress-step.active {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .progress-step.completed {
+        background-color: #28a745;
+        color: white;
+    }
+    
+    .progress-step.completed:after {
+        content: '✓';
+    }
+    
+    .progress-line {
+        flex-grow: 1;
+        height: 3px;
+        background-color: #e9ecef;
+        margin-top: 15px;
+    }
+    
+    .progress-line.active {
+        background-color: #28a745;
+    }
+    
+    .testimonial {
+        background-color: white;
+        border-left: 4px solid #28a745;
+        padding: 1.25rem;
+        border-radius: 0 8px 8px 0;
+        margin-top: 1rem;
+        font-style: italic;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+    }
+    
+    .testimonial p {
+        color: #333;
+        margin-bottom: 0.5rem;
+        font-size: 0.95rem;
+        line-height: 1.5;
+    }
+    
+    .testimonial-author {
+        display: flex;
+        flex-direction: column;
+        margin-top: 0.75rem;
+    }
+    
+    .author-name {
+        color: #28a745;
+        font-weight: 600;
+        font-size: 0.9rem;
+        font-style: normal;
+    }
+    
+    .author-title {
+        color: #6c757d;
+        font-size: 0.8rem;
+        font-style: normal;
+    }
+    
+    .form-feedback {
+        display: none;
+        font-size: 0.8rem;
+        margin-top: 0.25rem;
+    }
+    
+    .input-valid {
+        border-color: #28a745 !important;
+    }
+    
+    .input-invalid {
+        border-color: #dc3545 !important;
+    }
+    
+    .feedback-valid {
+        color: #28a745;
+    }
+    
+    .feedback-invalid {
+        color: #dc3545;
+    }
+    
+    .profile-image-container {
+        position: relative;
+        width: 150px;
+        height: 150px;
+        margin-bottom: 1rem;
+        border-radius: 50%;
+        overflow: hidden;
+        background-color: #f8f9fa;
+        border: 2px dashed #28a745;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .profile-image-preview {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: none;
+    }
+    
+    .profile-image-placeholder {
+        color: #28a745;
+        font-size: 2.5rem;
+    }
+    
+    .profile-image-instructions {
+        font-size: 0.85rem;
+        color: #6c757d;
+        margin-top: 0.5rem;
+        margin-bottom: 1rem;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container registration-container">
+        <div class="registration-hero text-center">
+            <h1 class="display-4 fw-bold mb-3">Join the Ecovest Community</h1>
+            <p class="lead mb-0">Invest in a sustainable future while growing your wealth</p>
+        </div>
+        
+        <div class="row py-5 px-3">
+            <!-- Left column - Registration benefits -->
+            <div class="col-lg-5 mb-4 mb-lg-0">
+                <div class="reg-benefits mb-4">
+                    <i class="fas fa-leaf mb-3"></i>
+                    <h3>Make an Impact</h3>
+                    <p>Support sustainable initiatives and help create a better planet with your investments.</p>
+                </div>
+                
+                <div class="reg-benefits mb-4">
+                    <i class="fas fa-chart-line mb-3"></i>
+                    <h3>Track Your Growth</h3>
+                    <p>Monitor your investment performance and environmental impact in real-time.</p>
+                </div>
+                
+                <div class="reg-benefits mb-4">
+                    <i class="fas fa-shield-alt mb-3"></i>
+                    <h3>Secure & Transparent</h3>
+                    <p>We prioritize security and transparency in all our operations.</p>
+                </div>
+                
+                <div class="testimonial mt-4">
+                    <p>"Joining Ecovest was the best investment decision I ever made. I'm generating returns while making a real environmental difference."</p>
+                    <div class="testimonial-author">
+                        <span class="author-name">Priya Sharma</span>
+                        <span class="author-title">Member since 2023</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Right column - Registration form -->
+            <div class="col-lg-7">
+                <div class="registration-form">
+                    <div class="registration-progress">
+                        <div class="progress-step active" id="step-1">1</div>
+                        <div class="progress-line" id="line-1-2"></div>
+                        <div class="progress-step" id="step-2">2</div>
+                        <div class="progress-line" id="line-2-3"></div>
+                        <div class="progress-step" id="step-3">3</div>
+                        <div class="progress-line" id="line-3-4"></div>
+                        <div class="progress-step" id="step-4">4</div>
+                    </div>
+                    
+                    <form method="post" id="registration-form" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        
+                        <!-- Step 1: Basic Info -->
+                        <div class="form-step active" id="form-step-1">
+                            <h3 class="mb-4 text-center">Create Your Account</h3>
+                            
+                            <div class="mb-4 px-md-3">
+                                <label for="{{ form.username.id_for_label }}" class="form-label">Username</label>
+                                {{ form.username }}
+                                <div class="form-feedback" id="username-feedback"></div>
+                            </div>
+                            
+                            <div class="mb-4 px-md-3">
+                                <label for="{{ form.email.id_for_label }}" class="form-label">Email Address</label>
+                                {{ form.email }}
+                                <div class="form-feedback" id="email-feedback"></div>
+                            </div>
+                            
+                            <div class="form-navigation mt-5">
+                                <div></div>
+                                <button type="button" class="btn btn-success px-4 py-2" id="step-1-next">Continue</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 2: Personal Info -->
+                        <div class="form-step" id="form-step-2">
+                            <h3 class="mb-4 text-center">Your Personal Information</h3>
+                            
+                            <div class="row g-3 px-md-3">
+                                <div class="col-md-6 mb-4">
+                                    <label for="{{ form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                    {{ form.first_name }}
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label for="{{ form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                    {{ form.last_name }}
+                                </div>
+                            </div>
+                            
+                            <div class="form-navigation mt-5">
+                                <button type="button" class="btn btn-outline-secondary px-4 py-2" id="step-2-prev">Back</button>
+                                <button type="button" class="btn btn-success px-4 py-2" id="step-2-next">Continue</button>
+                            </div>
+                        </div>
+                        
+                        <!-- Step 3: Password -->
+                        <div class="form-step" id="form-step-3">
+                            <h3 class="mb-4 text-center">Set Your Password</h3>
+                            
+                            <div class="mb-4 px-md-3">
+                                <label for="{{ form.password1.id_for_label }}" class="form-label">Password</label>
+                                {{ form.password1 }}
+                                <div class="form-feedback" id="password1-feedback"></div>
+                                <small class="form-text text-muted mt-2">
+                                    Create a strong password that's at least 8 characters long with a mix of letters, numbers, and symbols.
+                                </small>
+                            </div>
+                            
+                            <div class="mb-4 px-md-3">
+                                <label for="{{ form.password2.id_for_label }}" class="form-label">Confirm Password</label>
+                                {{ form.password2 }}
+                                <div class="form-feedback" id="password2-feedback"></div>
+                            </div>
+                            
+                            <div class="form-navigation mt-5">
+                                <button type="button" class="btn btn-outline-secondary px-4 py-2" id="step-3-prev">Back</button>
+                                <button type="button" class="btn btn-success px-4 py-2" id="step-3-next">Continue</button>
+                            </div>
+                        </div>
+
+                        <!-- Step 4: Profile Details -->
+                        <div class="form-step" id="form-step-4">
+                            <h3 class="mb-4 text-center">Profile Details</h3>
+                            
+                            <div class="mb-4 px-md-3">
+                                <label class="form-label d-block">Profile Image</label>
+                                <div class="d-flex flex-column flex-md-row align-items-center">
+                                    <div class="profile-image-container" id="profile-image-container" style="margin: 0 auto;">
+                                        <img id="profile-image-preview" class="profile-image-preview" src="#" alt="Profile preview">
+                                        <i class="fas fa-user profile-image-placeholder" id="profile-image-placeholder"></i>
+                                    </div>
+                                    <div class="ms-0 ms-md-4 mt-3 mt-md-0 flex-grow-1 text-center text-md-start">
+                                        {{ form.profile_image }}
+                                        <p class="profile-image-instructions">
+                                            Upload a profile picture (optional)<br>
+                                            For best results, use a square image.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-4 px-md-3">
+                                <label for="{{ form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
+                                {{ form.phone_number }}
+                                <small class="form-text text-muted mt-2 d-block">Format: +919876543210</small>
+                            </div>
+                            
+                            <h4 class="mb-4 mt-5 pt-2 border-top pt-4 text-center">Address Information</h4>
+                            
+                            <div class="mb-4 px-md-3">
+                                <label for="{{ form.address_line1.id_for_label }}" class="form-label">Address Line 1</label>
+                                {{ form.address_line1 }}
+                            </div>
+                            
+                            <div class="mb-4 px-md-3">
+                                <label for="{{ form.address_line2.id_for_label }}" class="form-label">Address Line 2</label>
+                                {{ form.address_line2 }}
+                            </div>
+                            
+                            <div class="row g-3 px-md-3">
+                                <div class="col-md-6 mb-4">
+                                    <label for="{{ form.city.id_for_label }}" class="form-label">City</label>
+                                    {{ form.city }}
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label for="{{ form.state.id_for_label }}" class="form-label">State</label>
+                                    {{ form.state }}
+                                </div>
+                            </div>
+                            
+                            <div class="row g-3 px-md-3">
+                                <div class="col-md-6 mb-4">
+                                    <label for="{{ form.postal_code.id_for_label }}" class="form-label">Postal Code</label>
+                                    {{ form.postal_code }}
+                                </div>
+                                <div class="col-md-6 mb-4">
+                                    <label for="{{ form.country.id_for_label }}" class="form-label">Country</label>
+                                    {{ form.country }}
+                                </div>
+                            </div>
+                            
+                            <div class="form-navigation mt-5">
+                                <button type="button" class="btn btn-outline-secondary px-4 py-2" id="step-4-prev">Back</button>
+                                <button type="submit" class="btn btn-success px-4 py-2">Create Account</button>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    <div class="text-center mt-3">
+                        <p>Already have an account? <a href="{% url 'login' %}">Log in</a></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Multi-step form navigation
+        const formSteps = document.querySelectorAll('.form-step');
+        const progressSteps = document.querySelectorAll('.progress-step');
+        const progressLines = document.querySelectorAll('.progress-line');
+        
+        // Handle server-side form errors by showing the appropriate step
+        {% if form_errors %}
+            // Check which step has errors and show it
+            let hasErrorsStep1 = {% if 'username' in form.errors or 'email' in form.errors %}true{% else %}false{% endif %};
+            let hasErrorsStep2 = {% if 'first_name' in form.errors or 'last_name' in form.errors %}true{% else %}false{% endif %};
+            let hasErrorsStep3 = {% if 'password1' in form.errors or 'password2' in form.errors %}true{% else %}false{% endif %};
+            let hasErrorsStep4 = {% if 'profile_image' in form.errors or 'phone_number' in form.errors or 'address_line1' in form.errors or 'address_line2' in form.errors or 'city' in form.errors or 'state' in form.errors or 'postal_code' in form.errors or 'country' in form.errors %}true{% else %}false{% endif %};
+            
+            if (hasErrorsStep4) {
+                goToStep(4);
+                // Display profile errors if any
+                {% if form.profile_image.errors or form.phone_number.errors or form.address_line1.errors or form.address_line2.errors or form.city.errors or form.state.errors or form.postal_code.errors or form.country.errors %}
+                    alert("Please check your profile details for errors");
+                {% endif %}
+            } else if (hasErrorsStep3) {
+                goToStep(3);
+                
+                // Display password errors
+                {% if form.password1.errors %}
+                    showFeedback(document.getElementById('{{ form.password1.id_for_label }}'), 
+                                'password1-feedback', false, 
+                                "{{ form.password1.errors.0 }}");
+                {% endif %}
+                
+                {% if form.password2.errors %}
+                    showFeedback(document.getElementById('{{ form.password2.id_for_label }}'), 
+                                'password2-feedback', false, 
+                                "{{ form.password2.errors.0 }}");
+                {% endif %}
+            } else if (hasErrorsStep2) {
+                goToStep(2);
+            } else if (hasErrorsStep1) {
+                goToStep(1);
+                
+                // Display username/email errors
+                {% if form.username.errors %}
+                    showFeedback(document.getElementById('{{ form.username.id_for_label }}'), 
+                                'username-feedback', false, 
+                                "{{ form.username.errors.0 }}");
+                {% endif %}
+                
+                {% if form.email.errors %}
+                    showFeedback(document.getElementById('{{ form.email.id_for_label }}'), 
+                                'email-feedback', false, 
+                                "{{ form.email.errors.0 }}");
+                {% endif %}
+            }
+        {% endif %}
+        
+        // Step 1 to step 2
+        document.getElementById('step-1-next').addEventListener('click', function() {
+            const usernameInput = document.getElementById('{{ form.username.id_for_label }}');
+            const emailInput = document.getElementById('{{ form.email.id_for_label }}');
+            
+            let isValid = true;
+            
+            // Simple validation for username
+            if (!usernameInput.value) {
+                showFeedback(usernameInput, 'username-feedback', false, 'Username is required');
+                isValid = false;
+            } else if (usernameInput.value.length < 3) {
+                showFeedback(usernameInput, 'username-feedback', false, 'Username must be at least 3 characters');
+                isValid = false;
+            } else {
+                showFeedback(usernameInput, 'username-feedback', true, 'Username looks good!');
+            }
+            
+            // Simple validation for email
+            if (!emailInput.value) {
+                showFeedback(emailInput, 'email-feedback', false, 'Email is required');
+                isValid = false;
+            } else if (!isValidEmail(emailInput.value)) {
+                showFeedback(emailInput, 'email-feedback', false, 'Please enter a valid email address');
+                isValid = false;
+            } else {
+                showFeedback(emailInput, 'email-feedback', true, 'Email looks good!');
+            }
+            
+            if (isValid) {
+                goToStep(2);
+            }
+        });
+        
+        // Step 2 to step 1
+        document.getElementById('step-2-prev').addEventListener('click', function() {
+            goToStep(1);
+        });
+        
+        // Step 2 to step 3
+        document.getElementById('step-2-next').addEventListener('click', function() {
+            goToStep(3);
+        });
+        
+        // Step 3 to step 2
+        document.getElementById('step-3-prev').addEventListener('click', function() {
+            goToStep(2);
+        });
+        
+        // Step 3 to step 4
+        document.getElementById('step-3-next').addEventListener('click', function() {
+            const password1Input = document.getElementById('{{ form.password1.id_for_label }}');
+            const password2Input = document.getElementById('{{ form.password2.id_for_label }}');
+            
+            let isValid = true;
+            
+            // Password validation
+            if (!validatePassword(password1Input.value)) {
+                isValid = false;
+            }
+            
+            // Confirm password validation
+            if (!validatePasswordMatch(password1Input.value, password2Input.value)) {
+                isValid = false;
+            }
+            
+            if (isValid) {
+                goToStep(4);
+            }
+        });
+        
+        // Step 4 to step 3
+        document.getElementById('step-4-prev').addEventListener('click', function() {
+            goToStep(3);
+        });
+        
+        function goToStep(step) {
+            // Hide all steps
+            formSteps.forEach((formStep, index) => {
+                formStep.classList.remove('active');
+                progressSteps[index].classList.remove('active');
+                progressSteps[index].classList.remove('completed');
+                if (index < progressLines.length) {
+                    progressLines[index].classList.remove('active');
+                }
+            });
+            
+            // Show current step
+            document.getElementById(`form-step-${step}`).classList.add('active');
+            document.getElementById(`step-${step}`).classList.add('active');
+            
+            // Mark previous steps as completed
+            for (let i = 1; i < step; i++) {
+                document.getElementById(`step-${i}`).classList.add('completed');
+                if (i < step - 1) {
+                    document.getElementById(`line-${i}-${i+1}`).classList.add('active');
+                }
+            }
+            
+            // Mark current line as active if not the first step
+            if (step > 1) {
+                document.getElementById(`line-${step-1}-${step}`).classList.add('active');
+            }
+        }
+        
+        // Real-time validation functions
+        function showFeedback(inputElement, feedbackId, isValid, message) {
+            const feedbackElement = document.getElementById(feedbackId);
+            
+            // Clear previous styles
+            inputElement.classList.remove('input-valid', 'input-invalid');
+            feedbackElement.classList.remove('feedback-valid', 'feedback-invalid');
+            
+            // Add new styles based on validation
+            if (isValid) {
+                inputElement.classList.add('input-valid');
+                feedbackElement.classList.add('feedback-valid');
+            } else {
+                inputElement.classList.add('input-invalid');
+                feedbackElement.classList.add('feedback-invalid');
+            }
+            
+            // Set message and show feedback
+            feedbackElement.textContent = message;
+            feedbackElement.style.display = 'block';
+        }
+        
+        function isValidEmail(email) {
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            return emailRegex.test(email);
+        }
+        
+        // Add real-time validation for password fields
+        const password1Input = document.getElementById('{{ form.password1.id_for_label }}');
+        const password2Input = document.getElementById('{{ form.password2.id_for_label }}');
+        
+        password1Input.addEventListener('input', function() {
+            validatePassword(password1Input.value);
+        });
+        
+        password2Input.addEventListener('input', function() {
+            validatePasswordMatch(password1Input.value, password2Input.value);
+        });
+        
+        function validatePassword(password) {
+            const minLength = 8;
+            const hasLetter = /[a-zA-Z]/.test(password);
+            const hasNumber = /[0-9]/.test(password);
+            const hasSpecial = /[!@#$%^&*(),.?":{}|<>]/.test(password);
+            
+            if (password.length < minLength) {
+                showFeedback(password1Input, 'password1-feedback', false, 'Password must be at least 8 characters long');
+                return false;
+            } else if (!hasLetter || !hasNumber) {
+                showFeedback(password1Input, 'password1-feedback', false, 'Password must include letters and numbers');
+                return false;
+            } else if (!hasSpecial) {
+                showFeedback(password1Input, 'password1-feedback', false, 'Password must include at least one special character');
+                return false;
+            } else {
+                showFeedback(password1Input, 'password1-feedback', true, 'Password strength: Strong');
+                return true;
+            }
+        }
+        
+        function validatePasswordMatch(password1, password2) {
+            if (!password2) {
+                showFeedback(password2Input, 'password2-feedback', false, 'Please confirm your password');
+                return false;
+            } else if (password1 !== password2) {
+                showFeedback(password2Input, 'password2-feedback', false, 'Passwords do not match');
+                return false;
+            } else {
+                showFeedback(password2Input, 'password2-feedback', true, 'Passwords match!');
+                return true;
+            }
+        }
+        
+        // Profile image preview functionality
+        const profileImageInput = document.getElementById('{{ form.profile_image.id_for_label }}');
+        const profileImagePreview = document.getElementById('profile-image-preview');
+        const profileImagePlaceholder = document.getElementById('profile-image-placeholder');
+        
+        profileImageInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+                
+                reader.onload = function(e) {
+                    profileImagePreview.src = e.target.result;
+                    profileImagePreview.style.display = 'block';
+                    profileImagePlaceholder.style.display = 'none';
+                }
+                
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                profileImagePreview.style.display = 'none';
+                profileImagePlaceholder.style.display = 'block';
+            }
+        });
+    });
+</script>
+{% endblock %}

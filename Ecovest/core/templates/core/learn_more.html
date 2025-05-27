@@ -1,0 +1,1073 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block title %}Learn More - Ecovest{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Import Google Font */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    
+    body {
+        font-family: 'Poppins', sans-serif;
+    }
+    
+    /* Hero Section */
+    .hero {
+        background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+        color: white;
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("{% static 'images/pattern.svg' %}") repeat;
+        opacity: 0.1;
+        animation: patternFloat 60s linear infinite;
+    }
+    
+    @keyframes patternFloat {
+        0% { transform: translateY(0); }
+        100% { transform: translateY(-100%); }
+    }
+    
+    .floating-leaf {
+        position: absolute;
+        opacity: 0.2;
+        animation: float 30s linear infinite;
+    }
+    
+    .leaf-1 {
+        width: 120px;
+        top: 10%;
+        left: 5%;
+        animation-duration: 30s;
+        animation-delay: -5s;
+    }
+    
+    .leaf-2 {
+        width: 90px;
+        top: 20%;
+        right: 10%;
+        animation-duration: 25s;
+        animation-delay: -12s;
+    }
+    
+    .leaf-3 {
+        width: 80px;
+        bottom: 15%;
+        left: 15%;
+        animation-duration: 32s;
+        animation-delay: -20s;
+    }
+    
+    @keyframes float {
+        0% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+        25% {
+            transform: translate(5%, 10%) rotate(5deg);
+        }
+        50% {
+            transform: translate(10%, 0%) rotate(10deg);
+        }
+        75% {
+            transform: translate(5%, -10%) rotate(5deg);
+        }
+        100% {
+            transform: translate(0, 0) rotate(0deg);
+        }
+    }
+    
+    .hero h1 {
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        position: relative;
+    }
+    
+    .hero p {
+        font-size: 1.25rem;
+        opacity: 0.9;
+        max-width: 800px;
+        margin: 0 auto;
+        position: relative;
+    }
+    
+    /* Feature Cards */
+    .feature-section {
+        padding: 5rem 0;
+    }
+    
+    .section-title {
+        margin-bottom: 3rem;
+        text-align: center;
+    }
+    
+    .section-title h2 {
+        font-size: 2.5rem;
+        font-weight: 600;
+        position: relative;
+        display: inline-block;
+        margin-bottom: 1rem;
+    }
+    
+    .section-title h2::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: -10px;
+        height: 4px;
+        width: 80px;
+        background: linear-gradient(90deg, #25a244, #82ca9c);
+        margin: 0 auto;
+        border-radius: 2px;
+    }
+    
+    .section-title p {
+        color: #666;
+        max-width: 700px;
+        margin: 0 auto;
+    }
+    
+    .feature-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        text-align: center;
+        border: none;
+        height: 100%;
+    }
+    
+    .feature-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .feature-icon {
+        width: 90px;
+        height: 90px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    }
+    
+    .feature-icon i {
+        font-size: 2.5rem;
+        color: #25a244;
+    }
+    
+    .feature-card h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        position: relative;
+        padding-bottom: 1rem;
+    }
+    
+    .feature-card h3::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 50px;
+        height: 3px;
+        background-color: #f0f0f0;
+        border-radius: 3px;
+    }
+    
+    .feature-card p {
+        color: #666;
+        margin-bottom: 0;
+    }
+    
+    /* How It Works Section */
+    .how-it-works {
+        background-color: #f9f9f9;
+        padding: 5rem 0;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .step-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        border: none;
+        height: 100%;
+    }
+    
+    .step-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .step-number {
+        position: absolute;
+        top: -15px;
+        left: -15px;
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        font-weight: 600;
+        box-shadow: 0 5px 15px rgba(37, 162, 68, 0.3);
+        z-index: 1;
+    }
+    
+    .step-content {
+        padding-left: 1rem;
+    }
+    
+    .step-card h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .step-card p {
+        color: #666;
+        margin-bottom: 0;
+    }
+    
+    /* Impact Section */
+    .impact-section {
+        padding: 5rem 0;
+    }
+    
+    .impact-card {
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 2rem;
+        position: relative;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        height: 250px;
+    }
+    
+    .impact-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: all 0.5s ease;
+    }
+    
+    .impact-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(to bottom, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0.6) 100%);
+        color: white;
+        text-align: center;
+        padding: 2rem;
+        transition: all 0.4s ease;
+    }
+    
+    .impact-card:hover .impact-image {
+        transform: scale(1.1);
+    }
+    
+    .impact-card:hover .impact-overlay {
+        background: linear-gradient(to bottom, rgba(37, 162, 68, 0.7) 0%, rgba(21, 93, 39, 0.9) 100%);
+    }
+    
+    .impact-overlay h3 {
+        font-size: 1.8rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+    }
+    
+    .impact-overlay p {
+        margin: 0;
+        opacity: 0;
+        transform: translateY(20px);
+        transition: all 0.4s ease 0.1s;
+    }
+    
+    .impact-card:hover .impact-overlay p {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    /* Impact Metrics Section */
+    .impact-metrics-section {
+        padding: 5rem 0;
+        background-color: #f9f9f9;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    .metrics-card {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        padding: 2rem;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+        margin-bottom: 2rem;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        height: 100%;
+    }
+    
+    .metrics-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+    }
+    
+    .metrics-icon {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+    }
+    
+    .metrics-icon i {
+        font-size: 2rem;
+        color: #25a244;
+    }
+    
+    .metrics-card h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        text-align: center;
+    }
+    
+    .metrics-card p {
+        color: #666;
+        margin-bottom: 1rem;
+    }
+    
+    .formula-box {
+        background: #f5f5f5;
+        border-radius: 8px;
+        padding: 1rem;
+        margin: 1rem 0;
+        font-family: monospace;
+        position: relative;
+    }
+    
+    .formula-label {
+        position: absolute;
+        top: -10px;
+        left: 10px;
+        background: #25a244;
+        color: white;
+        padding: 0 10px;
+        border-radius: 4px;
+        font-size: 0.8rem;
+        font-weight: 600;
+    }
+    
+    .chart-container {
+        height: 250px;
+        margin: 2rem 0;
+    }
+    
+    .ai-process-steps {
+        counter-reset: step-counter;
+        margin: 2rem 0;
+        padding: 0;
+    }
+    
+    .ai-process-step {
+        position: relative;
+        list-style: none;
+        padding-left: 3rem;
+        padding-bottom: 1.5rem;
+        border-left: 2px dashed #c8e6c9;
+        margin-left: 1rem;
+    }
+    
+    .ai-process-step:last-child {
+        border-left: none;
+    }
+    
+    .ai-process-step::before {
+        counter-increment: step-counter;
+        content: counter(step-counter);
+        position: absolute;
+        left: -1rem;
+        top: 0;
+        width: 2rem;
+        height: 2rem;
+        background: #25a244;
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+      .ai-process-step h4 {
+        margin-bottom: 0.5rem;
+        font-weight: 600;
+    }
+    
+    /* FAQ Section */
+    .faq-section {
+        padding: 5rem 0;
+        background-color: #f9f9f9;
+    }
+    
+    .faq-item {
+        background: white;
+        border-radius: 16px;
+        overflow: hidden;
+        margin-bottom: 1.5rem;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        transition: all 0.3s ease;
+        border: none;
+    }
+    
+    .faq-item:hover {
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    
+    .faq-question {
+        padding: 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        cursor: pointer;
+        font-weight: 600;
+        color: #333;
+        user-select: none;
+        transition: all 0.3s ease;
+    }
+    
+    .faq-question i {
+        transition: all 0.3s ease;
+    }
+    
+    .faq-question.active {
+        background: linear-gradient(135deg, #f0f9f2 0%, #e8f5e9 100%);
+        color: #25a244;
+    }
+    
+    .faq-question.active i {
+        transform: rotate(180deg);
+    }
+    
+    .faq-answer {
+        max-height: 0;
+        overflow: hidden;
+        transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        padding: 0 1.25rem;
+        color: #666;
+    }
+    
+    .faq-answer.show {
+        max-height: 1000px;
+        padding-bottom: 1.25rem;
+    }
+    
+    /* CTA Section */
+    .cta-section {
+        padding: 5rem 0;
+        background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+        color: white;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 991px) {
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+        }
+        
+        .section-title h2 {
+            font-size: 2rem;
+        }
+        
+        .feature-icon {
+            width: 70px;
+            height: 70px;
+        }
+        
+        .feature-icon i {
+            font-size: 2rem;
+        }
+        
+        .feature-card h3, .step-card h3 {
+            font-size: 1.3rem;
+        }
+        
+        .metrics-card h3 {
+            font-size: 1.3rem;
+        }
+        
+        .chart-container {
+            height: 200px;
+        }
+    }
+    
+    @media (max-width: 767px) {
+        .hero {
+            padding: 3rem 0;
+        }
+        
+        .hero h1 {
+            font-size: 2rem;
+        }
+        
+        .section-title h2 {
+            font-size: 1.8rem;
+        }
+        
+        .cta-section h2 {
+            font-size: 2rem;
+        }
+        
+        .cta-section p {
+            font-size: 1.1rem;
+        }
+        
+        .ai-process-step {
+            padding-left: 2rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero text-center">
+    <img src="{% static 'images/leaf1.svg' %}" alt="" class="floating-leaf leaf-1">
+    <img src="{% static 'images/leaf2.svg' %}" alt="" class="floating-leaf leaf-2">
+    <img src="{% static 'images/leaf3.svg' %}" alt="" class="floating-leaf leaf-3">
+    
+    <div class="container">
+        <h1 class="fade-in">Sustainable Investing for a Better Future</h1>
+        <p class="fade-in">Ecovest connects environmentally-conscious investors with sustainable projects that make a real impact. Learn how we're transforming the investment landscape for a greener tomorrow.</p>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="feature-section">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="fade-in">Why Choose Ecovest?</h2>
+            <p class="fade-in">We're redefining the investment landscape by making sustainable projects accessible, transparent, and impactful for everyone.</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>Verified Projects</h3>
+                    <p>Every project undergoes rigorous verification and due diligence to ensure legitimacy and impact potential.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Financial Returns</h3>
+                    <p>Generate competitive financial returns while supporting projects that create positive environmental change.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <h3>Measurable Impact</h3>
+                    <p>Track your environmental impact with real-time data on carbon reduction, energy savings, and more.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-rupee-sign"></i>
+                    </div>
+                    <h3>Low Entry Point</h3>
+                    <p>Start investing with as little as ₹5,000, making sustainable investing accessible to everyone.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up" style="animation-delay: 0.5s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3>Security First</h3>
+                    <p>Advanced security measures and regulatory compliance ensure your investments are in safe hands.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="feature-card fade-in-up" style="animation-delay: 0.6s;">
+                    <div class="feature-icon">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <h3>Personalized Portfolio</h3>
+                    <p>AI-powered recommendations help you build a portfolio aligned with your values and financial goals.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="fade-in">How It Works</h2>
+            <p class="fade-in">Our simple 4-step process makes sustainable investing effortless and rewarding.</p>
+        </div>
+          <div class="row g-4">
+            <div class="col-md-6">
+                <div class="step-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="step-number">1</div>
+                    <div class="step-content">
+                        <h3>Create Your Account</h3>
+                        <p>Sign up in less than 5 minutes and complete our onboarding questionnaire to help us understand your investment goals and sustainability preferences.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="step-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="step-number">2</div>
+                    <div class="step-content">
+                        <h3>Explore Projects</h3>
+                        <p>Browse our curated selection of verified sustainable projects across categories like renewable energy, afforestation, clean water, and more. Each project includes AI-calculated impact predictions.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="step-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="step-number">3</div>
+                    <div class="step-content">
+                        <h3>Make Your Investment</h3>
+                        <p>Choose projects that align with your values and financial goals. Our AI analyzes your preferences and suggests optimal investment allocations. Invest securely starting from just ₹5,000.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-6">
+                <div class="step-card fade-in-up" style="animation-delay: 0.4s;">
+                    <div class="step-number">4</div>
+                    <div class="step-content">
+                        <h3>Track Your Impact</h3>
+                        <p>Monitor your financial returns and environmental impact through your personalized dashboard with real-time metrics, AI-powered forecasts, and progress updates on your sustainability goals.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Impact Section -->
+<section class="impact-section">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="fade-in">Our Impact Categories</h2>
+            <p class="fade-in">Discover the different areas where your investments can make a meaningful difference.</p>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4">
+                <div class="impact-card fade-in-up" style="animation-delay: 0.1s;">
+                    <img src="{% static 'images/solar.jpg' %}" alt="Renewable Energy" class="impact-image" onerror="this.src='https://images.unsplash.com/photo-1508514177221-188b1cf16e9d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2072&q=80'">
+                    <div class="impact-overlay">
+                        <h3>Renewable Energy</h3>
+                        <p>Support solar, wind, and hydroelectric projects that reduce dependence on fossil fuels and decrease carbon emissions.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="impact-card fade-in-up" style="animation-delay: 0.2s;">
+                    <img src="{% static 'images/forest.jpg' %}" alt="Afforestation" class="impact-image" onerror="this.src='https://images.unsplash.com/photo-1448375240586-882707db888b?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'">
+                    <div class="impact-overlay">
+                        <h3>Afforestation</h3>
+                        <p>Invest in reforestation projects that capture carbon, restore biodiversity, and create sustainable livelihoods.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="impact-card fade-in-up" style="animation-delay: 0.3s;">
+                    <img src="{% static 'images/water.jpeg' %}" alt="Clean Water" class="impact-image" onerror="this.src='https://images.unsplash.com/photo-1606041008023-472dfb5b530f?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2073&q=80'">
+                    <div class="impact-overlay">
+                        <h3>Clean Water</h3>
+                        <p>Back initiatives that provide access to clean water, improve sanitation, and reduce water pollution.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="impact-card fade-in-up" style="animation-delay: 0.4s;">
+                    <img src="{% static 'images/waste.jpg' %}" alt="Waste Management" class="impact-image" onerror="this.src='https://images.unsplash.com/photo-1611284446314-60a58ac0deb9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'">
+                    <div class="impact-overlay">
+                        <h3>Waste Management</h3>
+                        <p>Support innovative waste reduction, recycling, and circular economy projects that minimize landfill usage.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="impact-card fade-in-up" style="animation-delay: 0.5s;">
+                    <img src="{% static 'images/agriculture.jpg' %}" alt="Sustainable Agriculture" class="impact-image" onerror="this.src='https://images.unsplash.com/photo-1625246333195-78d9c38ad449?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2070&q=80'">
+                    <div class="impact-overlay">
+                        <h3>Sustainable Agriculture</h3>
+                        <p>Invest in organic farming, permaculture, and regenerative agriculture that protect soil health and biodiversity.</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="impact-card fade-in-up" style="animation-delay: 0.6s;">
+                    <img src="{% static 'images/clean_energy.jpg' %}" alt="Green Technology" class="impact-image" onerror="this.src='https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2074&q=80'">
+                    <div class="impact-overlay">
+                        <h3>Green Technology</h3>
+                        <p>Support innovative clean tech solutions addressing climate change and environmental challenges.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Impact Metrics & AI Section -->
+<section class="impact-metrics-section">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="fade-in">Understanding Our Impact Metrics</h2>
+            <p class="fade-in">Ecovest uses explainable AI models to calculate accurate environmental impact metrics for each investment. Here's how we quantify your contribution to sustainability.</p>
+        </div>
+        
+        <div class="row g-4">
+            <div class="col-md-4">
+                <div class="metrics-card fade-in-up" style="animation-delay: 0.1s;">
+                    <div class="metrics-icon">
+                        <i class="fas fa-cloud"></i>
+                    </div>
+                    <h3>Carbon Reduction</h3>
+                    <p>Our carbon reduction calculations are based on rigorous modeling that considers project type, scale, duration, and location factors.</p>
+                    <div class="formula-box">
+                        <span class="formula-label">Formula</span>
+                        <p>Base Impact × Scale Factor × Duration Factor</p>
+                    </div>
+                    <p>For example, a reforestation project in Kerala has a higher carbon reduction impact than the same project in an arid region due to growth rates and ecosystem factors.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="metrics-card fade-in-up" style="animation-delay: 0.2s;">
+                    <div class="metrics-icon">
+                        <i class="fas fa-bolt"></i>
+                    </div>
+                    <h3>Energy Savings</h3>
+                    <p>We measure energy savings in kilowatt-hours (kWh) that result from renewable energy generation or efficiency improvements.</p>
+                    <div class="formula-box">
+                        <span class="formula-label">Formula</span>
+                        <p>Technology Base Rate × Project Scale × Regional Factor</p>
+                    </div>
+                    <p>Solar projects in high-sunlight regions like Rajasthan yield up to 10% more energy savings compared to other regions, which is reflected in our calculations.</p>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="metrics-card fade-in-up" style="animation-delay: 0.3s;">
+                    <div class="metrics-icon">
+                        <i class="fas fa-tint"></i>
+                    </div>
+                    <h3>Water Conservation</h3>
+                    <p>Water conservation impact is calculated based on project implementation, regional water stress, and technology factors.</p>
+                    <div class="formula-box">
+                        <span class="formula-label">Formula</span>
+                        <p>Base Water Impact × Duration × Location Multiplier</p>
+                    </div>
+                    <p>Water conservation projects in high-rainfall areas like Kerala and Meghalaya receive a 15-20% boost in calculated impact due to rainwater harvesting potential.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-5">
+            <div class="col-lg-6">
+                <h3 class="mb-4">Our Explainable AI Approach</h3>
+                <p>Unlike "black box" AI systems, Ecovest's impact calculation models are fully transparent and explainable. We use ensemble machine learning models that provide clear reasoning for each prediction.</p>
+                
+                <ul class="ai-process-steps">
+                    <li class="ai-process-step">
+                        <h4>Data Collection & Preprocessing</h4>
+                        <p>We collect data from verified environmental projects, normalize investment amounts, and encode categorical variables like project location and technology type.</p>
+                    </li>
+                    <li class="ai-process-step">
+                        <h4>Model Training & Validation</h4>
+                        <p>Our models are trained on historical project data and validated against real-world impact measurements from completed initiatives.</p>
+                    </li>
+                    <li class="ai-process-step">
+                        <h4>Feature Importance Analysis</h4>
+                        <p>We analyze which factors most strongly influence environmental outcomes, ensuring our predictions remain accurate and justifiable.</p>
+                    </li>
+                    <li class="ai-process-step">
+                        <h4>Continuous Improvement</h4>
+                        <p>As projects complete, we incorporate actual impact data to refine our models, constantly improving prediction accuracy.</p>
+                    </li>
+                </ul>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="metrics-card h-100">
+                    <h3>Impact Factors Visualization</h3>
+                    <p>Our models consider multiple factors when calculating environmental impact. Below are the relative importance of different factors in our predictions:</p>
+                    
+                    <div class="chart-container">
+                        <canvas id="impactFactorsChart"></canvas>
+                    </div>
+                    
+                    <p class="text-center mt-3"><small>* Based on aggregated data from over 500 environmental projects</small></p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section class="faq-section">
+    <div class="container">
+        <div class="section-title">
+            <h2 class="fade-in">Frequently Asked Questions</h2>
+            <p class="fade-in">Find answers to common questions about sustainable investing with Ecovest.</p>
+        </div>
+        
+        <div class="faq-list">
+            <div class="faq-item fade-in-up" style="animation-delay: 0.1s;">
+                <div class="faq-question">
+                    How does Ecovest vet the projects?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We conduct thorough due diligence on all projects through a multi-step verification process. This includes financial analysis, impact assessment, site visits, background checks on project managers, and regulatory compliance verification. Only projects that pass our rigorous criteria are listed on the platform.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in-up" style="animation-delay: 0.2s;">
+                <div class="faq-question">
+                    What returns can I expect on my investments?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Returns vary by project type and risk profile, typically ranging from 7-15% annually. Each project listing includes detailed projected returns information. Remember that all investments carry some risk, and actual returns may differ from projections.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in-up" style="animation-delay: 0.3s;">
+                <div class="faq-question">
+                    How is my environmental impact calculated?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We use internationally recognized methodologies to calculate environmental impact metrics for each project. These include carbon emissions reduction (measured in kg of CO2e), energy saved (kWh), water conserved (liters), and waste diverted from landfills (kg). Impact is attributed proportionally based on your investment amount.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in-up" style="animation-delay: 0.4s;">
+                <div class="faq-question">
+                    Is there a minimum investment amount?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, the minimum investment varies by project, typically starting at ₹5,000. This low entry point is designed to make sustainable investing accessible to more people while ensuring meaningful participation in projects.</p>
+                </div>
+            </div>
+              <div class="faq-item fade-in-up" style="animation-delay: 0.5s;">
+                <div class="faq-question">
+                    How liquid are my investments?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Project investments typically have fixed terms ranging from 1-5 years, depending on the project type. Some projects offer early exit options, but these may include exit fees. Details on liquidity are clearly provided in each project description.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in-up" style="animation-delay: 0.6s;">
+                <div class="faq-question">
+                    Is Ecovest regulated?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Yes, Ecovest operates in full compliance with all relevant securities regulations and is registered with the appropriate financial authorities. We maintain rigorous standards for transparency, investor protection, and anti-money laundering compliance.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in-up" style="animation-delay: 0.7s;">
+                <div class="faq-question">
+                    How does Ecovest calculate environmental impact?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>We use explainable AI models trained on real-world environmental project data. Our calculations consider multiple factors including project type, scale, duration, location, and technology. Each impact metric (carbon reduction, energy savings, water conservation) is calculated using project-specific base rates multiplied by various adjustment factors. Our methodology is transparent and regularly reviewed by environmental experts.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in-up" style="animation-delay: 0.8s;">
+                <div class="faq-question">
+                    What makes your AI models "explainable"?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Unlike "black box" AI systems, our models provide clear reasoning for each prediction. We use ensemble machine learning techniques (primarily Random Forest models) that allow us to trace exactly how each feature contributes to the final impact calculations. This transparency ensures investors can understand why certain projects have higher environmental impact scores than others.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item fade-in-up" style="animation-delay: 0.9s;">
+                <div class="faq-question">
+                    How accurate are your impact predictions?
+                    <i class="fas fa-chevron-down"></i>
+                </div>
+                <div class="faq-answer">
+                    <p>Our models achieve over 85% accuracy when compared to actual measured outcomes from completed projects. We continuously improve our models by incorporating new data as projects complete their cycles. Every prediction includes confidence intervals, and we're transparent about limitations. For newer project categories with less historical data, we clearly indicate when predictions are based on smaller datasets.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2 class="fade-in">Ready to Make a Difference?</h2>
+            <p class="fade-in">Join thousands of investors who are putting their money to work for both financial returns and environmental impact.</p>
+            <a href="{% url 'register' %}" class="btn btn-cta fade-in">Get Started Today</a>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // FAQ Toggle Functionality
+        const faqQuestions = document.querySelectorAll('.faq-question');
+        
+        faqQuestions.forEach(question => {
+            question.addEventListener('click', function() {
+                // Toggle active class
+                this.classList.toggle('active');
+                
+                // Toggle answer visibility
+                const answer = this.nextElementSibling;
+                answer.classList.toggle('show');
+                
+                // Close other open FAQs
+                faqQuestions.forEach(q => {
+                    if (q !== this) {
+                        q.classList.remove('active');
+                        q.nextElementSibling.classList.remove('show');
+                    }
+                });
+            });
+        });
+        
+        // Impact Factors Chart
+        const ctx = document.getElementById('impactFactorsChart').getContext('2d');
+        const impactFactorsChart = new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Project Type', 'Investment', 'Duration', 'Scale', 'Location', 'Technology'],
+                datasets: [{
+                    label: 'Factor Importance (%)',
+                    data: [35, 25, 15, 12, 8, 5],
+                    backgroundColor: [
+                        'rgba(37, 162, 68, 0.8)',
+                        'rgba(37, 162, 68, 0.7)',
+                        'rgba(37, 162, 68, 0.6)',
+                        'rgba(37, 162, 68, 0.5)',
+                        'rgba(37, 162, 68, 0.4)',
+                        'rgba(37, 162, 68, 0.3)'
+                    ],
+                    borderColor: [
+                        'rgba(37, 162, 68, 1)',
+                        'rgba(37, 162, 68, 1)',
+                        'rgba(37, 162, 68, 1)',
+                        'rgba(37, 162, 68, 1)',
+                        'rgba(37, 162, 68, 1)',
+                        'rgba(37, 162, 68, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 40,
+                        ticks: {
+                            callback: function(value) {
+                                return value + '%';
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        display: false
+                    },
+                    tooltip: {
+                        callbacks: {
+                            label: function(context) {
+                                return context.raw + '% importance';
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    });
+</script>
+{% endblock %}

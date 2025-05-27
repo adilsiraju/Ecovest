@@ -1,0 +1,858 @@
+{% extends 'core/base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% block title %}Update Profile - Ecovest{% endblock %}
+
+{% block extra_css %}
+<style>
+    /* Enhanced Hero Section with modern visual features */
+    .profile-container {
+        background-color: #f8f9fa;
+        border-radius: 30px;
+        max-width: 900px;
+        margin: 2rem auto;
+        overflow: hidden;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+    }
+    
+    .profile-hero {
+        background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+        color: white;
+        padding: 4rem 0;
+        position: relative;
+        overflow: hidden;
+        border-radius: 30px 30px 0 0;
+    }
+    
+    .profile-hero::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: url("{% static 'images/pattern.svg' %}") repeat;
+        opacity: 0.08;
+        animation: patternFloat 60s linear infinite;
+    }
+    
+    .profile-hero::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 60px;
+        background: linear-gradient(to top, rgba(0,0,0,0.1), transparent);
+        z-index: 1;
+    }
+    
+    @keyframes patternFloat {
+        0% { transform: translateY(0) rotate(0deg); }
+        100% { transform: translateY(-100%) rotate(3deg); }
+    }
+    
+    /* Animated decorative elements */
+    .hero-leaf {
+        position: absolute;
+        opacity: 0.15;
+        z-index: 0;
+        animation: leafFloat 20s ease-in-out infinite alternate;
+    }
+    
+    .hero-leaf-1 { top: 20%; left: 10%; font-size: 2rem; animation-delay: 0s; }
+    .hero-leaf-2 { top: 60%; right: 15%; font-size: 1.5rem; animation-delay: 7s; }
+    .hero-leaf-3 { bottom: 30%; left: 20%; font-size: 1.8rem; animation-delay: 14s; }
+    
+    @keyframes leafFloat {
+        0% { transform: translateY(0px) rotate(0deg); }
+        100% { transform: translateY(-20px) rotate(5deg); }
+    }    
+    /* Enhanced Profile Image Container */
+    .profile-image-container {
+        position: relative;
+        width: 180px;
+        height: 180px;
+        margin: 0 auto 1.5rem;
+        border-radius: 50%;
+        overflow: hidden;
+        border: 6px solid rgba(255, 255, 255, 0.9);
+        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.25);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        z-index: 2;
+    }
+    
+    .profile-image-container:hover {
+        transform: scale(1.05);
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+    }
+    
+    .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+    }
+    
+    .profile-image-container:hover .profile-image {
+        transform: scale(1.1);
+    }
+    
+    /* Enhanced Profile Form with modern card design */
+    .profile-form {
+        background: white;
+        border-radius: 25px;
+        padding: 3rem;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+        margin-bottom: 2rem;
+        position: relative;
+        overflow: hidden;
+        border: 1px solid rgba(37, 162, 68, 0.06);
+    }
+    
+    .profile-form::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, #25a244, #82ca9c);
+        z-index: 1;
+    }    
+    /* Enhanced Form Section Design */
+    .form-section {
+        border-bottom: 1px solid rgba(37, 162, 68, 0.1);
+        padding-bottom: 2rem;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+    
+    .form-section:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+        margin-bottom: 0;
+    }
+    
+    .form-section-title {
+        color: #25a244;
+        font-weight: 700;
+        margin-bottom: 1rem;
+        font-size: 1.3rem;
+        display: flex;
+        align-items: center;
+        letter-spacing: -0.3px;
+    }
+    
+    .form-section-title::before {
+        content: '';
+        width: 4px;
+        height: 20px;
+        background: linear-gradient(135deg, #25a244, #82ca9c);
+        border-radius: 2px;
+        margin-right: 0.75rem;
+    }
+    
+    /* Enhanced Submit Button */
+    .submit-btn {
+        background: linear-gradient(135deg, #25a244 0%, #82ca9c 100%);
+        border: none;
+        padding: 0.8rem 2rem;
+        font-weight: 600;
+        border-radius: 12px;
+        letter-spacing: 0.5px;
+        position: relative;
+        overflow: hidden;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 4px 15px rgba(37, 162, 68, 0.3);
+    }
+    
+    .submit-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+        transition: left 0.6s;
+    }
+    
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 25px rgba(37, 162, 68, 0.4);
+        background: linear-gradient(135deg, #1e8e3e 0%, #6fb86f 100%);
+    }
+    
+    .submit-btn:hover::before {
+        left: 100%;
+    }
+    
+    .submit-btn:active {
+        transform: translateY(-1px);
+    }    
+    /* Enhanced Profile Image Upload Button */
+    .profile-image-upload {
+        position: absolute;
+        bottom: 5px;
+        right: 5px;
+        background: linear-gradient(135deg, #25a244, #82ca9c);
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 6px 20px rgba(37, 162, 68, 0.4);
+        border: 3px solid white;
+        z-index: 3;
+    }
+    
+    .profile-image-upload:hover {
+        transform: scale(1.1);
+        box-shadow: 0 8px 25px rgba(37, 162, 68, 0.5);
+        background: linear-gradient(135deg, #1e8e3e, #6fb86f);
+    }
+    
+    .profile-image-upload i {
+        color: white;
+        font-size: 1.3rem;
+        transition: transform 0.3s ease;
+    }
+    
+    .profile-image-upload:hover i {
+        transform: scale(1.1);
+    }
+    
+    #profile-image-input {
+        display: none;
+    }
+    
+    /* Enhanced Tab Design */
+    .profile-tabs {
+        border-radius: 15px;
+        overflow: hidden;
+        border: none;
+        background: white;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+        margin-bottom: 2rem;
+    }
+    
+    .profile-tabs .nav-link {
+        border: none;
+        color: #6c757d;
+        font-weight: 600;
+        padding: 1.2rem 1.8rem;
+        position: relative;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background: transparent;
+    }
+    
+    .profile-tabs .nav-link::before {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 50%;
+        width: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #25a244, #82ca9c);
+        transform: translateX(-50%);
+        transition: width 0.3s ease;
+    }
+    
+    .profile-tabs .nav-link.active {
+        color: #25a244;
+        background: rgba(37, 162, 68, 0.05);
+    }
+    
+    .profile-tabs .nav-link.active::before {
+        width: 80%;
+    }
+    
+    .profile-tabs .nav-link:hover:not(.active) {
+        background: rgba(37, 162, 68, 0.03);
+        color: #25a244;
+        transform: translateY(-2px);
+    }
+    
+    .profile-tabs .nav-link i {
+        transition: transform 0.3s ease;
+    }
+    
+    .profile-tabs .nav-link:hover i {
+        transform: scale(1.1);
+    }    
+    .tab-container {
+        margin-bottom: 2rem;
+    }
+    
+    /* Enhanced Form Controls Styling */
+    .form-control {
+        border-radius: 12px;
+        padding: 0.9rem 1.2rem;
+        border: 2px solid #e9ecef;
+        height: auto;
+        font-size: 1rem;
+        width: 100%;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        background-color: #fafafa;
+        position: relative;
+    }
+    
+    .form-control:hover {
+        background-color: #f5f5f5;
+        border-color: #25a244;
+        transform: translateY(-1px);
+        box-shadow: 0 4px 12px rgba(37, 162, 68, 0.1);
+    }
+    
+    .form-control:focus {
+        border-color: #25a244;
+        box-shadow: 0 0 0 0.25rem rgba(37, 162, 68, 0.25);
+        background-color: #fff;
+        transform: translateY(-2px);
+    }
+    
+    .form-control::placeholder {
+        color: #adb5bd;
+        font-style: italic;
+        transition: opacity 0.3s ease;
+    }
+    
+    .form-control:focus::placeholder {
+        opacity: 0.7;
+    }
+    
+    /* Enhanced Select Dropdown */
+    select.form-control {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%2325a244' viewBox='0 0 16 16'%3E%3Cpath fill-rule='evenodd' d='M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1.2rem center;
+        background-size: 16px 12px;
+        padding-right: 3rem;
+    }
+    
+    /* Enhanced Textarea */
+    textarea.form-control {
+        min-height: 140px;
+        resize: vertical;
+    }
+    
+    /* Enhanced Input Group */
+    .input-group {
+        position: relative;
+    }
+    
+    /* Enhanced Form Field Containers */
+    .col-md-6.mb-3, .mb-3 {
+        margin-bottom: 1.8rem !important;
+    }
+    
+    /* Enhanced Form Label Styling */
+    .form-label {
+        display: block;
+        margin-bottom: 0.6rem;
+        font-weight: 600;
+        color: #2c3e50;
+        font-size: 0.95rem;
+        letter-spacing: 0.3px;
+    }
+    
+    /* Enhanced Error Styling */
+    .invalid-feedback {
+        display: block;
+        width: 100%;
+        margin-top: 0.4rem;
+        font-size: 0.875em;
+        color: #dc3545;
+        font-weight: 500;
+    }
+    
+    /* Enhanced Form Helper Text */
+    .form-text {
+        margin-top: 0.4rem;
+        font-size: 0.85em;
+        color: #6c757d;
+        font-style: italic;
+    }
+    
+    /* Enhanced Alert Styling */
+    .alert-success {
+        border-left: 4px solid #25a244;
+        background: linear-gradient(135deg, rgba(37, 162, 68, 0.1), rgba(130, 202, 156, 0.1));
+        border-radius: 12px;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+    }    
+    /* Fix for missing labels in the city field */
+    .col-md-6.mb-3 .form-label {
+        display: block;
+    }
+    
+    /* Enhanced Tab Content Animation */
+    .tab-content {
+        position: relative;
+    }
+    
+    .tab-pane {
+        transition: all 0.3s ease-in-out;
+    }
+    
+    .tab-pane.show.active {
+        animation: fadeInUp 0.5s ease-out;
+    }
+    
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+    
+    /* Form Row Enhancements */
+    .row.g-3 {
+        gap: 1rem;
+    }
+    
+    /* Enhanced Button Container */
+    .text-end {
+        position: relative;
+        z-index: 2;
+    }
+    
+    /* Loading Animation for Forms */
+    .submit-btn.loading {
+        pointer-events: none;
+        opacity: 0.7;
+    }
+    
+    .submit-btn.loading::after {
+        content: '';
+        position: absolute;
+        width: 16px;
+        height: 16px;
+        margin: auto;
+        border: 2px solid transparent;
+        border-top-color: white;
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+    }
+    
+    @keyframes spin {
+        0% { transform: translate(-50%, -50%) rotate(0deg); }
+        100% { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+    
+    /* Responsive Design Enhancements */
+    @media (max-width: 768px) {
+        .profile-container {
+            margin: 1rem;
+            border-radius: 20px;
+        }
+        
+        .profile-hero {
+            padding: 2.5rem 0;
+            border-radius: 20px 20px 0 0;
+        }
+        
+        .profile-image-container {
+            width: 150px;
+            height: 150px;
+        }
+        
+        .profile-form {
+            padding: 2rem 1.5rem;
+            border-radius: 20px;
+        }
+        
+        .profile-tabs .nav-link {
+            padding: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .hero-leaf {
+            display: none;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .profile-hero h1 {
+            font-size: 1.8rem;
+        }
+        
+        .profile-form {
+            padding: 1.5rem 1rem;
+        }
+        
+        .form-section-title {
+            font-size: 1.1rem;
+        }
+        
+        .col-md-6 {
+            width: 100%;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Profile Hero Section -->
+<div class="profile-container">
+    <div class="profile-hero text-center">
+        <!-- Decorative animated elements -->
+        <i class="fas fa-leaf hero-leaf hero-leaf-1"></i>
+        <i class="fas fa-seedling hero-leaf hero-leaf-2"></i>
+        <i class="fas fa-tree hero-leaf hero-leaf-3"></i>
+        
+        <div class="container">
+            <!-- <div class="profile-image-container">
+                {% if user.profile.profile_image %}
+                    <img src="{{ user.profile.profile_image.url }}" class="profile-image" alt="Profile Image">
+                {% else %}
+                    <img src="{% static 'images/default_profile.png' %}" class="profile-image" alt="Default Profile Image">
+                {% endif %}
+                <label for="profile-image-input" class="profile-image-upload" title="Change profile picture">
+                    <i class="fas fa-camera"></i>
+                </label>
+            </div> -->
+            <h1 class="display-4 fw-bold mb-3">
+                {% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{{ user.username }}{% endif %}
+            </h1>
+            <p class="lead mb-0 opacity-90">Ecovest Member since {{ user.date_joined|date:"F Y" }}</p>
+            {% if user.profile.bio %}
+                <p class="mt-2 opacity-75">{{ user.profile.bio|truncatewords:15 }}</p>
+            {% endif %}
+        </div>
+    </div>
+    
+    <div class="container py-4">
+        <!-- Profile Form Column -->
+        <div class="tab-container">
+            <ul class="nav nav-tabs profile-tabs" id="profileTabs" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="personal-tab" data-bs-toggle="tab" data-bs-target="#personal-tab-pane" type="button" role="tab" aria-controls="personal-tab-pane" aria-selected="true">
+                        <i class="fas fa-user me-2"></i>Personal Info
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="address-tab" data-bs-toggle="tab" data-bs-target="#address-tab-pane" type="button" role="tab" aria-controls="address-tab-pane" aria-selected="false">
+                        <i class="fas fa-map-marker-alt me-2"></i>Address
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="security-tab" data-bs-toggle="tab" data-bs-target="#security-tab-pane" type="button" role="tab" aria-controls="security-tab-pane" aria-selected="false">
+                        <i class="fas fa-shield-alt me-2"></i>Security
+                    </button>
+                </li>
+            </ul>
+            
+            <div class="profile-form">
+                {% if messages %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+                
+                <!-- Profile Image Update Form -->
+                <form method="post" enctype="multipart/form-data" id="profile-image-form">
+                    {% csrf_token %}
+                    <input type="file" id="profile-image-input" name="profile_image" accept="image/*" onchange="document.getElementById('profile-image-form').submit();" style="display: none;">
+                </form>
+                
+                <div class="tab-content" id="profileTabsContent">
+                    <!-- Personal Info Tab -->
+                    <div class="tab-pane fade show active" id="personal-tab-pane" role="tabpanel" aria-labelledby="personal-tab" tabindex="0">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-section">
+                                <h4 class="form-section-title">Basic Information</h4>
+                                <p class="text-muted mb-3">Manage your personal and contact details.</p>
+                                <div class="row g-3">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ user_form.username.id_for_label }}" class="form-label">Username</label>
+                                        <input type="text" name="username" value="{{ user_form.username.value|default:'' }}" class="form-control" id="{{ user_form.username.id_for_label }}" placeholder="Enter your username">
+                                        {% if user_form.username.errors %}
+                                            <div class="invalid-feedback d-block">{{ user_form.username.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ user_form.email.id_for_label }}" class="form-label">Email</label>
+                                        <input type="email" name="email" value="{{ user_form.email.value|default:'' }}" class="form-control" id="{{ user_form.email.id_for_label }}" placeholder="Enter your email address">
+                                        {% if user_form.email.errors %}
+                                            <div class="invalid-feedback d-block">{{ user_form.email.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ user_form.first_name.id_for_label }}" class="form-label">First Name</label>
+                                        <input type="text" name="first_name" value="{{ user_form.first_name.value|default:'' }}" class="form-control" id="{{ user_form.first_name.id_for_label }}" placeholder="Enter your first name">
+                                        {% if user_form.first_name.errors %}
+                                            <div class="invalid-feedback d-block">{{ user_form.first_name.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ user_form.last_name.id_for_label }}" class="form-label">Last Name</label>
+                                        <input type="text" name="last_name" value="{{ user_form.last_name.value|default:'' }}" class="form-control" id="{{ user_form.last_name.id_for_label }}" placeholder="Enter your last name">
+                                        {% if user_form.last_name.errors %}
+                                            <div class="invalid-feedback d-block">{{ user_form.last_name.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-section">
+                                <h4 class="form-section-title">Contact Information</h4>
+                                <p class="text-muted mb-3">Update your phone number and bio.</p>
+                                <div class="mb-3">
+                                    <label for="{{ profile_form.phone_number.id_for_label }}" class="form-label">Phone Number</label>
+                                    <input type="tel" name="phone_number" value="{{ profile_form.phone_number.value|default:'' }}" class="form-control" id="{{ profile_form.phone_number.id_for_label }}" placeholder="Enter your phone number (e.g., +919876543210)">
+                                    <div class="form-text text-muted">Format: +919876543210</div>
+                                    {% if profile_form.phone_number.errors %}
+                                        <div class="invalid-feedback d-block">{{ profile_form.phone_number.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                <div class="mb-3">
+                                    <label for="{{ profile_form.bio.id_for_label }}" class="form-label">Bio</label>
+                                    <textarea name="bio" class="form-control" id="{{ profile_form.bio.id_for_label }}" placeholder="Tell us about yourself...">{{ profile_form.bio.value|default:'' }}</textarea>
+                                    <div class="form-text text-muted">Tell us about yourself (max 500 characters)</div>
+                                    {% if profile_form.bio.errors %}
+                                        <div class="invalid-feedback d-block">{{ profile_form.bio.errors }}</div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            
+                            <div class="text-end mt-4">
+                                <button type="submit" class="btn btn-success submit-btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Address Tab -->
+                    <div class="tab-pane fade" id="address-tab-pane" role="tabpanel" aria-labelledby="address-tab" tabindex="0">
+                        <form method="post" enctype="multipart/form-data">
+                            {% csrf_token %}
+                            <div class="form-section">
+                                <h4 class="form-section-title">Address Details</h4>
+                                <p class="text-muted mb-3">Manage your current address information.</p>
+                                <div class="mb-3">
+                                    <label for="{{ profile_form.address_line1.id_for_label }}" class="form-label">Address Line 1</label>
+                                    <input type="text" name="address_line1" value="{{ profile_form.address_line1.value|default:'' }}" class="form-control" id="{{ profile_form.address_line1.id_for_label }}" placeholder="Enter your street address">
+                                    {% if profile_form.address_line1.errors %}
+                                        <div class="invalid-feedback d-block">{{ profile_form.address_line1.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="mb-3">
+                                    <label for="{{ profile_form.address_line2.id_for_label }}" class="form-label">Address Line 2</label>
+                                    <input type="text" name="address_line2" value="{{ profile_form.address_line2.value|default:'' }}" class="form-control" id="{{ profile_form.address_line2.id_for_label }}" placeholder="Apartment, suite, unit, building, floor, etc.">
+                                    <div class="form-text text-muted">Apartment, suite, unit, building, floor, etc.</div>
+                                    {% if profile_form.address_line2.errors %}
+                                        <div class="invalid-feedback d-block">{{ profile_form.address_line2.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ profile_form.city.id_for_label }}" class="form-label">City</label>
+                                        <input type="text" name="city" value="{{ profile_form.city.value|default:'' }}" class="form-control" id="{{ profile_form.city.id_for_label }}" placeholder="Enter your city">
+                                        {% if profile_form.city.errors %}
+                                            <div class="invalid-feedback d-block">{{ profile_form.city.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ profile_form.state.id_for_label }}" class="form-label">State/Province</label>
+                                        <input type="text" name="state" value="{{ profile_form.state.value|default:'' }}" class="form-control" id="{{ profile_form.state.id_for_label }}" placeholder="Enter your state or province">
+                                        {% if profile_form.state.errors %}
+                                            <div class="invalid-feedback d-block">{{ profile_form.state.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ profile_form.postal_code.id_for_label }}" class="form-label">Postal Code</label>
+                                        <input type="text" name="postal_code" value="{{ profile_form.postal_code.value|default:'' }}" class="form-control" id="{{ profile_form.postal_code.id_for_label }}" placeholder="Enter your postal code">
+                                        {% if profile_form.postal_code.errors %}
+                                            <div class="invalid-feedback d-block">{{ profile_form.postal_code.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="{{ profile_form.country.id_for_label }}" class="form-label">Country</label>
+                                        <input type="text" name="country" value="{{ profile_form.country.value|default:'' }}" class="form-control" id="{{ profile_form.country.id_for_label }}" placeholder="Enter your country">
+                                        {% if profile_form.country.errors %}
+                                            <div class="invalid-feedback d-block">{{ profile_form.country.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-end mt-4">
+                                <button type="submit" class="btn btn-success submit-btn">Save Changes</button>
+                            </div>
+                        </form>
+                    </div>
+                    
+                    <!-- Security Tab -->
+                    <div class="tab-pane fade" id="security-tab-pane" role="tabpanel" aria-labelledby="security-tab" tabindex="0">
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="form-section">
+                                <h4 class="form-section-title">Change Password</h4>
+                                <p class="text-muted mb-3">To change your password, please fill in all fields below.</p>
+                                <div class="mb-3">
+                                    <label for="old_password" class="form-label">Current Password</label>
+                                    <input type="password" name="old_password" id="old_password" class="form-control" placeholder="Enter your current password">
+                                    {% if password_form.old_password.errors %}
+                                        <div class="invalid-feedback d-block">{{ password_form.old_password.errors }}</div>
+                                    {% endif %}
+                                </div>
+                                
+                                <div class="row g-3">
+                                    <div class="col-md-6 mb-3">
+                                        <label for="new_password1" class="form-label">New Password</label>
+                                        <input type="password" name="new_password1" id="new_password1" class="form-control" placeholder="Enter your new password">
+                                        {% if password_form.new_password1.errors %}
+                                            <div class="invalid-feedback d-block">{{ password_form.new_password1.errors }}</div>
+                                        {% endif %}
+                                        <div class="form-text text-muted">
+                                            Your password must be 8+ characters and contain letters and numbers.
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6 mb-3">
+                                        <label for="new_password2" class="form-label">Confirm New Password</label>
+                                        <input type="password" name="new_password2" id="new_password2" class="form-control" placeholder="Confirm your new password">
+                                        {% if password_form.new_password2.errors %}
+                                            <div class="invalid-feedback d-block">{{ password_form.new_password2.errors }}</div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="text-end mt-4">
+                                <button type="submit" class="btn btn-success submit-btn">Change Password</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block extra_js %}
+<script>
+    // Enhanced profile functionality
+    document.addEventListener('DOMContentLoaded', function() {
+        const profileImageInput = document.getElementById('profile-image-input');
+        const profileImageLabel = document.querySelector('.profile-image-upload');
+        const submitButtons = document.querySelectorAll('.submit-btn');
+        
+        // Profile image upload handler
+        if (profileImageLabel) {
+            profileImageLabel.addEventListener('click', function(e) {
+                e.preventDefault();
+                profileImageInput.click();
+            });
+        }
+        
+        // Enhanced form submission with loading state
+        submitButtons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                const form = this.closest('form');
+                if (form && form.checkValidity()) {
+                    this.classList.add('loading');
+                    this.innerHTML = '<span>Saving...</span>';
+                }
+            });
+        });
+        
+        // Tab persistence and smooth transitions
+        const urlParams = new URLSearchParams(window.location.search);
+        const tab = urlParams.get('tab');
+        
+        if (tab) {
+            const tabEl = document.getElementById(tab + '-tab');
+            if (tabEl) {
+                const tabInstance = new bootstrap.Tab(tabEl);
+                tabInstance.show();
+            }
+        }
+        
+        // Enhanced form validation feedback
+        const formControls = document.querySelectorAll('.form-control');
+        formControls.forEach(control => {
+            control.addEventListener('blur', function() {
+                if (this.value.trim() !== '') {
+                    this.classList.add('has-value');
+                } else {
+                    this.classList.remove('has-value');
+                }
+            });
+            
+            // Add focus animation
+            control.addEventListener('focus', function() {
+                this.parentElement.classList.add('focused');
+            });
+            
+            control.addEventListener('blur', function() {
+                this.parentElement.classList.remove('focused');
+            });
+        });
+        
+        // Auto-save indicator (visual feedback)
+        const forms = document.querySelectorAll('form');
+        forms.forEach(form => {
+            let changeTimeout;
+            const inputs = form.querySelectorAll('.form-control');
+            
+            inputs.forEach(input => {
+                input.addEventListener('input', function() {
+                    clearTimeout(changeTimeout);
+                    this.classList.add('changed');
+                    
+                    changeTimeout = setTimeout(() => {
+                        this.classList.remove('changed');
+                    }, 2000);
+                });
+            });
+        });
+        
+        // Smooth scroll to form errors
+        const errorElements = document.querySelectorAll('.invalid-feedback');
+        if (errorElements.length > 0) {
+            const firstError = errorElements[0];
+            firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        
+        // Add entrance animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                }
+            });
+        }, { threshold: 0.1 });
+        
+        const animateElements = document.querySelectorAll('.form-section, .profile-form');
+        animateElements.forEach(el => {
+            observer.observe(el);
+        });
+    });
+</script>
+{% endblock %}
+{% endblock %}

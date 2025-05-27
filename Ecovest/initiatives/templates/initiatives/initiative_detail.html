@@ -1,0 +1,566 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% load humanize %}
+{% block title %}{{ initiative.title }} - Ecovest{% endblock %}
+
+{% block extra_css %}
+<link rel="stylesheet" href="{% static 'css/initiative-detail-mobile.css' %}">
+<style>
+.hero {
+    background: linear-gradient(135deg, #155d27 0%, #25a244 100%);
+    color: white;
+    padding: 3rem 0 2.5rem;
+    position: relative;
+    overflow: hidden;
+}
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url("{% static 'images/pattern.svg' %}") repeat;
+    opacity: 0.06;
+    animation: patternFloat 60s linear infinite;
+}
+@keyframes patternFloat {
+    0% { transform: translateY(0); }
+    100% { transform: translateY(-100%); }
+}
+.initiative-image {
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    max-height: 400px;
+    object-fit: cover;
+    width: 100%;
+    transition: transform 0.4s ease;
+}
+.initiative-image:hover {
+    transform: scale(1.02);
+}
+.impact-card {
+    background: white;
+    border-radius: 16px;
+    padding: 1.5rem;
+    height: 100%;
+    border: none;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+}
+.impact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+}
+.impact-icon {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    color: #28a745;
+}
+.progress {
+    height: 10px;
+    border-radius: 5px;
+}
+.progress-bar {
+    border-radius: 5px;
+}
+.badge {
+    padding: 0.5em 1em;
+    font-size: 0.9rem;
+}
+.tech-badge {
+    background: #f8f9fa;
+    color: #6c757d;
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    display: inline-flex;
+    align-items: center;
+    margin: 0.25rem;
+}
+.tech-badge i {
+    margin-right: 0.5rem;
+}
+.detail-section {
+    background: white;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+    transition: all 0.3s ease;
+}
+.detail-section:hover {
+    box-shadow: 0 15px 35px rgba(0,0,0,0.08);
+    transform: translateY(-5px);
+}
+.investor-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+.timeline-item {
+    padding-left: 2rem;
+    position: relative;
+    margin-bottom: 1.5rem;
+}
+.timeline-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: #e9ecef;
+}
+.timeline-item::after {
+    content: '';
+    position: absolute;
+    left: -4px;
+    top: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: #28a745;
+}
+.sticky-sidebar {
+    position: sticky;
+    top: 2rem;
+}
+.content-wrapper {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 1rem;
+}
+.info-list li {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 0;
+    border-bottom: 1px solid #e9ecef;
+}
+.info-list li:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.info-list i {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(40, 167, 69, 0.1);
+    color: #28a745;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 1.2rem;
+    text-align: center;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    height: 100%;
+}
+.stat-card:hover {
+    transform: translateY(-5px);
+    background: rgba(255, 255, 255, 0.15);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+.fade-in {
+    animation: fadeIn 0.6s ease forwards;
+}
+.fade-in-up {
+    animation: fadeInUp 0.6s ease forwards;
+}
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero">
+    <div class="content-wrapper">
+        <div class="row align-items-center">
+            <div class="col-lg-8 fade-in" style="animation-delay: 0.1s;">
+                <div class="mb-3">
+                    {% for category in initiative.categories.all %}
+                        <span class="badge bg-light text-dark me-2">{{ category.name }}</span>
+                    {% endfor %}
+                </div>
+                <h1 class="display-4 fw-bold mb-4">{{ initiative.title }}</h1>
+                <div class="d-flex align-items-center text-white-50 mb-4">
+                    <i class="fas fa-map-marker-alt me-2"></i>
+                    <span class="me-4">{{ initiative.location }}</span>
+                    <i class="fas fa-calendar-alt me-2"></i>
+                    <span>Started {{ initiative.created_at|date:"F d, Y" }}</span>
+                </div>
+            </div>
+            <div class="col-lg-4 fade-in" style="animation-delay: 0.2s;">
+                <div class="stat-card">
+                    <div class="d-flex justify-content-between align-items-center mb-3">
+                        <span>Progress</span>
+                        <span>{{ initiative.get_progress_percentage|floatformat:1 }}%</span>
+                    </div>
+                    <div class="progress bg-white bg-opacity-25 mb-3" style="height: 10px; border-radius: 5px;">
+                        <div class="progress-bar bg-white" role="progressbar" 
+                             style="width: {{ initiative.get_progress_percentage }}%; border-radius: 5px;"></div>
+                    </div>
+                    <div class="d-flex justify-content-between text-white-50 mb-4">
+                        <span>₹{{ initiative.current_amount|floatformat:2|intcomma }}</span>
+                        <span>₹{{ initiative.goal_amount|floatformat:2|intcomma }}</span>
+                    </div>
+                    <div class="d-grid">
+                        <a href="{% url 'invest_initiative' initiative.id %}" class="btn btn-light btn-lg">
+                            Invest Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="content-wrapper mt-4">
+    <div class="row">
+        <!-- Main Content -->
+        <div class="col-lg-8">
+            <!-- Initiative Image -->
+            {% if initiative.image %}
+                <img src="{{ initiative.image.url }}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+            {% else %}
+                <img src="https://source.unsplash.com/random/800x400/?{{ initiative.categories.first.name|lower }}" 
+                     class="initiative-image mb-4" alt="{{ initiative.title }}">
+            {% endif %}
+
+            <!-- Impact Metrics -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-4">
+                    <div class="impact-card text-center">
+                        <i class="fas fa-cloud impact-icon"></i>
+                        <h3 class="mb-2">{{ impact_metrics.carbon|floatformat:0|intcomma }} kg</h3>
+                        <p class="text-muted mb-0">CO₂ Reduction</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="impact-card text-center">
+                        <i class="fas fa-bolt impact-icon"></i>
+                        <h3 class="mb-2">{{ impact_metrics.energy|floatformat:0|intcomma }} kWh</h3>
+                        <p class="text-muted mb-0">Energy Saved</p>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="impact-card text-center">
+                        <i class="fas fa-tint impact-icon"></i>
+                        <h3 class="mb-2">{{ impact_metrics.water|floatformat:0|intcomma }} L</h3>
+                        <p class="text-muted mb-0">Water Conserved</p>
+                    </div>
+                </div>
+            </div>
+            <div class="text-muted small text-center mb-4">
+                Estimated impact for a ₹1,000 investment over {{ initiative.duration_months }} months
+            </div>
+
+            <!-- Project Stats -->
+            <div class="row g-4 mb-4">
+                <div class="col-md-3">
+                    <div class="impact-card text-center">
+                        <i class="fas fa-users impact-icon"></i>
+                        <h3 class="mb-2">{{ total_investors|intcomma }}</h3>
+                        <p class="text-muted mb-0">Total Investors</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="impact-card text-center">
+                        <i class="fas fa-calendar-alt impact-icon"></i>
+                        <h3 class="mb-2">{{ initiative.duration_months }}</h3>
+                        <p class="text-muted mb-0">Months Duration</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="impact-card text-center">
+                        <i class="fas fa-chart-line impact-icon"></i>
+                        <h3 class="mb-2">{{ initiative.get_progress_percentage|floatformat:1 }}%</h3>
+                        <p class="text-muted mb-0">Funding Progress</p>
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="impact-card text-center">
+                        <i class="fas fa-shield-alt impact-icon"></i>
+                        <h3 class="mb-2">{{ initiative.get_risk_label }}</h3>
+                        <p class="text-muted mb-0">Risk Level</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- About Section -->
+            <div class="detail-section">
+                <h3 class="mb-4">About This Initiative</h3>
+                {{ initiative.description|linebreaks }}
+                
+                <div class="mt-4">
+                    <h5 class="mb-3">Technology</h5>
+                    <div class="tech-badge">
+                        <i class="fas fa-microchip"></i>
+                        {{ initiative.technology_type }}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Timeline Section -->
+            <div class="detail-section">
+                <h3 class="mb-4">Project Timeline</h3>
+                <div class="timeline">
+                    <div class="timeline-item">
+                        <h5>Project Launch</h5>
+                        <p class="text-muted">{{ initiative.created_at|date:"F d, Y" }}</p>
+                        <p>Initiative launched on Ecovest platform.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>First Milestone</h5>
+                        <p class="text-muted">
+                            {% if initiative.end_date %}
+                                Expected: {{ initiative.created_at|date:"F d, Y" }}
+                            {% else %}
+                                TBD
+                            {% endif %}
+                        </p>
+                        <p>Initial implementation and setup phase.</p>
+                    </div>
+                    <div class="timeline-item">
+                        <h5>Project Completion</h5>
+                        <p class="text-muted">
+                            {% if initiative.end_date %}
+                                Expected: {{ initiative.end_date|date:"F d, Y" }}
+                            {% else %}
+                                TBD
+                            {% endif %}
+                        </p>
+                        <p>Final implementation and impact assessment.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Investors -->
+            <div class="detail-section">
+                <h3 class="mb-4">Recent Investors</h3>
+                <div class="list-group list-group-flush">
+                    {% for investment in recent_investments %}
+                    <div class="list-group-item border-0 px-0">
+                        <div class="d-flex align-items-center">
+                            {% if investment.user.profile.image %}
+                                <img src="{{ investment.user.profile.image.url }}" class="investor-avatar me-3" alt="Investor">
+                            {% else %}
+                                <img src="{% static 'images/default_avatar.png' %}" class="investor-avatar me-3" alt="Investor">
+                            {% endif %}
+                            <div>
+                                <h6 class="mb-0">{{ investment.user.get_full_name }}</h6>
+                                <small class="text-muted">Invested ₹{{ investment.amount|floatformat:2|intcomma }}</small>
+                            </div>
+                            <small class="text-muted ms-auto">{{ investment.created_at|timesince }} ago</small>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <p class="text-muted">No investments yet. Be the first to invest!</p>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <div class="sticky-sidebar">
+
+
+                <!-- Project Details Card -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Project Details</h5>
+                        <div class="mb-3">
+                            <small class="text-muted d-block mb-1">Location</small>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-map-marker-alt text-primary me-2"></i>
+                                {{ initiative.location }}
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block mb-1">Duration</small>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-calendar-alt text-primary me-2"></i>
+                                {{ initiative.duration_months }} months
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted d-block mb-1">Technology</small>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-microchip text-primary me-2"></i>
+                                {{ initiative.technology_type }}
+                            </div>
+                        </div>
+                        <div>
+                            <small class="text-muted d-block mb-1">Categories</small>
+                            {% for category in initiative.categories.all %}
+                                <span class="badge bg-light text-dark me-2">{{ category.name }}</span>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Similar Initiatives -->
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="card-title mb-4">Similar Initiatives</h5>
+                        {% for similar in similar_initiatives %}
+                        <div class="mb-3">
+                            <a href="{% url 'initiative_detail' similar.id %}" class="text-decoration-none">
+                                <div class="d-flex align-items-center">
+                                    {% if similar.image %}
+                                        <img src="{{ similar.image.url }}" class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;" alt="{{ similar.title }}">
+                                    {% else %}
+                                        <img src="https://source.unsplash.com/random/60x60/?{{ similar.categories.first.name|lower }}" 
+                                             class="rounded me-3" alt="{{ similar.title }}">
+                                    {% endif %}
+                                    <div>
+                                        <h6 class="mb-1">{{ similar.title }}</h6>
+                                        <small class="text-muted">₹{{ similar.current_amount|floatformat:0|intcomma }} raised</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </div>
+                        {% empty %}
+                        <p class="text-muted mb-0">No similar initiatives found.</p>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Important Information -->
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5 class="card-title mb-3">Important Information</h5>
+                        <ul class="info-list list-unstyled mb-0">
+                            <li>
+                                <i class="fas fa-info-circle"></i>
+                                <div>
+                                    <strong>Minimum Investment</strong>
+                                    <div class="text-muted">₹1,000</div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-shield-alt"></i>
+                                <div>
+                                    <strong>Investment Protection</strong>
+                                    <div class="text-muted">Secure platform with investor protection</div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-chart-line"></i>
+                                <div>
+                                    <strong>Impact Tracking</strong>
+                                    <div class="text-muted">Real-time monitoring of your impact</div>
+                                </div>
+                            </li>
+                            <li>
+                                <i class="fas fa-hand-holding-usd"></i>
+                                <div>
+                                    <strong>Platform Fee</strong>
+                                    <div class="text-muted">2% of investment amount</div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Share Modal -->
+<div class="modal fade" id="shareModal" tabindex="-1" aria-labelledby="shareModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="shareModalLabel">Share This Initiative</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-grid gap-2">
+                    <button class="btn btn-outline-primary" onclick="share('twitter')">
+                        <i class="fab fa-twitter me-2"></i>Share on Twitter
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="share('facebook')">
+                        <i class="fab fa-facebook me-2"></i>Share on Facebook
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="share('linkedin')">
+                        <i class="fab fa-linkedin me-2"></i>Share on LinkedIn
+                    </button>
+                    <button class="btn btn-outline-primary" onclick="copyLink()">
+                        <i class="fas fa-link me-2"></i>Copy Link
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block extra_js %}
+{{ block.super }}
+<script src="{% static 'js/initiative-detail-mobile.js' %}"></script>
+<script>
+function share(platform) {
+    const url = encodeURIComponent(window.location.href);
+    const title = encodeURIComponent("{{ initiative.title }}");
+    let shareUrl;
+
+    switch(platform) {
+        case 'twitter':
+            shareUrl = `https://twitter.com/intent/tweet?url=${url}&text=${title}`;
+            break;
+        case 'facebook':
+            shareUrl = `https://www.facebook.com/sharer/sharer.php?u=${url}`;
+            break;
+        case 'linkedin':
+            shareUrl = `https://www.linkedin.com/shareArticle?mini=true&url=${url}&title=${title}`;
+            break;
+    }
+
+    if (shareUrl) {
+        window.open(shareUrl, '_blank');
+    }
+}
+
+function copyLink() {
+    navigator.clipboard.writeText(window.location.href).then(() => {
+        alert('Link copied to clipboard!');
+    });
+}
+
+document.getElementById('investAmount').addEventListener('input', function(e) {
+    const amount = parseFloat(e.target.value) || 0;
+    const goalAmount = {{ initiative.goal_amount|default:"0" }};
+    
+    // Calculate impact based on investment proportion
+    const carbonImpact = (amount / goalAmount) * {{ initiative.carbon_impact|default:"0" }};
+    const energyImpact = (amount / goalAmount) * {{ initiative.energy_impact|default:"0" }};
+    const waterImpact = (amount / goalAmount) * {{ initiative.water_impact|default:"0" }};
+    
+    // Update preview values with proper formatting
+    document.getElementById('previewCarbon').textContent = `${carbonImpact.toFixed(1)} kg CO₂`;
+    document.getElementById('previewEnergy').textContent = `${energyImpact.toFixed(1)} kWh`;
+    document.getElementById('previewWater').textContent = `${waterImpact.toFixed(1)} L`;
+});
+</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+[flake8]
+max-line-length = 88
+extend-ignore = E203, W503, E501
+exclude = 
+    migrations/
+    __pycache__/
+    .git/
+    .venv/
+    venv/
+    build/
+    dist/
+    *.egg-info/
+    .tox/
+    .coverage
+    .cache
+    .pytest_cache/
+per-file-ignores =
+    __init__.py:F401
+    settings/*.py:F405,F403
+    */migrations/*.py:E501
+max-complexity = 10
+import-order-style = django
+application-import-names = ecovest,core,initiatives,investments,users,onboarding

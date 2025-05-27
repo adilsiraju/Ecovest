@@ -1,0 +1,297 @@
+{% extends 'core/base.html' %}
+{% load django_bootstrap5 %}
+{% block title %}Platform Tutorial{% endblock %}
+
+{% block extra_css %}
+<style>
+    .tutorial-step {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.5s, transform 0.5s;
+    }
+    
+    .tutorial-step.visible {
+        opacity: 1;
+        transform: translateY(0);
+    }
+    
+    .tutorial-nav {
+        display: flex;
+        justify-content: center;
+        margin-top: 1rem;
+    }
+    
+    .tutorial-nav-item {
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        margin: 0 5px;
+        background-color: #e9ecef;
+        cursor: pointer;
+    }
+    
+    .tutorial-nav-item.active {
+        background-color: #28a745;
+        transform: scale(1.2);
+    }
+    
+    .feature-icon {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 60px;
+        height: 60px;
+        margin-bottom: 1rem;
+        font-size: 1.5rem;
+        color: #fff;
+        border-radius: 50%;
+    }
+    
+    .bg-primary-soft {
+        background-color: rgba(13, 110, 253, 0.1);
+        color: #0d6efd;
+    }
+    
+    .bg-success-soft {
+        background-color: rgba(25, 135, 84, 0.1);
+        color: #198754;
+    }
+    
+    .bg-warning-soft {
+        background-color: rgba(255, 193, 7, 0.1);
+        color: #ffc107;
+    }
+    
+    .bg-info-soft {
+        background-color: rgba(13, 202, 240, 0.1);
+        color: #0dcaf0;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="py-5 bg-light">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <div class="card shadow onboarding-card">
+                    <div class="card-body p-5">
+                        <!-- Progress Bar -->
+                        <div class="progress mb-5" style="height: 6px;">
+                            <div class="progress-bar bg-success" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                        </div>
+                        
+                        <div class="text-center mb-4">
+                            <h1 class="display-6 fw-bold">Platform Tour</h1>
+                            <p class="lead">Let us show you around the Ecovest platform.</p>
+                        </div>
+                        
+                        <div id="tutorialCarousel" class="carousel slide">
+                            <div class="carousel-inner">
+                                <div class="carousel-item active">
+                                    <div class="tutorial-step visible">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-6 mb-4 mb-md-0">
+                                                <img src="{% static 'images/dashboard.png' %'}" alt="Dashboard" class="img-fluid rounded shadow">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h3>Your Dashboard</h3>
+                                                <p class="text-muted">Your personal command center to track investments and impact.</p>
+                                                <ul class="list-unstyled mt-4">
+                                                    <li class="mb-3">
+                                                        <i class="fas fa-chart-line text-success me-2"></i>
+                                                        Track your portfolio performance
+                                                    </li>
+                                                    <li class="mb-3">
+                                                        <i class="fas fa-leaf text-success me-2"></i>
+                                                        View your environmental impact metrics
+                                                    </li>
+                                                    <li class="mb-3">
+                                                        <i class="fas fa-lightbulb text-success me-2"></i>
+                                                        Get personalized investment recommendations
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="carousel-item">
+                                    <div class="tutorial-step">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-6 mb-4 mb-md-0 order-md-2">
+                                                <img src="https://source.unsplash.com/random/600x400/?sustainability,projects" alt="Projects" class="img-fluid rounded shadow">
+                                            </div>
+                                            <div class="col-md-6 order-md-1">
+                                                <h3>Discover Projects</h3>
+                                                <p class="text-muted">Explore a wide range of sustainable investment opportunities.</p>
+                                                <ul class="list-unstyled mt-4">
+                                                    <li class="mb-3">
+                                                        <i class="fas fa-search text-success me-2"></i>
+                                                        Filter projects by category, risk, and impact
+                                                    </li>
+                                                    <li class="mb-3">
+                                                        <i class="fas fa-info-circle text-success me-2"></i>
+                                                        Access detailed project information and forecasts
+                                                    </li>
+                                                    <li class="mb-3">
+                                                        <i class="fas fa-clock text-success me-2"></i>
+                                                        Stay updated with project milestones
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="carousel-item">
+                                    <div class="tutorial-step">
+                                        <div class="row align-items-center">
+                                            <div class="col-md-6 mb-4 mb-md-0">
+                                                <img src="https://source.unsplash.com/random/600x400/?investment,impact" alt="Impact" class="img-fluid rounded shadow">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <h3>Measure Your Impact</h3>
+                                                <p class="text-muted">Track the environmental and social impact of your investments.</p>
+                                                <ul class="list-unstyled mt-4">
+                                                    <li class="mb-3">
+                                                        <i class="fas fa-cloud text-success me-2"></i>
+                                                        Carbon emissions reduced
+                                                    </li>
+                                                    <li class="mb-3">
+                                                        <i class="fas fa-tint text-success me-2"></i>
+                                                        Water resources conserved
+                                                    </li>
+                                                    <li class="mb-3">
+                                                        <i class="fas fa-bolt text-success me-2"></i>
+                                                        Energy efficiency improved
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                                <div class="carousel-item">
+                                    <div class="tutorial-step">
+                                        <div class="text-center mb-5">
+                                            <i class="fas fa-check-circle text-success fa-5x mb-3"></i>
+                                            <h2>You're All Set!</h2>
+                                            <p class="lead">You're ready to start your sustainable investing journey with Ecovest.</p>
+                                        </div>
+                                        
+                                        <div class="row row-cols-1 row-cols-md-4 g-4">
+                                            <div class="col">
+                                                <div class="card h-100 border-0 shadow-sm">
+                                                    <div class="card-body text-center">
+                                                        <div class="feature-icon bg-primary-soft">
+                                                            <i class="fas fa-search"></i>
+                                                        </div>
+                                                        <h5>Explore</h5>
+                                                        <p class="text-muted small">Browse sustainable projects</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card h-100 border-0 shadow-sm">
+                                                    <div class="card-body text-center">
+                                                        <div class="feature-icon bg-success-soft">
+                                                            <i class="fas fa-hand-holding-usd"></i>
+                                                        </div>
+                                                        <h5>Invest</h5>
+                                                        <p class="text-muted small">Support sustainable initiatives</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card h-100 border-0 shadow-sm">
+                                                    <div class="card-body text-center">
+                                                        <div class="feature-icon bg-warning-soft">
+                                                            <i class="fas fa-chart-line"></i>
+                                                        </div>
+                                                        <h5>Track</h5>
+                                                        <p class="text-muted small">Monitor your investments</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col">
+                                                <div class="card h-100 border-0 shadow-sm">
+                                                    <div class="card-body text-center">
+                                                        <div class="feature-icon bg-info-soft">
+                                                            <i class="fas fa-leaf"></i>
+                                                        </div>
+                                                        <h5>Impact</h5>
+                                                        <p class="text-muted small">Make a difference</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <button class="carousel-control-prev" type="button" data-bs-target="#tutorialCarousel" data-bs-slide="prev">
+                                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Previous</span>
+                            </button>
+                            <button class="carousel-control-next" type="button" data-bs-target="#tutorialCarousel" data-bs-slide="next">
+                                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                <span class="visually-hidden">Next</span>
+                            </button>
+                        </div>
+                        
+                        <div class="tutorial-nav my-3">
+                            <div class="tutorial-nav-item active" data-bs-target="#tutorialCarousel" data-bs-slide-to="0"></div>
+                            <div class="tutorial-nav-item" data-bs-target="#tutorialCarousel" data-bs-slide-to="1"></div>
+                            <div class="tutorial-nav-item" data-bs-target="#tutorialCarousel" data-bs-slide-to="2"></div>
+                            <div class="tutorial-nav-item" data-bs-target="#tutorialCarousel" data-bs-slide-to="3"></div>
+                        </div>
+                        
+                        <div class="text-center mt-4">
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-primary btn-lg">Complete Onboarding</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Handle tutorial step animations
+        const carousel = document.getElementById('tutorialCarousel');
+        const navItems = document.querySelectorAll('.tutorial-nav-item');
+        
+        carousel.addEventListener('slide.bs.carousel', function(event) {
+            const steps = document.querySelectorAll('.tutorial-step');
+            setTimeout(function() {
+                steps.forEach(step => step.classList.remove('visible'));
+                steps[event.to].classList.add('visible');
+                
+                // Update navigation dots
+                navItems.forEach((item, index) => {
+                    if (index === event.to) {
+                        item.classList.add('active');
+                    } else {
+                        item.classList.remove('active');
+                    }
+                });
+            }, 150);
+        });
+        
+        // Initialize click handlers for nav items
+        navItems.forEach((item, index) => {
+            item.addEventListener('click', function() {
+                const carouselInstance = bootstrap.Carousel.getInstance(carousel);
+                carouselInstance.to(index);
+            });
+        });
+    });
+</script>
+{% endblock %}
