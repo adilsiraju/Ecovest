@@ -84,12 +84,8 @@ WSGI_APPLICATION = 'ecovest.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecovest',
-        'USER': 'postgres',  # or the user you created
-        'PASSWORD': '33466',  # the password you set
-        'HOST': 'localhost',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
 

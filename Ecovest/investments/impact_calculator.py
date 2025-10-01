@@ -107,6 +107,8 @@ class ImpactCalculator:
                 # Calculate impacts with noise (±10%)
                 base = base_impacts[category]
                 noise = np.random.uniform(0.9, 1.1)  # ±10%
+                scale_factor = (investment / 100000) * (scale / 3)  # Scale based on investment and project scale
+                duration_factor = duration / 12  # Scale based on duration
                 carbon = base['carbon'] * scale_factor * duration_factor * noise
                 energy = base['energy'] * scale_factor * duration_factor * noise
                 water = base['water'] * scale_factor * duration_factor * noise
