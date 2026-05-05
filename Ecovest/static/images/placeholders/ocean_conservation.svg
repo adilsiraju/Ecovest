@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Ocean conservation initiative">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1c7ed6"/>
+      <stop offset="1" stop-color="#22b8cf"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <path d="M120 220c40-20 80-20 120 0 40 20 80 20 120 0 40-20 80-20 120 0" stroke="#e7f5ff" stroke-width="16" stroke-linecap="round" fill="none"/>
+  <path d="M140 250c32-14 64-14 96 0 32 14 64 14 96 0 32-14 64-14 96 0" stroke="#d0ebff" stroke-width="12" stroke-linecap="round" fill="none"/>
+  <path d="M320 150c28-18 64-10 78 18-28 8-56 6-78-18z" fill="#e7f5ff"/>
+  <circle cx="332" cy="148" r="4" fill="#1864ab"/>
+  <rect x="100" y="275" width="440" height="12" rx="6" fill="#0b4a8b" opacity="0.35"/>
+</svg>

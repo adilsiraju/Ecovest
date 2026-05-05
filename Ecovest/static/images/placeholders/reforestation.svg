@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Reforestation initiative">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1b5e20"/>
+      <stop offset="1" stop-color="#51cf66"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <path d="M320 92l86 120H234z" fill="#e6fcf5"/>
+  <path d="M320 132l64 92H256z" fill="#2f9e44"/>
+  <rect x="300" y="220" width="40" height="70" rx="8" fill="#8d6e63"/>
+  <circle cx="320" cy="170" r="36" fill="#69db7c" opacity="0.7"/>
+  <rect x="100" y="275" width="440" height="12" rx="6" fill="#0b3d1b" opacity="0.35"/>
+</svg>

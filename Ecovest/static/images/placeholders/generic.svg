@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Sustainable initiative placeholder">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0f5132"/>
+      <stop offset="1" stop-color="#2f9e44"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#e6fcf5"/>
+      <stop offset="1" stop-color="#c3fae8"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <circle cx="320" cy="180" r="96" fill="url(#accent)" opacity="0.95"/>
+  <path d="M320 112c-36 28-54 56-54 84 0 36 24 60 54 60s54-24 54-60c0-28-18-56-54-84z" fill="#2f9e44"/>
+  <path d="M320 128c-20 20-30 40-30 60 0 20 14 34 30 34s30-14 30-34c0-20-10-40-30-60z" fill="#e6fcf5"/>
+  <rect x="60" y="272" width="520" height="12" rx="6" fill="#0b3d24" opacity="0.35"/>
+</svg>

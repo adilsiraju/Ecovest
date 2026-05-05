@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Sustainable agriculture initiative">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#2f9e44"/>
+      <stop offset="1" stop-color="#a9e34b"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <path d="M320 110c-38 8-68 32-82 64 34 10 70 6 98-10 8 36 32 62 70 72 10-38 4-74-16-104 32 0 60-14 82-38-42-10-80-6-112 16-6-24-20-44-40-60z" fill="#f1f3f5"/>
+  <circle cx="320" cy="210" r="26" fill="#2f9e44" opacity="0.5"/>
+  <rect x="100" y="275" width="440" height="12" rx="6" fill="#1c7c35" opacity="0.35"/>
+</svg>

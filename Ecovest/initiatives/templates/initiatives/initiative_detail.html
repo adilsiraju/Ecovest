@@ -241,8 +241,35 @@
             {% if initiative.image %}
                 <img src="{{ initiative.image.url }}" class="initiative-image mb-4" alt="{{ initiative.title }}">
             {% else %}
-                <img src="https://source.unsplash.com/random/800x400/?{{ initiative.categories.first.name|lower }}" 
-                     class="initiative-image mb-4" alt="{{ initiative.title }}">
+                {% with initiative.categories.all|first as main_category %}
+                    {% if main_category %}
+                        {% if main_category.name == 'Renewable Energy' %}
+                            <img src="{% static 'images/placeholders/renewable_energy.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% elif main_category.name == 'Recycling' %}
+                            <img src="{% static 'images/placeholders/recycling.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% elif main_category.name == 'Emission Control' %}
+                            <img src="{% static 'images/placeholders/emission_control.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% elif main_category.name == 'Water Conservation' %}
+                            <img src="{% static 'images/placeholders/water_conservation.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% elif main_category.name == 'Reforestation' %}
+                            <img src="{% static 'images/placeholders/reforestation.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% elif main_category.name == 'Sustainable Agriculture' %}
+                            <img src="{% static 'images/placeholders/sustainable_agriculture.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% elif main_category.name == 'Clean Transportation' %}
+                            <img src="{% static 'images/placeholders/clean_transportation.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% elif main_category.name == 'Waste Management' %}
+                            <img src="{% static 'images/placeholders/waste_management.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% elif main_category.name == 'Green Technology' %}
+                            <img src="{% static 'images/placeholders/green_technology.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% elif main_category.name == 'Ocean Conservation' %}
+                            <img src="{% static 'images/placeholders/ocean_conservation.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% else %}
+                            <img src="{% static 'images/placeholders/generic.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                        {% endif %}
+                    {% else %}
+                        <img src="{% static 'images/placeholders/generic.svg' %}" class="initiative-image mb-4" alt="{{ initiative.title }}">
+                    {% endif %}
+                {% endwith %}
             {% endif %}
 
             <!-- Impact Metrics -->

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Water conservation initiative">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1c7ed6"/>
+      <stop offset="1" stop-color="#74c0fc"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <path d="M320 90c-54 62-82 102-82 138 0 48 36 78 82 78s82-30 82-78c0-36-28-76-82-138z" fill="#e7f5ff"/>
+  <path d="M320 130c-32 38-48 62-48 84 0 28 22 46 48 46s48-18 48-46c0-22-16-46-48-84z" fill="#1c7ed6"/>
+  <path d="M210 250c40 22 180 22 220 0" stroke="#ffffff" stroke-width="8" stroke-linecap="round" opacity="0.7"/>
+  <rect x="100" y="275" width="440" height="12" rx="6" fill="#0b4a8b" opacity="0.35"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 360" role="img" aria-label="Renewable energy initiative">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b7285"/>
+      <stop offset="1" stop-color="#20c997"/>
+    </linearGradient>
+  </defs>
+  <rect width="640" height="360" fill="url(#bg)"/>
+  <circle cx="320" cy="170" r="70" fill="#fff3bf"/>
+  <g stroke="#fff3bf" stroke-width="10" stroke-linecap="round">
+    <line x1="320" y1="60" x2="320" y2="24"/>
+    <line x1="320" y1="280" x2="320" y2="316"/>
+    <line x1="210" y1="170" x2="174" y2="170"/>
+    <line x1="466" y1="170" x2="430" y2="170"/>
+    <line x1="244" y1="94" x2="218" y2="68"/>
+    <line x1="422" y1="94" x2="448" y2="68"/>
+    <line x1="244" y1="246" x2="218" y2="272"/>
+    <line x1="422" y1="246" x2="448" y2="272"/>
+  </g>
+  <path d="M300 120l20 34h-18l18 34h-38l18-34h-18z" fill="#0b7285"/>
+  <rect x="90" y="275" width="460" height="12" rx="6" fill="#0b7285" opacity="0.35"/>
+</svg>
